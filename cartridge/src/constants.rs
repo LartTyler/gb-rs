@@ -1,7 +1,4 @@
 pub const TITLE_START: usize = 0x134;
-pub const MANUFACTURER_START: usize = 0x13F;
-pub const MANUFACTURER_END: usize = 0x142;
-pub const MANUFACTURER_SIZE: usize = MANUFACTURER_END - MANUFACTURER_START;
 pub const GBC_SUPPORT_TYPE: usize = 0x143;
 pub const NEW_LICENSEE_HIGH: usize = 0x144;
 pub const NEW_LICENSEE_LOW: usize = 0x145;
