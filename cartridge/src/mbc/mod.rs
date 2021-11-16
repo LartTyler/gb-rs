@@ -1,4 +1,5 @@
 use crate::constants::CONTROLLER_TYPE;
+use gb_rs_mmu::constants::{EXTERNAL_RAM_SIZE, EXTERNAL_RAM_START, ROM_BANK_SIZE};
 
 pub mod mbc0;
 pub mod mbc1;
@@ -69,4 +70,18 @@ pub enum CreateError {
     /// supported controller type.
     UnsupportedControllerType(u8),
     UnsupportedRamSize(u8),
+}
+
+/// Maps a ROM memory address to an absolute banked address.
+///
+/// This function assumes banks are stored in a single `Vec`, _including_ ROM0.
+pub fn map_rom_address(bank: u8, address: usize) -> usize {
+    bank as usize * ROM_BANK_SIZE + address
+}
+
+/// Maps a RAM memory address to an absolute banked address.
+///
+/// This function assumes all banks are stored in a single `Vec`.
+pub fn map_ram_address(bank: u8, address: usize) -> usize {
+    bank as usize * EXTERNAL_RAM_SIZE + (address - EXTERNAL_RAM_START)
 }

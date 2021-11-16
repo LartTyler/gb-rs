@@ -1,7 +1,9 @@
 use crate::constants::RAM_SIZE;
+use crate::mbc::{map_ram_address, map_rom_address};
 use crate::{get_ram_size, MemoryBankController};
 use gb_rs_mmu::constants::{
-    EXTERNAL_RAM_SIZE, ROM0_END, ROM0_START, ROM_BANK_END, ROM_BANK_SIZE, ROM_BANK_START,
+    EXTERNAL_RAM_SIZE, EXTERNAL_RAM_START, ROM0_END, ROM0_START, ROM_BANK_END, ROM_BANK_SIZE,
+    ROM_BANK_START,
 };
 
 pub struct Mbc1 {
@@ -27,23 +29,16 @@ impl Mbc1 {
             banking_mode_advanced: false,
         }
     }
-
-    fn map_ram_address(&self, address: usize) -> usize {
-        self.ram_bank as usize * EXTERNAL_RAM_SIZE + address
-    }
-
-    fn map_rom_address(&self, address: usize) -> usize {
-        self.rom_bank as usize * ROM_BANK_SIZE + address
-    }
 }
 
 impl MemoryBankController for Mbc1 {
     fn rom_read(&self, address: usize) -> u8 {
         match address {
             ROM0_START..=ROM0_END => *self.rom.get(address).unwrap_or(&0xFF),
-            ROM_BANK_START..=ROM_BANK_END => {
-                *self.ram.get(self.map_rom_address(address)).unwrap_or(&0xFF)
-            }
+            ROM_BANK_START..=ROM_BANK_END => *self
+                .ram
+                .get(map_rom_address(self.rom_bank, address))
+                .unwrap_or(&0xFF),
             _ => panic!("ROM read out of range for MBC1: {:#X}", address),
         }
     }
@@ -81,7 +76,10 @@ impl MemoryBankController for Mbc1 {
             return 0xFF;
         }
 
-        *self.ram.get(self.map_ram_address(address)).unwrap_or(&0xFF)
+        *self
+            .ram
+            .get(map_ram_address(self.ram_bank, address))
+            .unwrap_or(&0xFF)
     }
 
     fn ram_write(&mut self, address: usize, value: u8) {
@@ -89,7 +87,7 @@ impl MemoryBankController for Mbc1 {
             return;
         }
 
-        let address = self.map_ram_address(address);
+        let address = map_ram_address(self.ram_bank, address);
         let slot = self.ram.get_mut(address);
 
         if let Some(slot) = slot {

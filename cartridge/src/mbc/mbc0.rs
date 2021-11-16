@@ -15,13 +15,13 @@ impl MemoryBankController for Mbc0 {
         *self.rom.get(address).unwrap_or(&0xFF)
     }
 
-    fn rom_write(&mut self, address: usize, value: u8) {}
+    fn rom_write(&mut self, _address: usize, _value: u8) {}
 
-    fn ram_read(&self, address: usize) -> u8 {
+    fn ram_read(&self, _address: usize) -> u8 {
         0xFF
     }
 
-    fn ram_write(&mut self, address: usize, value: u8) {}
+    fn ram_write(&mut self, _address: usize, _value: u8) {}
 }
 
 #[cfg(test)]
