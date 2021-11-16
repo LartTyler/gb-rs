@@ -81,10 +81,9 @@ impl From<mbc::CreateError> for CartridgeError {
 ///
 /// On older ROMs (specifically, ROMs created for hardware older than the Gameboy Color) could
 /// include titles up to 16 ASCII characters long. For the Gameboy Color and on, the title length
-/// was reduced to 11 characters to make room for two additional header fields: [manufacturer
-/// code] and [support type].
+/// was reduced to 11 characters to make room for two additional header fields: manufacturer
+/// code and [support type].
 ///
-/// [manufacturer code]: get_manufacturer_code
 /// [support type]: constants::GBC_SUPPORT_TYPE
 pub fn get_title_max_len(rom: &[u8]) -> usize {
     if rom[constants::GBC_SUPPORT_TYPE] & 0x80 != 0 {

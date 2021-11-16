@@ -50,7 +50,7 @@ const RTC_FLAG_CARRY: u8 = 0x80;
 const RTC_FLAGS: u8 = RTC_FLAG_HALT | RTC_FLAG_CARRY;
 
 impl Rtc {
-    /// Creates a new [`RTC`] with default contents.
+    /// Creates a new [`Rtc`] with default contents.
     pub fn new() -> Self {
         Self {
             latch_prev: 0xFF,
@@ -60,11 +60,11 @@ impl Rtc {
         }
     }
 
-    /// Creates a new [`RTC`] using the specified initial data, usually from a save state.
+    /// Creates a new [`Rtc`] using the specified initial data, usually from a save state.
     ///
     /// The `last_timestamp` should be the last Unix timestamp that the RTC was active for (e.g.
     /// from the moment it was saved). `time_parts` is an array of RTC registers to initialize the
-    /// [`RTC`] with, in the order `[secs, mins, hours, days_low, days_high]`.
+    /// [`Rtc`] with, in the order `[secs, mins, hours, days_low, days_high]`.
     pub fn load(last_timestamp: u64, time_parts: [u8; 5]) -> Self {
         let rtc = Self {
             latch_prev: 0xFF,
