@@ -1,13 +1,30 @@
 use crate::cartridge::mbc::MemoryBankController;
 use crate::constants::EXTERNAL_RAM_SIZE;
-use gb_rs_core::{bytes::bytes_to_word, DeviceMode};
+use gb_rs_core::bytes::bytes_to_word;
+use gb_rs_core::DeviceMode;
 
 pub mod constants;
 pub mod mbc;
 
+#[derive(Copy, Clone)]
+pub enum SupportedDeviceMode {
+    Color,
+    Classic,
+    Any,
+}
+
+impl Into<DeviceMode> for SupportedDeviceMode {
+    fn into(self) -> DeviceMode {
+        match self {
+            SupportedDeviceMode::Classic => DeviceMode::Classic,
+            SupportedDeviceMode::Color | SupportedDeviceMode::Any => DeviceMode::Color,
+        }
+    }
+}
+
 pub struct Cartridge {
     title: String,
-    device_mode: DeviceMode,
+    device_mode: SupportedDeviceMode,
     licensee_id: u16,
     sgb_support: bool,
     version: u8,
@@ -30,8 +47,8 @@ impl Cartridge {
         &self.title
     }
 
-    pub fn get_devide_mode(&self) -> &DeviceMode {
-        &self.device_mode
+    pub fn get_device_mode(&self) -> SupportedDeviceMode {
+        self.device_mode
     }
 
     pub fn get_licensee_id(&self) -> u16 {
@@ -125,11 +142,11 @@ pub fn get_title(rom: &[u8]) -> String {
 /// Emphasis is placed on "intended" because the Gameboy Color is both capable of and happy to run
 /// Gameboy Classic games without issue. There are some differences in how the contents of the ROM
 /// are interpreted (e.g. title length, color palettes, etc), but that appears to be about it.
-pub fn get_device_mode(rom: &[u8]) -> DeviceMode {
+pub fn get_device_mode(rom: &[u8]) -> SupportedDeviceMode {
     match rom[constants::GBC_SUPPORT_TYPE] {
-        0x80 => DeviceMode::Any,
-        0xC0 => DeviceMode::Color,
-        _ => DeviceMode::Classic,
+        0x80 => SupportedDeviceMode::Any,
+        0xC0 => SupportedDeviceMode::Color,
+        _ => SupportedDeviceMode::Classic,
     }
 }
 

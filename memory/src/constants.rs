@@ -34,5 +34,6 @@ pub const IO_SIZE: usize = IO_END - IO_START;
 
 pub const HRAM_START: usize = 0xFF80;
 pub const HRAM_END: usize = 0xFFFE;
+pub const HRAM_SIZE: usize = HRAM_END - HRAM_START;
 
 pub const INTERRUPT_ENABLE: usize = 0xFFFF;
