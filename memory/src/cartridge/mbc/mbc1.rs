@@ -1,7 +1,7 @@
-use crate::constants::RAM_SIZE;
-use crate::mbc::{map_ram_address, map_rom_address};
-use crate::{get_ram_size, MemoryBankController};
-use gb_rs_mmu::constants::{EXTERNAL_RAM_SIZE, ROM0_END, ROM0_START, ROM_BANK_END, ROM_BANK_START};
+use crate::cartridge::constants::RAM_SIZE;
+use crate::cartridge::mbc::{map_ram_address, map_rom_address};
+use crate::cartridge::{get_ram_size, MemoryBankController};
+use crate::constants::{EXTERNAL_RAM_SIZE, ROM0_END, ROM0_START, ROM_BANK_END, ROM_BANK_START};
 
 pub struct Mbc1 {
     rom: Vec<u8>,

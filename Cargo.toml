@@ -1,6 +1,5 @@
 [workspace]
 members = [
-	"cartridge",
 	"core",
-	"mmu",
+	"memory",
 ]

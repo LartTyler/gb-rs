@@ -1,5 +1,5 @@
-use crate::constants::CONTROLLER_TYPE;
-use gb_rs_mmu::constants::{EXTERNAL_RAM_SIZE, EXTERNAL_RAM_START, ROM_BANK_SIZE};
+use crate::cartridge::constants::CONTROLLER_TYPE;
+use crate::constants::{EXTERNAL_RAM_SIZE, EXTERNAL_RAM_START, ROM_BANK_SIZE};
 
 pub mod mbc0;
 pub mod mbc1;

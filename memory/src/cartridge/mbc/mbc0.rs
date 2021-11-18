@@ -1,4 +1,4 @@
-use crate::mbc::MemoryBankController;
+use crate::cartridge::mbc::MemoryBankController;
 
 pub struct Mbc0 {
     rom: Vec<u8>,
