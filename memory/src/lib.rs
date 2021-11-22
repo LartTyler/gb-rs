@@ -1,4 +1,4 @@
-use crate::cartridge::Cartridge;
+use crate::cartridge::{Cartridge, CartridgeError};
 use crate::constants::*;
 use gb_rs_core::bytes::{bytes_to_word, word_to_bytes};
 use gb_rs_core::config::CONFIGURATION;
@@ -20,8 +20,8 @@ pub struct Memory {
 }
 
 impl Memory {
-    pub fn new(rom: Vec<u8>) -> Self {
-        let cartridge = Cartridge::new(rom).unwrap(); // TODO Replace this with real error handling
+    pub fn new(rom: Vec<u8>) -> MemoryResult {
+        let cartridge = Cartridge::new(rom)?;
         let mode = if let Some(mode) = CONFIGURATION.mode.clone() {
             mode
         } else {
@@ -36,7 +36,7 @@ impl Memory {
             DeviceMode::Classic => (vec![0; VRAM_SIZE], vec![0; RAM0_SIZE + RAM_BANK_SIZE]),
         };
 
-        Self {
+        Ok(Self {
             cartridge,
             vram,
             wram,
@@ -46,7 +46,7 @@ impl Memory {
             interrupt_enable: 0,
             vram_bank: 0,
             wram_bank: 1,
-        }
+        })
     }
 
     pub fn read_byte(&self, address: usize) -> u8 {
@@ -118,5 +118,18 @@ impl Memory {
 
         self.write_byte(address + 1, low);
         self.write_byte(address, high);
+    }
+}
+
+#[derive(Debug)]
+pub enum MemoryError {
+    CartridgeError(CartridgeError),
+}
+
+pub type MemoryResult = Result<Memory, MemoryError>;
+
+impl From<CartridgeError> for MemoryError {
+    fn from(e: CartridgeError) -> Self {
+        MemoryError::CartridgeError(e)
     }
 }
