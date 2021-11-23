@@ -22,7 +22,7 @@ pub struct Memory {
 impl Memory {
     pub fn new(rom: Vec<u8>) -> MemoryResult {
         let cartridge = Cartridge::new(rom)?;
-        let mode = if let Some(mode) = CONFIGURATION.mode.clone() {
+        let mode = if let Some(mode) = CONFIGURATION.get_mode() {
             mode
         } else {
             cartridge.get_device_mode().into()

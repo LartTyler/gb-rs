@@ -7,8 +7,8 @@ lazy_static! {
 }
 
 pub struct Config {
-    pub mode: Option<DeviceMode>,
-    pub verbose: bool,
+    mode: Option<DeviceMode>,
+    verbose: bool,
 }
 
 impl Config {
@@ -30,6 +30,14 @@ impl Config {
         }
 
         config
+    }
+
+    pub fn get_mode(&self) -> Option<DeviceMode> {
+        self.mode
+    }
+
+    pub fn is_verbose(&self) -> bool {
+        self.verbose
     }
 
     fn get_cli_options() -> ArgMatches<'static> {
