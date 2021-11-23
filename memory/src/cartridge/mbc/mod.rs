@@ -49,7 +49,7 @@ impl ControllerType {
         match self {
             ControllerType::Mbc0 => Box::new(mbc0::Mbc0::new(rom)),
             ControllerType::Mbc1 => Box::new(mbc1::Mbc1::new(rom)),
-            ControllerType::Mbc3 => todo!(),
+            ControllerType::Mbc3 => Box::new(mbc3::Mbc3::new(rom)),
             ControllerType::Mbc5 => Box::new(mbc5::Mbc5::new(rom)),
         }
     }
