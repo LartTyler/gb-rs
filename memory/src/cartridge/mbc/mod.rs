@@ -58,8 +58,8 @@ impl ControllerType {
     pub fn create_for_rom(rom: Vec<u8>) -> CreateResult {
         match rom[CONTROLLER_TYPE] {
             0x00 => Ok(ControllerType::Mbc0.create(rom)),
-            0x01 | 0x02 | 0x03 => Ok(ControllerType::Mbc1.create(rom)),
-            0x0F | 0x10 | 0x11 | 0x12 | 0x13 => Ok(ControllerType::Mbc3.create(rom)),
+            0x01..=0x03 => Ok(ControllerType::Mbc1.create(rom)),
+            0x0F..=0x13 => Ok(ControllerType::Mbc3.create(rom)),
             0x19..=0x1E => Ok(ControllerType::Mbc5.create(rom)),
             x => Err(CreateError::UnsupportedControllerType(x)),
         }
