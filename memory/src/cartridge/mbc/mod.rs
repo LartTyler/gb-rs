@@ -4,6 +4,7 @@ use crate::constants::{EXTERNAL_RAM_SIZE, EXTERNAL_RAM_START, ROM_BANK_SIZE};
 pub mod mbc0;
 pub mod mbc1;
 pub mod mbc3;
+pub mod mbc5;
 
 /// Unifying trait for all Memory Bank Controller (MBC) implementations.
 ///
@@ -39,6 +40,7 @@ pub enum ControllerType {
     Mbc0,
     Mbc1,
     Mbc3,
+    Mbc5,
 }
 
 impl ControllerType {
@@ -48,6 +50,7 @@ impl ControllerType {
             ControllerType::Mbc0 => Box::new(mbc0::Mbc0::new(rom)),
             ControllerType::Mbc1 => Box::new(mbc1::Mbc1::new(rom)),
             ControllerType::Mbc3 => todo!(),
+            ControllerType::Mbc5 => Box::new(mbc5::Mbc5::new(rom)),
         }
     }
 
@@ -57,6 +60,7 @@ impl ControllerType {
             0x00 => Ok(ControllerType::Mbc0.create(rom)),
             0x01 | 0x02 | 0x03 => Ok(ControllerType::Mbc1.create(rom)),
             0x0F | 0x10 | 0x11 | 0x12 | 0x13 => Ok(ControllerType::Mbc3.create(rom)),
+            0x19..=0x1E => Ok(ControllerType::Mbc5.create(rom)),
             x => Err(CreateError::UnsupportedControllerType(x)),
         }
     }
