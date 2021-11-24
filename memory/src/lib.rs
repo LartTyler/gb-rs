@@ -49,71 +49,80 @@ impl Memory {
         })
     }
 
-    pub fn read_byte(&self, address: usize) -> u8 {
-        match address {
+    pub fn read_byte(&self, address: u16) -> u8 {
+        let address = address as usize;
+
+        let slot = match address {
             ROM0_START..=ROM0_END | ROM_BANK_START..=ROM_BANK_END => {
-                self.cartridge.rom_read(address)
+                return self.cartridge.rom_read(address)
             }
             VRAM_START..=VRAM_END => {
                 let address = self.vram_bank * VRAM_SIZE + (address - VRAM_START);
-
-                self.vram[address]
+                self.vram.get(address)
             }
-            EXTERNAL_RAM_START..=EXTERNAL_RAM_END => self.cartridge.ram_read(address),
-            RAM0_START..=RAM0_END => self.wram[address - RAM0_START],
+            EXTERNAL_RAM_START..=EXTERNAL_RAM_END => return self.cartridge.ram_read(address),
+            RAM0_START..=RAM0_END => self.wram.get(address - RAM0_START),
             RAM_BANK_START..=RAM_BANK_END => {
                 let address = self.wram_bank * RAM_BANK_SIZE + (address - RAM_BANK_START);
-
-                self.wram[address]
+                self.wram.get(address)
             }
             ECHO_START..=ECHO_END => {
                 let address = self.wram_bank * RAM_BANK_SIZE + (address - ECHO_START);
-
-                self.wram[address]
+                self.wram.get(address)
             }
-            OAM_START..=OAM_END => self.oam[address - OAM_START],
-            IO_START..=IO_END => self.io[address - IO_START],
-            HRAM_START..=HRAM_END => self.hram[address - HRAM_START],
-            0xFFFF => self.interrupt_enable,
+            OAM_START..=OAM_END => self.oam.get(address - OAM_START),
+            IO_START..=IO_END => self.io.get(address - IO_START),
+            HRAM_START..=HRAM_END => self.hram.get(address - HRAM_START),
             _ => unreachable!(),
-        }
+        };
+
+        *slot.unwrap_or(&0xFF)
     }
 
-    pub fn read_word(&self, address: usize) -> u16 {
+    pub fn read_word(&self, address: u16) -> u16 {
         bytes_to_word(self.read_byte(address + 1), self.read_byte(address))
     }
 
-    pub fn write_byte(&mut self, address: usize, value: u8) {
-        match address {
+    pub fn write_byte(&mut self, address: u16, value: u8) {
+        let address = address as usize;
+
+        let slot = match address {
             ROM0_START..=ROM0_END | ROM_BANK_START..=ROM_BANK_END => {
                 self.cartridge.rom_write(address, value);
+
+                return;
             }
             VRAM_START..=VRAM_END => {
                 let address = self.vram_bank * VRAM_SIZE + (address - VRAM_START);
-
-                self.vram[address] = value;
+                self.vram.get_mut(address)
             }
-            EXTERNAL_RAM_START..=EXTERNAL_RAM_END => self.cartridge.ram_write(address, value),
-            RAM0_START..=RAM0_END => self.wram[address - ROM0_START] = value,
+            EXTERNAL_RAM_START..=EXTERNAL_RAM_END => {
+                self.cartridge.ram_write(address, value);
+
+                return;
+            }
+            RAM0_START..=RAM0_END => self.wram.get_mut(address - RAM0_START),
             RAM_BANK_START..=RAM_BANK_END => {
                 let address = self.wram_bank * RAM_BANK_SIZE + (address - RAM_BANK_START);
-
-                self.wram[address] = value;
+                self.wram.get_mut(address)
             }
             ECHO_START..=ECHO_END => {
                 let address = self.wram_bank * RAM_BANK_SIZE + (address - ECHO_START);
-
-                self.wram[address] = value;
+                self.wram.get_mut(address)
             }
-            OAM_START..=OAM_END => self.oam[address - OAM_START] = value,
-            IO_START..=IO_END => self.io[address - IO_START] = value,
-            HRAM_START..=HRAM_END => self.hram[address - HRAM_START] = value,
-            0xFFFF => self.interrupt_enable = value,
+            OAM_START..=OAM_END => self.oam.get_mut(address - OAM_START),
+            IO_START..=IO_END => self.io.get_mut(address - IO_START),
+            HRAM_START..=HRAM_END => self.hram.get_mut(address - HRAM_START),
+            0xFFFF => Some(&mut self.interrupt_enable),
             _ => unreachable!(),
+        };
+
+        if let Some(slot) = slot {
+            *slot = value;
         }
     }
 
-    pub fn write_word(&mut self, address: usize, value: u16) {
+    pub fn write_word(&mut self, address: u16, value: u16) {
         let (low, high) = word_to_bytes(value);
 
         self.write_byte(address + 1, low);

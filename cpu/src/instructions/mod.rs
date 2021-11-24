@@ -1,0 +1,126 @@
+use crate::registers::Registers;
+use gb_rs_memory::Memory;
+
+pub mod decrement;
+pub mod increment;
+pub mod load;
+
+/// Used to describe the effects of some instruction on the current device state.
+pub struct Effect {
+    /// The number of t-states the instruction took.
+    ///
+    /// Instruction time is also commonly referred to by its "m-cycles", which is just t-states
+    /// divided by 4.
+    pub t_states: u8,
+
+    /// The instruction's width in bytes.
+    ///
+    /// This represents the number of bytes the instruction takes up in memory, and should be added
+    /// to the current value of the program counter after the instruction executes in order to move
+    /// the program to the next instruction.
+    ///
+    /// An instruction cannot have a width less than one byte.
+    pub width_bytes: u8,
+}
+
+pub type Instruction = fn(&mut Registers, &mut Memory) -> Effect;
+
+pub fn get_instruction(opcode: u8) -> Option<Instruction> {
+    Some(match opcode {
+        0x00 => |_, _| Effect {
+            t_states: 4,
+            width_bytes: 1,
+        },
+        0x01 => load::load_immediate_into_bc, // LD BC, d16
+        0x02 => load::load_a_into_bc_address, // LD (BC), A
+        0x03 => increment::increment_bc,      // INC BC
+        0x04 => increment::increment_b,       // INC B
+        0x05 => decrement::decrement_b,       // DEC B
+        0x06 => load::load_immediate_into_b,  // LD B, d8
+        0x0B => decrement::decrement_bc,      // DEC BC
+        0x0C => increment::increment_c,       // INC C
+        0x0D => decrement::decrement_c,       // DEC C
+        0x0E => load::load_immediate_into_c,  // LD C, d8
+        0x11 => load::load_immediate_into_de, // LD DE, d16
+        0x12 => load::load_a_into_de_address, // LD (DE), A
+        0x13 => increment::increment_de,      // INC DE
+        0x14 => increment::increment_d,       // INC D
+        0x15 => decrement::decrement_d,       // DEC D
+        0x16 => load::load_immediate_into_d,  // LD D, d8
+        0x1B => decrement::decrement_de,      // DEC DE
+        0x1C => increment::increment_e,       // INC E
+        0x1D => decrement::decrement_e,       // DEC E
+        0x1E => load::load_immediate_into_e,  // LD E, d8
+        0x21 => load::load_immediate_into_hl, // LD HL, d16
+        0x23 => increment::increment_hl,      // INC HL
+        0x24 => increment::increment_h,       // INC H
+        0x25 => decrement::decrement_h,       // DEC H
+        0x26 => load::load_immediate_into_h,  // LD H, d8
+        0x2B => decrement::decrement_hl,      // DEC HL
+        0x2C => increment::increment_l,       // INC L
+        0x2D => decrement::decrement_l,       // DEC L
+        0x2E => load::load_immediate_into_l,  // LD L, d8
+        0x31 => load::load_immediate_into_sp, // LD SP, d16
+        0x33 => increment::increment_sp,      // INC SP
+        0x3B => decrement::decrement_sp,      // DEC SP
+        0x3C => increment::increment_a,       // INC A
+        0x3D => decrement::decrement_a,       // DEC A
+        0x3E => load::load_immediate_into_a,  // LD A, d8
+        _ => return None,
+    })
+}
+
+#[allow(dead_code)]
+fn get_cb_instruction(opcode: u8) -> Option<Instruction> {
+    #[allow(unreachable_code)]
+    Some(match opcode {
+        _ => return None,
+    })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    macro_rules! assert_instr {
+        ( $opcode:expr ) => {
+            assert_instr!(get_instruction, "", $opcode);
+        };
+
+        ( cb $opcode:expr ) => {
+            assert_instr!(get_cb_instruction, "0xCB ", $opcode);
+        };
+
+        ( $callback:expr, $prefix:expr, $opcode:expr ) => {
+            let instruction = $callback($opcode);
+            assert!(
+                instruction.is_some(),
+                "Instruction {}{:#04X} not implemented",
+                $prefix,
+                $opcode
+            );
+        };
+    }
+
+    #[test]
+    fn all_opcodes_implemented() {
+        const EXCLUDED: [u8; 11] = [
+            0xD3, 0xDB, 0xDD, 0xE3, 0xE4, 0xEB, 0xEC, 0xED, 0xF4, 0xFC, 0xFD,
+        ];
+
+        for opcode in 0..=0xFF {
+            if EXCLUDED.contains(&opcode) {
+                continue;
+            }
+
+            assert_instr!(opcode);
+        }
+    }
+
+    #[test]
+    fn all_cb_opcodes_implemented() {
+        for opcode in 0..=0xFF {
+            assert_instr!(cb opcode);
+        }
+    }
+}
