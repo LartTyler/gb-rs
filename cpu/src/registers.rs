@@ -21,7 +21,7 @@ pub enum Flag {
     Carry = 0x10,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum ByteRegister {
     A,
     B,
@@ -111,5 +111,13 @@ impl Registers {
 
     pub fn is_flag_set(&self, flag: Flag) -> bool {
         self.flags & (flag as u8) > 0
+    }
+
+    pub fn clear_flag(&mut self, flag: Flag) {
+        self.set_flag(flag, false);
+    }
+
+    pub fn clear_flags(&mut self) {
+        self.flags = 0;
     }
 }

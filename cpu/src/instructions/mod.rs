@@ -1,6 +1,8 @@
 use crate::registers::Registers;
 use gb_rs_memory::Memory;
+use std::ops::Add;
 
+pub mod bitwise;
 pub mod decrement;
 pub mod increment;
 pub mod load;
@@ -23,6 +25,17 @@ pub struct Effect {
     pub width_bytes: u8,
 }
 
+impl Add for Effect {
+    type Output = Self;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Self {
+            t_states: self.t_states + rhs.t_states,
+            width_bytes: self.width_bytes + rhs.width_bytes,
+        }
+    }
+}
+
 pub type Instruction = fn(&mut Registers, &mut Memory) -> Effect;
 
 pub fn get_instruction(opcode: u8) -> Option<Instruction> {
@@ -37,6 +50,8 @@ pub fn get_instruction(opcode: u8) -> Option<Instruction> {
         0x04 => increment::increment_b,       // INC B
         0x05 => decrement::decrement_b,       // DEC B
         0x06 => load::load_immediate_into_b,  // LD B, d8
+        0x07 => bitwise::rotate_left_a,       // RLCA
+        0x08 => load::load_sp_into_immediate_address, // LD (d16), SP
         0x0B => decrement::decrement_bc,      // DEC BC
         0x0C => increment::increment_c,       // INC C
         0x0D => decrement::decrement_c,       // DEC C
@@ -66,14 +81,37 @@ pub fn get_instruction(opcode: u8) -> Option<Instruction> {
         0x3C => increment::increment_a,       // INC A
         0x3D => decrement::decrement_a,       // DEC A
         0x3E => load::load_immediate_into_a,  // LD A, d8
+        0xCB => |r, m| {
+            // PREFIX CB
+            let opcode = m.read_byte(r.program_counter + 1);
+            let instruction = get_cb_instruction(opcode);
+
+            if let Some(instruction) = instruction {
+                Effect {
+                    t_states: 4,
+                    width_bytes: 1,
+                } + instruction(r, m)
+            } else {
+                panic!(
+                    "Unrecognized instruction opcode {:#x} at {:#x}",
+                    opcode,
+                    r.stack_pointer + 1
+                );
+            }
+        },
         _ => return None,
     })
 }
 
-#[allow(dead_code)]
 fn get_cb_instruction(opcode: u8) -> Option<Instruction> {
-    #[allow(unreachable_code)]
     Some(match opcode {
+        0x00 => bitwise::rotate_left_b, // RLC B
+        0x01 => bitwise::rotate_left_c, // RLC C
+        0x02 => bitwise::rotate_left_d, // RLC D
+        0x03 => bitwise::rotate_left_e, // RLC E
+        0x04 => bitwise::rotate_left_h, // RLC H
+        0x05 => bitwise::rotate_left_l, // RLC L
+        0x07 => bitwise::rotate_left_a, // RLC A
         _ => return None,
     })
 }

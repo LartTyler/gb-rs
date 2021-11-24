@@ -131,3 +131,28 @@ pub fn load_immediate_into_h(registers: &mut Registers, memory: &mut Memory) -> 
 pub fn load_immediate_into_l(registers: &mut Registers, memory: &mut Memory) -> Effect {
     load_immediate_into_byte_register(registers, memory, ByteRegister::L)
 }
+
+/// Loads the value of the stack pointer into the address pointed to by an immediate word (16-bit)
+/// value.
+///
+/// More accurately, loads the low byte of the stack pointer into the address pointed to by an
+/// immediate byte, and the high byte of the stack pointer into the address pointed to by an
+/// immediate + 1 byte.
+///
+/// T-states: 20
+/// M-cycles: 5
+/// Width: 3
+///
+/// Flags:
+/// - No flags changed
+pub fn load_sp_into_immediate_address(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    memory.write_word(
+        memory.read_word(registers.program_counter + 1),
+        registers.stack_pointer,
+    );
+
+    Effect {
+        t_states: 20,
+        width_bytes: 3,
+    }
+}
