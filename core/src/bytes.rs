@@ -15,8 +15,14 @@ pub fn bytes_to_word(low: u8, high: u8) -> u16 {
 ///
 /// In the original hardware, the ALU actually performs two 4 bit operations for addition, which
 /// use the half carry flag to widen the operation to 8 bits.
-pub fn is_half_carry_add(value: u8, operand: u8) -> bool {
-    ((value & 0xF) + (operand & 0xF)) & 0x10 > 0
+///
+/// Arguments are converted to `u16` to allow either byte or word arguments. This might be changed
+/// in the future, but it was the only way I could think of to allow both argument types.
+pub fn is_half_carry_add<T>(value: T, operand: T) -> bool
+where
+    T: Into<u16>,
+{
+    ((value.into() & 0xF) + (operand.into() & 0xF)) > 0
 }
 
 /// A "half carry" occurs during subtraction if there is a borrow from bit 4 to 3 (i.e. from the high
@@ -24,6 +30,14 @@ pub fn is_half_carry_add(value: u8, operand: u8) -> bool {
 ///
 /// In the original hardware, the ALU actually performs two 4 bit operations for subtraction, which
 /// use the half carry flag to widen the operation to 8 bits.
-pub fn is_half_carry_sub(value: u8, operand: u8) -> bool {
-    ((value & 0xF) - (operand & 0xF)) & 0x10 > 0
+///
+/// Arguments are converted to `u16` to allow either byte or word arguments. This might be changed
+/// in the future, but it was the only way I could think of to allow both argument types.
+pub fn is_half_carry_sub<T>(value: T, operand: T) -> bool
+where
+    T: Into<u16>,
+{
+    // FIXME This is almost certainly wrong, but I don't have the brainpower to figure it out right
+    // now.
+    ((value.into() & 0xF) - (operand.into() & 0xF)) & 0x10 > 0
 }

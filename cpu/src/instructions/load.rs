@@ -156,3 +156,71 @@ pub fn load_sp_into_immediate_address(registers: &mut Registers, memory: &mut Me
         width_bytes: 3,
     }
 }
+
+/// Loads the byte pointed to by a [`PairRegister`] into a [`ByteRegister`].
+///
+/// T-states: 8
+/// M-cycles: 2
+/// Width: 1
+///
+/// Flags:
+/// - No flags changed
+pub fn load_pair_address_into_byte_register(
+    registers: &mut Registers,
+    memory: &mut Memory,
+    target: ByteRegister,
+    source: PairRegister,
+) -> Effect {
+    let address = registers.get_pair(source);
+    registers.set_byte(target, memory.read_byte(address));
+
+    Effect {
+        t_states: 8,
+        width_bytes: 1,
+    }
+}
+
+/// Implementation of [`load_pair_address_into_byte_register()`] for A, BC
+pub fn load_bc_address_into_a(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    load_pair_address_into_byte_register(registers, memory, ByteRegister::A, PairRegister::BC)
+}
+
+/// Implementation of [`load_pair_address_into_byte_register()`] for A, DE
+pub fn load_de_address_into_a(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    load_pair_address_into_byte_register(registers, memory, ByteRegister::A, PairRegister::DE)
+}
+
+/// Implementation of [`load_pair_address_into_byte_register()`] for A, HL
+pub fn load_hl_address_into_a(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    load_pair_address_into_byte_register(registers, memory, ByteRegister::A, PairRegister::HL)
+}
+
+/// Implementation of [`load_pair_address_into_byte_register()`] for B, HL
+pub fn load_hl_address_into_b(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    load_pair_address_into_byte_register(registers, memory, ByteRegister::B, PairRegister::HL)
+}
+
+/// Implementation of [`load_pair_address_into_byte_register()`] for C, HL
+pub fn load_hl_address_into_c(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    load_pair_address_into_byte_register(registers, memory, ByteRegister::C, PairRegister::HL)
+}
+
+/// Implementation of [`load_pair_address_into_byte_register()`] for D, HL
+pub fn load_hl_address_into_d(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    load_pair_address_into_byte_register(registers, memory, ByteRegister::D, PairRegister::HL)
+}
+
+/// Implementation of [`load_pair_address_into_byte_register()`] for E, HL
+pub fn load_hl_address_into_e(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    load_pair_address_into_byte_register(registers, memory, ByteRegister::E, PairRegister::HL)
+}
+
+/// Implementation of [`load_pair_address_into_byte_register()`] for H, HL
+pub fn load_hl_address_into_h(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    load_pair_address_into_byte_register(registers, memory, ByteRegister::H, PairRegister::HL)
+}
+
+/// Implementation of [`load_pair_address_into_byte_register()`] for L, HL
+pub fn load_hl_address_into_l(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    load_pair_address_into_byte_register(registers, memory, ByteRegister::L, PairRegister::HL)
+}
