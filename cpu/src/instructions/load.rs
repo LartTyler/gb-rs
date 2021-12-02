@@ -11,7 +11,7 @@ use gb_rs_memory::Memory;
 ///
 /// Flags:
 /// - No flags changed
-pub fn load_immediate_into_pair(
+fn load_immediate_into_pair(
     registers: &mut Registers,
     memory: &Memory,
     pair: PairRegister,
@@ -223,4 +223,30 @@ pub fn load_hl_address_into_h(registers: &mut Registers, memory: &mut Memory) ->
 /// Implementation of [`load_pair_address_into_byte_register()`] for L, HL
 pub fn load_hl_address_into_l(registers: &mut Registers, memory: &mut Memory) -> Effect {
     load_pair_address_into_byte_register(registers, memory, ByteRegister::L, PairRegister::HL)
+}
+
+/// Implementation of [`load_byte_into_pair_address()`] for (HL+), A
+///
+/// Also increments HL after the load.
+pub fn load_a_into_hl_pointer_increment(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    let effect = load_byte_into_pair_address(registers, memory, PairRegister::HL, registers.a);
+    registers.set_pair(
+        PairRegister::HL,
+        registers.get_pair(PairRegister::HL).wrapping_add(1),
+    );
+
+    effect
+}
+
+/// Implementation of [`load_byte_into_pair_address()`] for (HL-), A
+///
+/// Also decrements HL after the load.
+pub fn load_a_into_hl_pointer_decrement(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    let effect = load_byte_into_pair_address(registers, memory, PairRegister::HL, registers.a);
+    registers.set_pair(
+        PairRegister::HL,
+        registers.get_pair(PairRegister::HL).wrapping_add(1),
+    );
+
+    effect
 }

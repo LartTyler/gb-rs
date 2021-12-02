@@ -11,6 +11,7 @@ pub struct Registers {
     pub stack_pointer: u16,
     pub program_counter: u16,
     pub flags: u8,
+    pub stop_flag: bool,
 }
 
 #[derive(Copy, Clone)]
@@ -99,6 +100,10 @@ impl Registers {
             }
             PairRegister::SP => self.stack_pointer = value,
         }
+    }
+
+    pub fn get_flag(&self, flag: Flag) -> bool {
+        self.flags & flag as u8 != 0
     }
 
     pub fn set_flag(&mut self, flag: Flag, value: bool) {

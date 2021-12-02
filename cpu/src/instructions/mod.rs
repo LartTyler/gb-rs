@@ -3,9 +3,11 @@ use gb_rs_memory::Memory;
 use std::ops::Add;
 
 pub mod add;
+pub mod alu;
 pub mod bitwise;
 pub mod decrement;
 pub mod increment;
+pub mod jump;
 pub mod load;
 
 /// Used to describe the effects of some instruction on the current device state.
@@ -60,29 +62,47 @@ pub fn get_instruction(opcode: u8) -> Option<Instruction> {
         0x0D => decrement::decrement_c,       // DEC C
         0x0E => load::load_immediate_into_c,  // LD C, d8
         0x0F => bitwise::rotate_right_a,      // RRCA
+        0x10 => |r: &mut Registers, _| {
+            // STOP 0
+            r.stop_flag = true;
+
+            Effect {
+                t_states: 4,
+                width_bytes: 2,
+            }
+        },
         0x11 => load::load_immediate_into_de, // LD DE, d16
         0x12 => load::load_a_into_de_address, // LD (DE), A
         0x13 => increment::increment_de,      // INC DE
         0x14 => increment::increment_d,       // INC D
         0x15 => decrement::decrement_d,       // DEC D
         0x16 => load::load_immediate_into_d,  // LD D, d8
+        0x17 => bitwise::rotate_left_carry_a, // RLA
+        0x18 => jump::jump_relative_immediate_signed, // JR e8
         0x19 => add::add_de_to_hl,            // ADD HL, DE
         0x1A => load::load_de_address_into_a, // LD A, (DE)
         0x1B => decrement::decrement_de,      // DEC DE
         0x1C => increment::increment_e,       // INC E
         0x1D => decrement::decrement_e,       // DEC E
         0x1E => load::load_immediate_into_e,  // LD E, d8
+        0x1F => bitwise::rotate_right_carry_a, // RRA
+        0x20 => jump::jump_relative_zero_unset, // JR NZ, e8
         0x21 => load::load_immediate_into_hl, // LD HL, d16
+        0x22 => load::load_a_into_hl_pointer_increment, // LD (HL+), A
         0x23 => increment::increment_hl,      // INC HL
         0x24 => increment::increment_h,       // INC H
         0x25 => decrement::decrement_h,       // DEC H
         0x26 => load::load_immediate_into_h,  // LD H, d8
+        0x27 => alu::decimal_adjust_accum,    // DAA
+        0x28 => jump::jump_relative_zero_set, // JR Z, e8
         0x29 => add::add_hl_to_hl,            // ADD HL, HL
         0x2B => decrement::decrement_hl,      // DEC HL
         0x2C => increment::increment_l,       // INC L
         0x2D => decrement::decrement_l,       // DEC L
         0x2E => load::load_immediate_into_l,  // LD L, d8
+        0x30 => jump::jump_relative_carry_unset, // JR NC, e8
         0x31 => load::load_immediate_into_sp, // LD SP, d16
+        0x32 => load::load_a_into_hl_pointer_decrement, // LD (HL-), A
         0x33 => increment::increment_sp,      // INC SP
         0x39 => add::add_sp_to_hl,            // ADD HL, SP
         0x3B => decrement::decrement_sp,      // DEC SP
@@ -120,20 +140,34 @@ pub fn get_instruction(opcode: u8) -> Option<Instruction> {
 
 fn get_cb_instruction(opcode: u8) -> Option<Instruction> {
     Some(match opcode {
-        0x00 => bitwise::rotate_left_b,           // RLC B
-        0x01 => bitwise::rotate_left_c,           // RLC C
-        0x02 => bitwise::rotate_left_d,           // RLC D
-        0x03 => bitwise::rotate_left_e,           // RLC E
-        0x04 => bitwise::rotate_left_h,           // RLC H
-        0x05 => bitwise::rotate_left_l,           // RLC L
-        0x07 => bitwise::rotate_left_a_extended,  // RLC A
-        0x08 => bitwise::rotate_right_b,          // RRC B
-        0x09 => bitwise::rotate_right_c,          // RRC C
-        0x0A => bitwise::rotate_right_d,          // RRC D
-        0x0B => bitwise::rotate_right_e,          // RRC E
-        0x0C => bitwise::rotate_right_h,          // RRC H
-        0x0D => bitwise::rotate_right_l,          // RRC L
-        0x0F => bitwise::rotate_right_a_extended, // RRC A
+        0x00 => bitwise::rotate_left_b,                 // RLC B
+        0x01 => bitwise::rotate_left_c,                 // RLC C
+        0x02 => bitwise::rotate_left_d,                 // RLC D
+        0x03 => bitwise::rotate_left_e,                 // RLC E
+        0x04 => bitwise::rotate_left_h,                 // RLC H
+        0x05 => bitwise::rotate_left_l,                 // RLC L
+        0x07 => bitwise::rotate_left_a_extended,        // RLC A
+        0x08 => bitwise::rotate_right_b,                // RRC B
+        0x09 => bitwise::rotate_right_c,                // RRC C
+        0x0A => bitwise::rotate_right_d,                // RRC D
+        0x0B => bitwise::rotate_right_e,                // RRC E
+        0x0C => bitwise::rotate_right_h,                // RRC H
+        0x0D => bitwise::rotate_right_l,                // RRC L
+        0x0F => bitwise::rotate_right_a_extended,       // RRC A
+        0x10 => bitwise::rotate_left_carry_b,           // RL B
+        0x11 => bitwise::rotate_left_carry_c,           // RL C
+        0x12 => bitwise::rotate_left_carry_d,           // RL D
+        0x13 => bitwise::rotate_left_carry_e,           // RL E
+        0x14 => bitwise::rotate_left_carry_h,           // RL H
+        0x15 => bitwise::rotate_left_carry_l,           // RL L
+        0x17 => bitwise::rotate_left_carry_a_extended,  // RL A
+        0x18 => bitwise::rotate_right_carry_b,          // RR B
+        0x19 => bitwise::rotate_right_carry_c,          // RR C
+        0x1A => bitwise::rotate_right_carry_d,          // RR D
+        0x1B => bitwise::rotate_right_carry_e,          // RR E
+        0x1C => bitwise::rotate_right_carry_h,          // RR H
+        0x1D => bitwise::rotate_right_carry_l,          // RR L
+        0x1F => bitwise::rotate_right_carry_a_extended, // RR A
         _ => return None,
     })
 }

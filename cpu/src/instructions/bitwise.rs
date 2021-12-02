@@ -14,8 +14,10 @@ use gb_rs_memory::Memory;
 /// - **Half-Carry**: Always unset
 /// - **Carry**: If bit 7 was set before the rotation
 pub fn rotate_left(registers: &mut Registers, reg: ByteRegister) -> Effect {
-    let (value, carry) = registers.get_byte(reg).overflowing_shl(1);
-    registers.set_byte(reg, value + carry as u8);
+    let value = registers.get_byte(reg);
+    let carry = value & 0x80 != 0;
+
+    registers.set_byte(reg, (value << 1) | carry as u8);
 
     registers.clear_flags();
     registers.set_flag(Flag::Carry, carry);
@@ -87,8 +89,10 @@ pub fn rotate_left_l(registers: &mut Registers, _: &mut Memory) -> Effect {
 /// - **Half-Carry**: Always unset
 /// - **Carry**: If bit 0 was set before the rotation
 pub fn rotate_right(registers: &mut Registers, reg: ByteRegister) -> Effect {
-    let (value, carry) = registers.get_byte(reg).overflowing_shr(1);
-    registers.set_byte(reg, value + carry as u8);
+    let value = registers.get_byte(reg);
+    let carry = value & 0x80 != 0;
+
+    registers.set_byte(reg, (value >> 1) | carry as u8);
 
     registers.clear_flags();
     registers.set_flag(Flag::Carry, carry);
@@ -146,4 +150,157 @@ pub fn rotate_right_h(registers: &mut Registers, _: &mut Memory) -> Effect {
 /// Implementation of [`rotate_right_extended()`] for L
 pub fn rotate_right_l(registers: &mut Registers, _: &mut Memory) -> Effect {
     rotate_right_extended(registers, ByteRegister::L)
+}
+
+/// Rotates a byte register left, moving the current value of the [`Flag::Carry`] flag into bit 0,
+/// and the value of bit 7 into the carry register (`C <- [7 <- 0] <- C`).
+///
+/// T-states: 4
+/// M-cycles: 1
+/// Width: 1
+///
+/// Flags:
+/// - **Zero**: Always unset
+/// - **Subtract**: Always unset
+/// - **Half-Carry**: Always unset
+/// - **Carry**: The previous value of bit 7
+pub fn rotate_left_carry(registers: &mut Registers, reg: ByteRegister) -> Effect {
+    let value = registers.get_byte(reg);
+    let carry = value & 0x80 != 0;
+
+    registers.set_byte(reg, (value << 1) | registers.get_flag(Flag::Carry) as u8);
+
+    registers.clear_flags();
+    registers.set_flag(Flag::Carry, carry);
+
+    Effect {
+        t_states: 4,
+        width_bytes: 1,
+    }
+}
+
+/// Same as [`rotate_left_carry()`], except it also sets the [`Flag::Zero`] flag.
+pub fn rotate_left_carry_extended(registers: &mut Registers, reg: ByteRegister) -> Effect {
+    let effect = rotate_left_carry(registers, reg);
+    registers.set_flag(Flag::Zero, registers.get_byte(reg) == 0);
+
+    effect
+}
+
+/// Implementation of [`rotate_left_carry()`] for A
+pub fn rotate_left_carry_a(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_left_carry(registers, ByteRegister::A)
+}
+
+/// Implementation of [`rotate_left_carry_extended()`] for A
+pub fn rotate_left_carry_a_extended(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_left_carry_extended(registers, ByteRegister::A)
+}
+
+/// Implementation of [`rotate_left_carry_extended()`] for B
+pub fn rotate_left_carry_b(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_left_carry_extended(registers, ByteRegister::B)
+}
+
+/// Implementation of [`rotate_left_carry_extended()`] for C
+pub fn rotate_left_carry_c(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_left_carry_extended(registers, ByteRegister::C)
+}
+
+/// Implementation of [`rotate_left_carry_extended()`] for D
+pub fn rotate_left_carry_d(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_left_carry_extended(registers, ByteRegister::D)
+}
+
+/// Implementation of [`rotate_left_carry_extended()`] for E
+pub fn rotate_left_carry_e(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_left_carry_extended(registers, ByteRegister::E)
+}
+
+/// Implementation of [`rotate_left_carry_extended()`] for H
+pub fn rotate_left_carry_h(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_left_carry_extended(registers, ByteRegister::H)
+}
+
+/// Implementation of [`rotate_left_carry_extended()`] for L
+pub fn rotate_left_carry_l(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_left_carry_extended(registers, ByteRegister::L)
+}
+
+/// Rotates a byte register right, moving the current value of the [`Flag::Carry`] flag into bit 7,
+/// and the value of bit 0 into the carry register (`C -> [7 -> 0] -> C`).
+///
+/// T-states: 4
+/// M-cycles: 1
+/// Width: 1
+///
+/// Flags:
+/// - **Zero**: Always unset
+/// - **Subtract**: Always unset
+/// - **Half-Carry**: Always unset
+/// - **Carry**: The previous value of bit 0
+pub fn rotate_right_carry(registers: &mut Registers, reg: ByteRegister) -> Effect {
+    let value = registers.get_byte(reg);
+    let carry = value & 1 != 0;
+
+    registers.set_byte(
+        reg,
+        (value >> 1) | (registers.get_flag(Flag::Carry) as u8) << 7,
+    );
+
+    registers.clear_flags();
+    registers.set_flag(Flag::Carry, carry);
+
+    Effect {
+        t_states: 4,
+        width_bytes: 1,
+    }
+}
+
+/// Like [`rotate_right_carry()`], but the [`Flag::Zero`] flag is also set based on the result.
+pub fn rotate_right_carry_extended(registers: &mut Registers, reg: ByteRegister) -> Effect {
+    let effect = rotate_right_carry(registers, reg);
+    registers.set_flag(Flag::Zero, registers.get_byte(reg) == 0);
+
+    effect
+}
+
+/// Implementation of [`rotate_right_carry()`] for A
+pub fn rotate_right_carry_a(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_right_carry(registers, ByteRegister::A)
+}
+
+/// Implementation of [`rotate_right_carry_extended()`] for A
+pub fn rotate_right_carry_a_extended(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_right_carry_extended(registers, ByteRegister::A)
+}
+
+/// Implementation of [`rotate_right_carry_extended()`] for B
+pub fn rotate_right_carry_b(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_right_carry_extended(registers, ByteRegister::B)
+}
+
+/// Implementation of [`rotate_right_carry_extended()`] for C
+pub fn rotate_right_carry_c(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_right_carry_extended(registers, ByteRegister::C)
+}
+
+/// Implementation of [`rotate_right_carry_extended()`] for D
+pub fn rotate_right_carry_d(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_right_carry_extended(registers, ByteRegister::D)
+}
+
+/// Implementation of [`rotate_right_carry_extended()`] for E
+pub fn rotate_right_carry_e(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_right_carry_extended(registers, ByteRegister::E)
+}
+
+/// Implementation of [`rotate_right_carry_extended()`] for H
+pub fn rotate_right_carry_h(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_right_carry_extended(registers, ByteRegister::H)
+}
+
+/// Implementation of [`rotate_right_carry_extended()`] for L
+pub fn rotate_right_carry_l(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_right_carry_extended(registers, ByteRegister::L)
 }
