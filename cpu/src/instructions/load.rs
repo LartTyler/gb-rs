@@ -250,3 +250,48 @@ pub fn load_a_into_hl_pointer_decrement(registers: &mut Registers, memory: &mut 
 
     effect
 }
+
+/// Implementation of [`load_pair_address_into_byte_register()`] for A, (HL+)
+///
+/// Also increments HL after the load.
+pub fn load_hl_pointer_into_a_increment(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    let effect =
+        load_pair_address_into_byte_register(registers, memory, ByteRegister::A, PairRegister::HL);
+
+    registers.set_pair(
+        PairRegister::HL,
+        registers.get_pair(PairRegister::HL).wrapping_add(1),
+    );
+
+    effect
+}
+
+/// Implementation of [`load_pair_address_into_byte_register()`] for A, (HL-)
+///
+/// Also decrements HL after the load.
+pub fn load_hl_pointer_into_a_decrement(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    let effect =
+        load_pair_address_into_byte_register(registers, memory, ByteRegister::A, PairRegister::HL);
+
+    registers.set_pair(
+        PairRegister::HL,
+        registers.get_pair(PairRegister::HL).wrapping_add(1),
+    );
+
+    effect
+}
+
+/// Implementation of [`load_immediate_into_pair()`] for (HL), d8
+pub fn load_immediate_into_hl_address(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    load_byte_into_pair_address(
+        registers,
+        memory,
+        PairRegister::HL,
+        memory.read_byte(registers.stack_pointer + 1),
+    );
+
+    Effect {
+        t_states: 12,
+        width_bytes: 2,
+    }
+}

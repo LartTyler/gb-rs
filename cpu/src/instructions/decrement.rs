@@ -100,3 +100,30 @@ pub fn decrement_hl(registers: &mut Registers, _: &mut Memory) -> Effect {
 pub fn decrement_sp(registers: &mut Registers, _: &mut Memory) -> Effect {
     decrement_pair(registers, PairRegister::SP)
 }
+
+/// Decrements the byte pointed to by the pair register HL.
+///
+/// T-states: 12
+/// M-cycles: 3
+/// Width: 1
+///
+/// Flags:
+/// - **Zero**: If result is zero
+/// - **Subtract**: Always set
+/// - **Half-Carry**: If there was a borrow from bit 4 to 3
+pub fn decrement_hl_pointer(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    let pointer = registers.get_pair(PairRegister::HL);
+    let value = memory.read_byte(pointer);
+
+    let new_value = value.wrapping_add(1);
+    memory.write_byte(pointer, new_value);
+
+    registers.set_flag(Flag::Zero, new_value == 0);
+    registers.set_flag(Flag::Subtract, true);
+    registers.set_flag(Flag::HalfCarry, is_half_carry_sub(value, 1));
+
+    Effect {
+        t_states: 12,
+        width_bytes: 1,
+    }
+}

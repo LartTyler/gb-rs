@@ -304,3 +304,24 @@ pub fn rotate_right_carry_h(registers: &mut Registers, _: &mut Memory) -> Effect
 pub fn rotate_right_carry_l(registers: &mut Registers, _: &mut Memory) -> Effect {
     rotate_right_carry_extended(registers, ByteRegister::L)
 }
+
+/// Complements (bitwise negates) the the accumulator (A) register.
+///
+/// T-states: 4
+/// M-cylces: 1
+/// Width: 1
+///
+/// Flags:
+/// - **Subtract**: Always set
+/// - **Half Carry**: Always set
+pub fn complement_a(registers: &mut Registers, _: &mut Memory) -> Effect {
+    registers.a = !registers.a;
+
+    registers.set_flag(Flag::Subtract, true);
+    registers.set_flag(Flag::HalfCarry, true);
+
+    Effect {
+        t_states: 4,
+        width_bytes: 1,
+    }
+}

@@ -18,11 +18,11 @@ pub fn bytes_to_word(low: u8, high: u8) -> u16 {
 ///
 /// Arguments are converted to `u16` to allow either byte or word arguments. This might be changed
 /// in the future, but it was the only way I could think of to allow both argument types.
-pub fn is_half_carry_add<T>(value: T, operand: T) -> bool
+pub fn is_half_carry_add<T>(lhs: T, rhs: T) -> bool
 where
     T: Into<u16>,
 {
-    ((value.into() & 0xF) + (operand.into() & 0xF)) > 0
+    ((lhs.into() & 0xF) + (rhs.into() & 0xF)) > 0
 }
 
 /// A "half carry" occurs during subtraction if there is a borrow from bit 4 to 3 (i.e. from the high
@@ -33,11 +33,11 @@ where
 ///
 /// Arguments are converted to `u16` to allow either byte or word arguments. This might be changed
 /// in the future, but it was the only way I could think of to allow both argument types.
-pub fn is_half_carry_sub<T>(value: T, operand: T) -> bool
+pub fn is_half_carry_sub<T>(lhs: T, rhs: T) -> bool
 where
     T: Into<u16>,
 {
     // FIXME This is almost certainly wrong, but I don't have the brainpower to figure it out right
     // now.
-    ((value.into() & 0xF) - (operand.into() & 0xF)) & 0x10 > 0
+    ((lhs.into() & 0xF) - (rhs.into() & 0xF)) & 0x10 > 0
 }

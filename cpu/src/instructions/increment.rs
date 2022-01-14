@@ -100,3 +100,30 @@ pub fn increment_h(registers: &mut Registers, _: &mut Memory) -> Effect {
 pub fn increment_l(registers: &mut Registers, _: &mut Memory) -> Effect {
     increment_byte_register(registers, ByteRegister::L)
 }
+
+/// Increments the byte pointed to by the pair register HL.
+///
+/// T-states: 12
+/// M-cycles: 3
+/// Width: 1
+///
+/// Flags:
+/// - **Zero**: If result is zero
+/// - **Subtract**: Always reset
+/// - **Half-Carry**: If overflow from bit 3 to 4
+pub fn increment_hl_pointer(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    let pointer = registers.get_pair(PairRegister::HL);
+    let value = memory.read_byte(pointer);
+
+    let new_value = memory.read_byte(pointer).wrapping_add(1);
+    memory.write_byte(pointer, new_value);
+
+    registers.set_flag(Flag::Zero, new_value == 0);
+    registers.set_flag(Flag::Subtract, false);
+    registers.set_flag(Flag::HalfCarry, is_half_carry_add(value, 1));
+
+    Effect {
+        t_states: 12,
+        width_bytes: 1,
+    }
+}
