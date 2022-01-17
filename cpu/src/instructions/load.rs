@@ -1,5 +1,6 @@
 use crate::instructions::Effect;
 use crate::registers::{ByteRegister, PairRegister, Registers};
+use gb_rs_memory::cartridge::mbc::MemoryBankController;
 use gb_rs_memory::Memory;
 
 /// Writes an immediate word (2 byte value) from the current position in memory to the given
@@ -281,7 +282,7 @@ pub fn load_hl_pointer_into_a_decrement(registers: &mut Registers, memory: &mut 
     effect
 }
 
-/// Implementation of [`load_immediate_into_pair()`] for (HL), d8
+/// Implementation of [`load_immediate_into_pair_address()`] for (HL), d8
 pub fn load_immediate_into_hl_address(registers: &mut Registers, memory: &mut Memory) -> Effect {
     load_byte_into_pair_address(
         registers,
@@ -294,4 +295,88 @@ pub fn load_immediate_into_hl_address(registers: &mut Registers, memory: &mut Me
         t_states: 12,
         width_bytes: 2,
     }
+}
+
+/// Writes the given byte value to a [`ByteRegister`].
+///
+/// T-states: 4
+/// M-cycles: 1
+/// Width: 1
+///
+/// Flags:
+/// - No flags changed
+fn load_byte_into_byte_register(
+    registers: &mut Registers,
+    target: ByteRegister,
+    value: u8,
+) -> Effect {
+    registers.set_byte(target, value);
+
+    Effect {
+        t_states: 4,
+        width_bytes: 1,
+    }
+}
+
+/// Implementation of [`load_byte_into_byte_register()`] for B, A
+pub fn load_a_into_b(registers: &mut Registers, _: &mut Memory) -> Effect {
+    load_byte_into_byte_register(
+        registers,
+        ByteRegister::B,
+        registers.get_byte(ByteRegister::A),
+    )
+}
+
+/// Implementation of [`load_byte_into_byte_register()`] for B, B
+pub fn load_b_into_b(registers: &mut Registers, _: &mut Memory) -> Effect {
+    load_byte_into_byte_register(
+        registers,
+        ByteRegister::B,
+        registers.get_byte(ByteRegister::B),
+    )
+}
+
+/// Implementation of [`load_byte_into_byte_register()`] for B, C
+pub fn load_c_into_b(registers: &mut Registers, _: &mut Memory) -> Effect {
+    load_byte_into_byte_register(
+        registers,
+        ByteRegister::B,
+        registers.get_byte(ByteRegister::C),
+    )
+}
+
+/// Implementation of [`load_byte_into_byte_register()`] for B, D
+pub fn load_d_into_b(registers: &mut Registers, _: &mut Memory) -> Effect {
+    load_byte_into_byte_register(
+        registers,
+        ByteRegister::B,
+        registers.get_byte(ByteRegister::D),
+    )
+}
+
+/// Implementation of [`load_byte_into_byte_register()`] for B, E
+pub fn load_e_into_b(registers: &mut Registers, _: &mut Memory) -> Effect {
+    load_byte_into_byte_register(
+        registers,
+        ByteRegister::B,
+        registers.get_byte(ByteRegister::E),
+    )
+}
+
+/// Implementation of [`load_byte_into_byte_register()`] for B, H
+pub fn load_h_into_b(registers: &mut Registers, _: &mut Memory) -> Effect {
+    load_byte_into_byte_register(
+        registers,
+        ByteRegister::B,
+        registers.get_byte(ByteRegister::H),
+    )
+}
+
+/// Implementation of [`load_byte_into_byte_register()`] for B, L
+pub fn load_l_into_b(registers: &mut Registers, _: &mut Memory) -> Effect {
+    load_byte_into_byte_register(
+        registers,
+        ByteRegister::B,
+        registers.get_byte(ByteRegister::L),
+    )
 }

@@ -1,4 +1,4 @@
-use crate::registers::Registers;
+use crate::registers::{ByteRegister, Flag, Registers};
 use gb_rs_memory::Memory;
 use std::ops::Add;
 
@@ -109,12 +109,42 @@ pub fn get_instruction(opcode: u8) -> Option<Instruction> {
         0x34 => increment::increment_hl_pointer, // INC (HL)
         0x35 => decrement::decrement_hl_pointer, // DEC (HL)
         0x36 => load::load_immediate_into_hl_address, // LD (HL), d8
-        0x39 => add::add_sp_to_hl,            // ADD HL, SP
+        0x37 => |r, _| {
+            // SCF
+            r.set_flag(Flag::Subtract, false);
+            r.set_flag(Flag::HalfCarry, false);
+            r.set_flag(Flag::Carry, true);
+
+            Effect {
+                t_states: 4,
+                width_bytes: 1,
+            }
+        },
+        0x38 => jump::jump_relative_carry_set, // JR C, e8
+        0x39 => add::add_sp_to_hl,             // ADD HL, SP
         0x3A => load::load_hl_pointer_into_a_decrement, // LD A, (HL-)
-        0x3B => decrement::decrement_sp,      // DEC SP
-        0x3C => increment::increment_a,       // INC A
-        0x3D => decrement::decrement_a,       // DEC A
-        0x3E => load::load_immediate_into_a,  // LD A, d8
+        0x3B => decrement::decrement_sp,       // DEC SP
+        0x3C => increment::increment_a,        // INC A
+        0x3D => decrement::decrement_a,        // DEC A
+        0x3E => load::load_immediate_into_a,   // LD A, d8
+        0x3F => |r, _| {
+            // CCF
+            r.set_flag(Flag::Subtract, false);
+            r.set_flag(Flag::HalfCarry, false);
+            r.set_flag(Flag::Carry, !r.get_flag(Flag::Carry));
+
+            Effect {
+                t_states: 4,
+                width_bytes: 1,
+            }
+        },
+        0x40 => load::load_b_into_b,          // LD B, B
+        0x41 => load::load_c_into_b,          // LD B, C
+        0x42 => load::load_d_into_b,          // LD B, D
+        0x43 => load::load_e_into_b,          // LD B, E
+        0x44 => load::load_h_into_b,          // LD B, H
+        0x45 => load::load_l_into_b,          // LD B, L
+        0x47 => load::load_a_into_b,          // LD B, A
         0x46 => load::load_hl_address_into_b, // LD B, (HL)
         0x4E => load::load_hl_address_into_c, // LD C, (HL)
         0x56 => load::load_hl_address_into_d, // LD D, (HL)
