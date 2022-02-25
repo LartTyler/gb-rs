@@ -1,4 +1,4 @@
-use crate::registers::{ByteRegister, Flag, Registers};
+use crate::registers::{Flag, Registers};
 use gb_rs_memory::Memory;
 use std::ops::Add;
 
@@ -144,9 +144,16 @@ pub fn get_instruction(opcode: u8) -> Option<Instruction> {
         0x43 => load::load_e_into_b,          // LD B, E
         0x44 => load::load_h_into_b,          // LD B, H
         0x45 => load::load_l_into_b,          // LD B, L
-        0x47 => load::load_a_into_b,          // LD B, A
         0x46 => load::load_hl_address_into_b, // LD B, (HL)
+        0x47 => load::load_a_into_b,          // LD B, A
+        0x48 => load::load_b_into_c,          // LD C, B
+        0x49 => load::load_c_into_c,          // LD C, C
+        0x4A => load::load_d_into_c,          // LD C, D
+        0x4B => load::load_e_into_c,          // LD C, E
+        0x4C => load::load_h_into_c,          // LD C, H
+        0x4D => load::load_l_into_c,          // LD C, L
         0x4E => load::load_hl_address_into_c, // LD C, (HL)
+        0x4F => load::load_a_into_c,          // LD C, A
         0x56 => load::load_hl_address_into_d, // LD D, (HL)
         0x5E => load::load_hl_address_into_e, // LD E, (HL)
         0x66 => load::load_hl_address_into_h, // LD H, (HL)
