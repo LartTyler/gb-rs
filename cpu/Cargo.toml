@@ -8,3 +8,4 @@ edition = "2018"
 [dependencies]
 gb-rs-core = { "path" = "../core" }
 gb-rs-memory = { "path" = "../memory" }
+gb-rs-cpu-macros = { "path" = "./macros" }
