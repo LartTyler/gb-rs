@@ -75,11 +75,11 @@ pub(super) fn load_immediate_into_byte_register(
 ///
 /// Flags:
 /// - No flags changed
-pub(super) fn load_pair_address_into_byte_register(
+pub(super) fn load_pair_pointer_into_byte_register(
     registers: &mut Registers,
     memory: &mut Memory,
-    target: ByteRegister,
     source: PairRegister,
+    target: ByteRegister,
 ) -> Effect {
     let address = registers.get_pair(source);
     registers.set_byte(target, memory.read_byte(address));

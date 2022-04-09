@@ -1,5 +1,6 @@
 use gb_rs_core::bytes::{bytes_to_word, word_to_bytes};
 
+#[derive(Debug, Default)]
 pub struct Registers {
     pub a: u8,
     pub b: u8,
