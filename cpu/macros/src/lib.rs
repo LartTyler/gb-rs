@@ -1,3 +1,4 @@
+use self::instructions::increment::{IncrementR16Input, IncrementR8Input};
 use self::instructions::load::{
     LoadImmediateIntoR16Input, LoadImmediateIntoR8Input, LoadR16PointerIntoR8Input,
     LoadR8IntoR8AllInput, LoadR8IntoR8Input,
@@ -8,6 +9,7 @@ use syn::parse_macro_input;
 
 mod instructions;
 mod registers;
+mod util;
 
 #[proc_macro]
 pub fn load_r8_into_r8(input: TokenStream) -> TokenStream {
@@ -82,4 +84,34 @@ pub fn load_r16_pointer_into_r8(input: TokenStream) -> TokenStream {
             load_pair_pointer_into_byte_register(r, m, #src, #dest)
         }
     })
+}
+
+#[proc_macro]
+pub fn increment_r8(input: TokenStream) -> TokenStream {
+    let IncrementR8Input { target } = parse_macro_input!(input as IncrementR8Input);
+
+    let fn_name = format_ident!("increment_{}", target.ident);
+    let target = target.as_enum_expr();
+
+    TokenStream::from(util::create_instruction_fn(
+        fn_name,
+        quote! {
+            increment_byte_register(r, #target)
+        },
+    ))
+}
+
+#[proc_macro]
+pub fn increment_r16(input: TokenStream) -> TokenStream {
+    let IncrementR16Input { target } = parse_macro_input!(input as IncrementR16Input);
+
+    let fn_name = format_ident!("increment_{}", target.ident);
+    let target = target.as_enum_expr();
+
+    TokenStream::from(util::create_instruction_fn(
+        fn_name,
+        quote! {
+            increment_pair(r, #target)
+        },
+    ))
 }

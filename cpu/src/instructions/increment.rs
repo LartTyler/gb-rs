@@ -1,6 +1,7 @@
 use crate::instructions::Effect;
 use crate::registers::{ByteRegister, Flag, PairRegister, Registers};
 use gb_rs_core::bytes::is_half_carry_add;
+use gb_rs_cpu_macros::{increment_r16, increment_r8};
 use gb_rs_memory::Memory;
 
 /// Increments the given [`PairRegister`].
@@ -21,25 +22,10 @@ pub fn increment_pair(registers: &mut Registers, pair: PairRegister) -> Effect {
     }
 }
 
-/// Implementation of [`increment_pair()`] for BC
-pub fn increment_bc(registers: &mut Registers, _: &mut Memory) -> Effect {
-    increment_pair(registers, PairRegister::BC)
-}
-
-/// Implementation of [`increment_pair()`] for DE
-pub fn increment_de(registers: &mut Registers, _: &mut Memory) -> Effect {
-    increment_pair(registers, PairRegister::DE)
-}
-
-/// Implementation of [`increment_pair()`] for HL
-pub fn increment_hl(registers: &mut Registers, _: &mut Memory) -> Effect {
-    increment_pair(registers, PairRegister::HL)
-}
-
-/// Implementation of [`increment_pair()`] for SP
-pub fn increment_sp(registers: &mut Registers, _: &mut Memory) -> Effect {
-    increment_pair(registers, PairRegister::SP)
-}
+increment_r16!(bc);
+increment_r16!(de);
+increment_r16!(hl);
+increment_r16!(sp);
 
 /// Increments the given [`ByteRegister`].
 ///
@@ -66,40 +52,13 @@ pub fn increment_byte_register(registers: &mut Registers, reg: ByteRegister) -> 
     }
 }
 
-/// Implementation of [`increment_byte_register()`] for A
-pub fn increment_a(registers: &mut Registers, _: &mut Memory) -> Effect {
-    increment_byte_register(registers, ByteRegister::A)
-}
-
-/// Implementation of [`increment_byte_register()`] for B
-pub fn increment_b(registers: &mut Registers, _: &mut Memory) -> Effect {
-    increment_byte_register(registers, ByteRegister::B)
-}
-
-/// Implementation of [`increment_byte_register()`] for C
-pub fn increment_c(registers: &mut Registers, _: &mut Memory) -> Effect {
-    increment_byte_register(registers, ByteRegister::C)
-}
-
-/// Implementation of [`increment_byte_register()`] for D
-pub fn increment_d(registers: &mut Registers, _: &mut Memory) -> Effect {
-    increment_byte_register(registers, ByteRegister::D)
-}
-
-/// Implementation of [`increment_byte_register()`] for E
-pub fn increment_e(registers: &mut Registers, _: &mut Memory) -> Effect {
-    increment_byte_register(registers, ByteRegister::E)
-}
-
-/// Implementation of [`increment_byte_register()`] for H
-pub fn increment_h(registers: &mut Registers, _: &mut Memory) -> Effect {
-    increment_byte_register(registers, ByteRegister::H)
-}
-
-/// Implementation of [`increment_byte_register()`] for L
-pub fn increment_l(registers: &mut Registers, _: &mut Memory) -> Effect {
-    increment_byte_register(registers, ByteRegister::L)
-}
+increment_r8!(a);
+increment_r8!(b);
+increment_r8!(c);
+increment_r8!(d);
+increment_r8!(e);
+increment_r8!(h);
+increment_r8!(l);
 
 /// Increments the byte pointed to by the pair register HL.
 ///
