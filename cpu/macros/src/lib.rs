@@ -87,6 +87,22 @@ pub fn load_r16_pointer_into_r8(input: TokenStream) -> TokenStream {
 }
 
 #[proc_macro]
+pub fn load_r8_into_r16_pointer(input: TokenStream) -> TokenStream {
+    let R8IntoR16Input { src, dest } = parse_macro_input!(input as R8IntoR16Input);
+
+    let fn_name = format_ident!("load_{}_into_{}_pointer", src.ident, dest.ident);
+    let src = src.ident;
+    let dest = dest.as_enum_expr();
+
+    TokenStream::from(create_instruction_fn(
+        fn_name,
+        quote! {
+            load_byte_into_pair_address(r, m, #dest, r.#src)
+        },
+    ))
+}
+
+#[proc_macro]
 pub fn increment_r8(input: TokenStream) -> TokenStream {
     let R8TargetInput { target } = parse_macro_input!(input as R8TargetInput);
 
@@ -202,6 +218,21 @@ pub fn rotate_right_carry_extended(input: TokenStream) -> TokenStream {
         fn_name,
         quote! {
             rotate_right_carry_extended(r, #target)
+        },
+    ))
+}
+
+#[proc_macro]
+pub fn add_r8_to_a(input: TokenStream) -> TokenStream {
+    let R8TargetInput { target } = parse_macro_input!(input as R8TargetInput);
+
+    let fn_name = format_ident!("add_{}_to_a", target.ident);
+    let target = target.as_enum_expr();
+
+    TokenStream::from(create_instruction_fn(
+        fn_name,
+        quote! {
+            add_byte_register_to_a(r, #target)
         },
     ))
 }

@@ -62,15 +62,7 @@ pub fn get_instruction(opcode: u8) -> Option<Instruction> {
         0x0D => decrement::decrement_c,       // DEC C
         0x0E => load::load_immediate_into_c,  // LD C, d8
         0x0F => bitwise::rotate_right_a,      // RRCA
-        0x10 => |r: &mut Registers, _| {
-            // STOP 0
-            r.stop_flag = true;
-
-            Effect {
-                t_states: 4,
-                width_bytes: 2,
-            }
-        },
+        0x10 => |_, _| unimplemented!("STOP instruction not implemented"), // STOP
         0x11 => load::load_immediate_into_de, // LD DE, d16
         0x12 => load::load_a_into_de_address, // LD (DE), A
         0x13 => increment::increment_de,      // INC DE
@@ -186,7 +178,29 @@ pub fn get_instruction(opcode: u8) -> Option<Instruction> {
         0x6D => load::load_l_into_l,          // LD L, L
         0x6E => load::load_hl_pointer_into_l, // LD L, (HL)
         0x6F => load::load_a_into_l,          // LD L, A
+        0x70 => load::load_b_into_hl_pointer, // LD (HL), B
+        0x71 => load::load_c_into_hl_pointer, // LD (HL), C
+        0x72 => load::load_d_into_hl_pointer, // LD (HL), D
+        0x73 => load::load_e_into_hl_pointer, // LD (HL), E
+        0x74 => load::load_h_into_hl_pointer, // LD (HL), H
+        0x75 => load::load_l_into_hl_pointer, // LD (HL), L
+        0x76 => |_, _| unimplemented!("HALT instruction not implemented"), // HALT
+        0x77 => load::load_a_into_hl_pointer, // LD (HL), A
+        0x78 => load::load_b_into_a,          // LD A, B
+        0x79 => load::load_c_into_a,          // LD A, C
+        0x7A => load::load_d_into_a,          // LD A, D,
+        0x7B => load::load_e_into_a,          // LD A, E
+        0x7C => load::load_h_into_a,          // LD A, H
+        0x7D => load::load_l_into_a,          // LD A, L
         0x7E => load::load_hl_pointer_into_a, // LD A, (HL)
+        0x7F => load::load_a_into_a,          // LD A, A
+        0x80 => add::add_b_to_a,              // ADD A, B
+        0x81 => add::add_c_to_a,              // ADD A, C
+        0x82 => add::add_d_to_a,              // ADD A, D
+        0x83 => add::add_e_to_a,              // ADD A, E
+        0x84 => add::add_h_to_a,              // ADD A, H
+        0x85 => add::add_l_to_a,              // ADD A, L
+        0x87 => add::add_a_to_a,              // ADD A, A
         0xCB => |r, m| {
             // PREFIX CB
             let opcode = m.read_byte(r.program_counter + 1);

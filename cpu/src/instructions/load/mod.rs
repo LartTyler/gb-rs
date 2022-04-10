@@ -2,7 +2,8 @@ use crate::instructions::Effect;
 use crate::registers::{ByteRegister, PairRegister, Registers};
 use base::*;
 use gb_rs_cpu_macros::{
-    load_immediate_into_r16, load_immediate_into_r8, load_r16_pointer_into_r8, load_r8_into_r8_all,
+    load_immediate_into_r16, load_immediate_into_r8, load_r16_pointer_into_r8,
+    load_r8_into_r16_pointer, load_r8_into_r8_all,
 };
 use gb_rs_memory::Memory;
 
@@ -80,6 +81,15 @@ load_r8_into_r8_all!(d);
 load_r8_into_r8_all!(e);
 load_r8_into_r8_all!(h);
 load_r8_into_r8_all!(l);
+
+// ===== LD (r16), r8 =====
+load_r8_into_r16_pointer!(a, hl);
+load_r8_into_r16_pointer!(b, hl);
+load_r8_into_r16_pointer!(c, hl);
+load_r8_into_r16_pointer!(d, hl);
+load_r8_into_r16_pointer!(e, hl);
+load_r8_into_r16_pointer!(h, hl);
+load_r8_into_r16_pointer!(l, hl);
 
 // ===== Misc. Loads (e.g. LD then inc / dec) =====
 
