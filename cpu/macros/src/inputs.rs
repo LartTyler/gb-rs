@@ -69,3 +69,18 @@ impl Parse for R8IntoR8Input {
         Ok(Self { src, dest })
     }
 }
+
+pub struct R16IntoR16Input {
+    pub src: PairRegister,
+    pub dest: PairRegister,
+}
+
+impl Parse for R16IntoR16Input {
+    fn parse(input: ParseStream) -> Result<Self> {
+        let src: PairRegister = input.parse()?;
+        input.parse::<Token![,]>()?;
+        let dest: PairRegister = input.parse()?;
+
+        Ok(Self { src, dest })
+    }
+}

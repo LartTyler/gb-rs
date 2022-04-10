@@ -205,3 +205,19 @@ pub fn rotate_right_carry_extended(input: TokenStream) -> TokenStream {
         },
     ))
 }
+
+#[proc_macro]
+pub fn add_r16_to_r16(input: TokenStream) -> TokenStream {
+    let R16IntoR16Input { src, dest } = parse_macro_input!(input as R16IntoR16Input);
+
+    let fn_name = format_ident!("add_{}_to_{}", src.ident, dest.ident);
+    let src = src.as_enum_expr();
+    let dest = dest.as_enum_expr();
+
+    TokenStream::from(create_instruction_fn(
+        fn_name,
+        quote! {
+            add_pair_to_pair(r, #src, #dest)
+        },
+    ))
+}
