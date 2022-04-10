@@ -1,6 +1,6 @@
 use crate::instructions::Effect;
 use crate::registers::{ByteRegister, Flag, Registers};
-use gb_rs_cpu_macros::rotate_left_extended;
+use gb_rs_cpu_macros::{rotate_left_extended, rotate_right_extended};
 use gb_rs_memory::Memory;
 
 /// Performs a wrapping bitwise left shift that also copies bit 7 into the carry flag.
@@ -91,40 +91,13 @@ pub fn rotate_right_a(registers: &mut Registers, _: &mut Memory) -> Effect {
     rotate_right(registers, ByteRegister::A)
 }
 
-/// Implementation of [`rotate_right_extended()`] for A
-pub fn rotate_right_a_extended(registers: &mut Registers, _: &mut Memory) -> Effect {
-    rotate_right_extended(registers, ByteRegister::A)
-}
-
-/// Implementation of [`rotate_right_extended()`] for B
-pub fn rotate_right_b(registers: &mut Registers, _: &mut Memory) -> Effect {
-    rotate_right_extended(registers, ByteRegister::B)
-}
-
-/// Implementation of [`rotate_right_extended()`] for C
-pub fn rotate_right_c(registers: &mut Registers, _: &mut Memory) -> Effect {
-    rotate_right_extended(registers, ByteRegister::C)
-}
-
-/// Implementation of [`rotate_right_extended()`] for D
-pub fn rotate_right_d(registers: &mut Registers, _: &mut Memory) -> Effect {
-    rotate_right_extended(registers, ByteRegister::D)
-}
-
-/// Implementation of [`rotate_right_extended()`] for E
-pub fn rotate_right_e(registers: &mut Registers, _: &mut Memory) -> Effect {
-    rotate_right_extended(registers, ByteRegister::E)
-}
-
-/// Implementation of [`rotate_right_extended()`] for H
-pub fn rotate_right_h(registers: &mut Registers, _: &mut Memory) -> Effect {
-    rotate_right_extended(registers, ByteRegister::H)
-}
-
-/// Implementation of [`rotate_right_extended()`] for L
-pub fn rotate_right_l(registers: &mut Registers, _: &mut Memory) -> Effect {
-    rotate_right_extended(registers, ByteRegister::L)
-}
+rotate_right_extended!(a);
+rotate_right_extended!(b);
+rotate_right_extended!(c);
+rotate_right_extended!(d);
+rotate_right_extended!(e);
+rotate_right_extended!(h);
+rotate_right_extended!(l);
 
 /// Rotates a byte register left, moving the current value of the [`Flag::Carry`] flag into bit 0,
 /// and the value of bit 7 into the carry register (`C <- [7 <- 0] <- C`).

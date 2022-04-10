@@ -162,16 +162,16 @@ pub fn rotate_left_extended(input: TokenStream) -> TokenStream {
 }
 
 #[proc_macro]
-pub fn rotate_left_extended(input: TokenStream) -> TokenStream {
+pub fn rotate_right_extended(input: TokenStream) -> TokenStream {
     let R8TargetInput { target } = parse_macro_input!(input as R8TargetInput);
 
-    let fn_name = format_ident!("rotate_left_{}_extended", target.ident);
+    let fn_name = format_ident!("rotate_right_{}_extended", target.ident);
     let target = target.as_enum_expr();
 
-    TokenStream::from(util::create_instruction_fn(
+    TokenStream::from(create_instruction_fn(
         fn_name,
         quote! {
-            rotate_left_extended(r, #target)
+            rotate_right_extended(r, #target)
         },
     ))
 }
