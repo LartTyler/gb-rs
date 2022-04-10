@@ -1,6 +1,6 @@
 use crate::instructions::Effect;
 use crate::registers::{ByteRegister, Flag, Registers};
-use gb_rs_cpu_macros::{rotate_left, rotate_left_extended};
+use gb_rs_cpu_macros::rotate_left_extended;
 use gb_rs_memory::Memory;
 
 /// Performs a wrapping bitwise left shift that also copies bit 7 into the carry flag.
@@ -38,7 +38,10 @@ pub fn rotate_left_extended(registers: &mut Registers, reg: ByteRegister) -> Eff
     effect
 }
 
-rotate_left!(a);
+/// Implementation of [`rotate_left()`] for A
+pub fn rotate_left_a(registers: &mut Registers, _: &mut Memory) -> Effect {
+    rotate_left(registers, ByteRegister::A)
+}
 
 rotate_left_extended!(a);
 rotate_left_extended!(b);
