@@ -211,12 +211,12 @@ pub fn get_instruction(opcode: u8) -> Option<Instruction> {
 
 fn get_cb_instruction(opcode: u8) -> Option<Instruction> {
     Some(match opcode {
-        0x00 => bitwise::rotate_left_b,                 // RLC B
-        0x01 => bitwise::rotate_left_c,                 // RLC C
-        0x02 => bitwise::rotate_left_d,                 // RLC D
-        0x03 => bitwise::rotate_left_e,                 // RLC E
-        0x04 => bitwise::rotate_left_h,                 // RLC H
-        0x05 => bitwise::rotate_left_l,                 // RLC L
+        0x00 => bitwise::rotate_left_b_extended,        // RLC B
+        0x01 => bitwise::rotate_left_c_extended,        // RLC C
+        0x02 => bitwise::rotate_left_d_extended,        // RLC D
+        0x03 => bitwise::rotate_left_e_extended,        // RLC E
+        0x04 => bitwise::rotate_left_h_extended,        // RLC H
+        0x05 => bitwise::rotate_left_l_extended,        // RLC L
         0x07 => bitwise::rotate_left_a_extended,        // RLC A
         0x08 => bitwise::rotate_right_b,                // RRC B
         0x09 => bitwise::rotate_right_c,                // RRC C

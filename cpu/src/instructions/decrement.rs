@@ -1,6 +1,7 @@
 use crate::instructions::Effect;
 use crate::registers::{ByteRegister, Flag, PairRegister, Registers};
 use gb_rs_core::bytes::is_half_carry_sub;
+use gb_rs_cpu_macros::{decrement_r16, decrement_r8};
 use gb_rs_memory::Memory;
 
 /// Decrements the given [`ByteRegister`].
@@ -29,40 +30,13 @@ pub fn decrement_byte_register(registers: &mut Registers, reg: ByteRegister) -> 
     }
 }
 
-/// Implementation of [`decrement_byte_register()`] for A
-pub fn decrement_a(registers: &mut Registers, _: &mut Memory) -> Effect {
-    decrement_byte_register(registers, ByteRegister::A)
-}
-
-/// Implementation of [`decrement_byte_register()`] for B
-pub fn decrement_b(registers: &mut Registers, _: &mut Memory) -> Effect {
-    decrement_byte_register(registers, ByteRegister::B)
-}
-
-/// Implementation of [`decrement_byte_register()`] for C
-pub fn decrement_c(registers: &mut Registers, _: &mut Memory) -> Effect {
-    decrement_byte_register(registers, ByteRegister::C)
-}
-
-/// Implementation of [`decrement_byte_register()`] for D
-pub fn decrement_d(registers: &mut Registers, _: &mut Memory) -> Effect {
-    decrement_byte_register(registers, ByteRegister::D)
-}
-
-/// Implementation of [`decrement_byte_register()`] for E
-pub fn decrement_e(registers: &mut Registers, _: &mut Memory) -> Effect {
-    decrement_byte_register(registers, ByteRegister::E)
-}
-
-/// Implementation of [`decrement_byte_register()`] for H
-pub fn decrement_h(registers: &mut Registers, _: &mut Memory) -> Effect {
-    decrement_byte_register(registers, ByteRegister::H)
-}
-
-/// Implementation of [`decrement_byte_register()`] for L
-pub fn decrement_l(registers: &mut Registers, _: &mut Memory) -> Effect {
-    decrement_byte_register(registers, ByteRegister::L)
-}
+decrement_r8!(a);
+decrement_r8!(b);
+decrement_r8!(c);
+decrement_r8!(d);
+decrement_r8!(e);
+decrement_r8!(h);
+decrement_r8!(l);
 
 /// Decrements the given [`PairRegister`].
 ///
@@ -81,25 +55,10 @@ pub fn decrement_pair(registers: &mut Registers, pair: PairRegister) -> Effect {
     }
 }
 
-/// Implementation of [`decrement_pair()`] for BC
-pub fn decrement_bc(registers: &mut Registers, _: &mut Memory) -> Effect {
-    decrement_pair(registers, PairRegister::BC)
-}
-
-/// Implementation of [`decrement_pair()`] for DE
-pub fn decrement_de(registers: &mut Registers, _: &mut Memory) -> Effect {
-    decrement_pair(registers, PairRegister::DE)
-}
-
-/// Implementation of [`decrement_pair()`] for HL
-pub fn decrement_hl(registers: &mut Registers, _: &mut Memory) -> Effect {
-    decrement_pair(registers, PairRegister::HL)
-}
-
-/// Implementation of [`decrement_pair()`] for SP
-pub fn decrement_sp(registers: &mut Registers, _: &mut Memory) -> Effect {
-    decrement_pair(registers, PairRegister::SP)
-}
+decrement_r16!(bc);
+decrement_r16!(de);
+decrement_r16!(hl);
+decrement_r16!(sp);
 
 /// Decrements the byte pointed to by the pair register HL.
 ///

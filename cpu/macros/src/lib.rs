@@ -1,4 +1,4 @@
-use self::instructions::increment::{IncrementR16Input, IncrementR8Input};
+use self::inputs::*;
 use self::instructions::load::{
     LoadImmediateIntoR16Input, LoadImmediateIntoR8Input, LoadR16PointerIntoR8Input,
     LoadR8IntoR8AllInput, LoadR8IntoR8Input,
@@ -7,6 +7,7 @@ use proc_macro::TokenStream;
 use quote::{format_ident, quote};
 use syn::parse_macro_input;
 
+mod inputs;
 mod instructions;
 mod registers;
 mod util;
@@ -88,7 +89,7 @@ pub fn load_r16_pointer_into_r8(input: TokenStream) -> TokenStream {
 
 #[proc_macro]
 pub fn increment_r8(input: TokenStream) -> TokenStream {
-    let IncrementR8Input { target } = parse_macro_input!(input as IncrementR8Input);
+    let R8TargetInput { target } = parse_macro_input!(input as R8TargetInput);
 
     let fn_name = format_ident!("increment_{}", target.ident);
     let target = target.as_enum_expr();
@@ -103,7 +104,7 @@ pub fn increment_r8(input: TokenStream) -> TokenStream {
 
 #[proc_macro]
 pub fn increment_r16(input: TokenStream) -> TokenStream {
-    let IncrementR16Input { target } = parse_macro_input!(input as IncrementR16Input);
+    let R16TargetInput { target } = parse_macro_input!(input as R16TargetInput);
 
     let fn_name = format_ident!("increment_{}", target.ident);
     let target = target.as_enum_expr();
@@ -112,6 +113,66 @@ pub fn increment_r16(input: TokenStream) -> TokenStream {
         fn_name,
         quote! {
             increment_pair(r, #target)
+        },
+    ))
+}
+
+#[proc_macro]
+pub fn decrement_r8(input: TokenStream) -> TokenStream {
+    let R8TargetInput { target } = parse_macro_input!(input as R8TargetInput);
+
+    let fn_name = format_ident!("decrement_{}", target.ident);
+    let target = target.as_enum_expr();
+
+    TokenStream::from(util::create_instruction_fn(
+        fn_name,
+        quote! {
+            decrement_byte_register(r, #target)
+        },
+    ))
+}
+
+#[proc_macro]
+pub fn decrement_r16(input: TokenStream) -> TokenStream {
+    let R16TargetInput { target } = parse_macro_input!(input as R16TargetInput);
+
+    let fn_name = format_ident!("decrement_{}", target.ident);
+    let target = target.as_enum_expr();
+
+    TokenStream::from(util::create_instruction_fn(
+        fn_name,
+        quote! {
+            decrement_pair(r, #target)
+        },
+    ))
+}
+
+#[proc_macro]
+pub fn rotate_left(input: TokenStream) -> TokenStream {
+    let R8TargetInput { target } = parse_macro_input!(input as R8TargetInput);
+
+    let fn_name = format_ident!("rotate_left_{}", target.ident);
+    let target = target.as_enum_expr();
+
+    TokenStream::from(util::create_instruction_fn(
+        fn_name,
+        quote! {
+            rotate_left(r, #target)
+        },
+    ))
+}
+
+#[proc_macro]
+pub fn rotate_left_extended(input: TokenStream) -> TokenStream {
+    let R8TargetInput { target } = parse_macro_input!(input as R8TargetInput);
+
+    let fn_name = format_ident!("rotate_left_{}_extended", target.ident);
+    let target = target.as_enum_expr();
+
+    TokenStream::from(util::create_instruction_fn(
+        fn_name,
+        quote! {
+            rotate_left_extended(r, #target)
         },
     ))
 }
