@@ -200,6 +200,7 @@ pub fn get_instruction(opcode: u8) -> Option<Instruction> {
         0x83 => add::add_e_to_a,              // ADD A, E
         0x84 => add::add_h_to_a,              // ADD A, H
         0x85 => add::add_l_to_a,              // ADD A, L
+        0x86 => add::add_hl_pointer_to_a,     // ADD A, (HL)
         0x87 => add::add_a_to_a,              // ADD A, A
         0xCB => |r, m| {
             // PREFIX CB
