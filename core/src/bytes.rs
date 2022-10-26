@@ -1,3 +1,5 @@
+use std::ops::{Add, BitAnd};
+
 /// "Splits" a `u16` into a byte pair.
 ///
 /// The returned tuple contains the values in the order `(low, high)`.
@@ -15,29 +17,46 @@ pub fn bytes_to_word(low: u8, high: u8) -> u16 {
 ///
 /// In the original hardware, the ALU actually performs two 4 bit operations for addition, which
 /// use the half carry flag to widen the operation to 8 bits.
-///
-/// Arguments are converted to `u16` to allow either byte or word arguments. This might be changed
-/// in the future, but it was the only way I could think of to allow both argument types.
-pub fn is_half_carry_add<T>(lhs: T, rhs: T) -> bool
-where
-    T: Into<u16>,
-{
-    ((lhs.into() & 0xF) + (rhs.into() & 0xF)) > 0
+pub fn is_half_carry<T: RegisterValue>(lhs: T, rhs: T) -> bool {
+    ((lhs & T::low_nibble_mask()) + (rhs & T::low_nibble_mask())) & T::half_carry_mask() > T::zero()
 }
 
-/// A "half carry" occurs during subtraction if there is a borrow from bit 4 to 3 (i.e. from the high
-/// nibble to the low nibble).
-///
-/// In the original hardware, the ALU actually performs two 4 bit operations for subtraction, which
-/// use the half carry flag to widen the operation to 8 bits.
-///
-/// Arguments are converted to `u16` to allow either byte or word arguments. This might be changed
-/// in the future, but it was the only way I could think of to allow both argument types.
-pub fn is_half_carry_sub<T>(lhs: T, rhs: T) -> bool
-where
-    T: Into<u16>,
-{
-    // FIXME This is almost certainly wrong, but I don't have the brainpower to figure it out right
-    // now.
-    ((lhs.into() & 0xF) - (rhs.into() & 0xF)) & 0x10 > 0
+pub trait RegisterValue: Add<Output = Self> + BitAnd<Output = Self> + PartialOrd + Sized {
+    fn low_nibble_mask() -> Self;
+    fn half_carry_mask() -> Self;
+    fn zero() -> Self;
+}
+
+impl RegisterValue for u8 {
+    #[inline]
+    fn low_nibble_mask() -> Self {
+        0xF
+    }
+
+    #[inline]
+    fn half_carry_mask() -> Self {
+        0x10
+    }
+
+    #[inline]
+    fn zero() -> Self {
+        0
+    }
+}
+
+impl RegisterValue for u16 {
+    #[inline]
+    fn low_nibble_mask() -> Self {
+        0xF
+    }
+
+    #[inline]
+    fn half_carry_mask() -> Self {
+        0x10
+    }
+
+    #[inline]
+    fn zero() -> Self {
+        0
+    }
 }

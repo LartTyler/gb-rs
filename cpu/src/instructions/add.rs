@@ -1,7 +1,7 @@
 use crate::instructions::Effect;
 use crate::registers::{ByteRegister, Flag, PairRegister, Registers};
-use gb_rs_core::bytes::is_half_carry_add;
-use gb_rs_cpu_macros::{add_r16_to_r16, add_r8_to_a};
+use gb_rs_core::bytes::is_half_carry;
+use gb_rs_cpu_macros::{add_r16_to_r16, add_r8_and_carry_to_a, add_r8_to_a};
 use gb_rs_memory::Memory;
 
 /// Adds two [`PairRegister`]s together, placing the result into `target`.
@@ -26,7 +26,7 @@ fn add_pair_to_pair(
     registers.set_pair(target, new_value);
 
     registers.set_flag(Flag::Subtract, false);
-    registers.set_flag(Flag::HalfCarry, is_half_carry_add(lhs, rhs));
+    registers.set_flag(Flag::HalfCarry, is_half_carry(lhs, rhs));
     registers.set_flag(Flag::Carry, carry);
 
     Effect {
@@ -42,7 +42,7 @@ fn add_byte_to_a(registers: &mut Registers, rhs: u8) -> Effect {
     registers.a = new_value;
 
     registers.set_flag(Flag::Subtract, false);
-    registers.set_flag(Flag::HalfCarry, is_half_carry_add(lhs, rhs));
+    registers.set_flag(Flag::HalfCarry, is_half_carry(lhs, rhs));
     registers.set_flag(Flag::Carry, carry);
 
     Effect {
@@ -75,6 +75,15 @@ pub fn add_hl_pointer_to_a(registers: &mut Registers, memory: &mut Memory) -> Ef
     }
 }
 
+fn add_byte_and_carry_to_a(registers: &mut Registers, rhs: u8) -> Effect {
+    let carry = match registers.get_flag(Flag::Carry) {
+        true => 1,
+        _ => 0,
+    };
+
+    add_byte_to_a(registers, rhs.wrapping_add(carry))
+}
+
 // ===== ADD r16, r16 =====
 add_r16_to_r16!(bc, hl);
 add_r16_to_r16!(de, hl);
@@ -89,3 +98,31 @@ add_r8_to_a!(d);
 add_r8_to_a!(e);
 add_r8_to_a!(h);
 add_r8_to_a!(l);
+
+// ===== ADC A, r8 =====
+add_r8_and_carry_to_a!(a);
+add_r8_and_carry_to_a!(b);
+add_r8_and_carry_to_a!(c);
+add_r8_and_carry_to_a!(d);
+add_r8_and_carry_to_a!(e);
+add_r8_and_carry_to_a!(h);
+add_r8_and_carry_to_a!(l);
+
+pub fn add_hl_pointer_and_carry_to_a(registers: &mut Registers, memory: &mut Memory) -> Effect {
+    let carry = match registers.get_flag(Flag::Carry) {
+        true => 1,
+        _ => 0,
+    };
+
+    add_byte_and_carry_to_a(
+        registers,
+        memory
+            .read_byte(registers.get_pair(PairRegister::HL))
+            .wrapping_add(carry),
+    );
+
+    Effect {
+        t_states: 8,
+        width_bytes: 1,
+    }
+}

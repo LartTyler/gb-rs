@@ -1,6 +1,6 @@
 use crate::instructions::Effect;
 use crate::registers::{ByteRegister, Flag, PairRegister, Registers};
-use gb_rs_core::bytes::is_half_carry_sub;
+use gb_rs_core::bytes::is_half_carry;
 use gb_rs_cpu_macros::{decrement_r16, decrement_r8};
 use gb_rs_memory::Memory;
 
@@ -22,7 +22,7 @@ pub fn decrement_byte_register(registers: &mut Registers, reg: ByteRegister) -> 
 
     registers.set_flag(Flag::Subtract, true);
     registers.set_flag(Flag::Zero, new_value == 0);
-    registers.set_flag(Flag::HalfCarry, is_half_carry_sub(value, 1));
+    registers.set_flag(Flag::HalfCarry, is_half_carry(value, 1));
 
     Effect {
         t_states: 4,
@@ -79,7 +79,7 @@ pub fn decrement_hl_pointer(registers: &mut Registers, memory: &mut Memory) -> E
 
     registers.set_flag(Flag::Zero, new_value == 0);
     registers.set_flag(Flag::Subtract, true);
-    registers.set_flag(Flag::HalfCarry, is_half_carry_sub(value, 1));
+    registers.set_flag(Flag::HalfCarry, is_half_carry(value, 1));
 
     Effect {
         t_states: 12,

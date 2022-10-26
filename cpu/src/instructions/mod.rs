@@ -9,6 +9,7 @@ pub mod decrement;
 pub mod increment;
 pub mod jump;
 pub mod load;
+pub mod sub;
 
 /// Used to describe the effects of some instruction on the current device state.
 pub struct Effect {
@@ -202,6 +203,21 @@ pub fn get_instruction(opcode: u8) -> Option<Instruction> {
         0x85 => add::add_l_to_a,              // ADD A, L
         0x86 => add::add_hl_pointer_to_a,     // ADD A, (HL)
         0x87 => add::add_a_to_a,              // ADD A, A
+        0x88 => add::add_b_and_carry_to_a,    // ADC A, B
+        0x89 => add::add_c_and_carry_to_a,    // ADC A, C
+        0x8A => add::add_d_and_carry_to_a,    // ADC A, D
+        0x8B => add::add_e_and_carry_to_a,    // ADC A, E
+        0x8C => add::add_h_and_carry_to_a,    // ADC A, H
+        0x8D => add::add_l_and_carry_to_a,    // ADC A, L
+        0x8E => add::add_hl_pointer_and_carry_to_a, // ADC, A (HL)
+        0x8F => add::add_a_and_carry_to_a,    // ADC A, A
+        0x90 => sub::sub_b_from_a,            // SUB B
+        0x91 => sub::sub_c_from_a,            // SUB C
+        0x92 => sub::sub_d_from_a,            // SUB D
+        0x93 => sub::sub_e_from_a,            // SUB E
+        0x94 => sub::sub_h_from_a,            // SUB H
+        0x95 => sub::sub_l_from_a,            // SUB L
+        0x97 => sub::sub_a_from_a,            // SUB A
         0xCB => |r, m| {
             // PREFIX CB
             let opcode = m.read_byte(r.program_counter + 1);

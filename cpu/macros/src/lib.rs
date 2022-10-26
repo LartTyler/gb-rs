@@ -252,3 +252,33 @@ pub fn add_r16_to_r16(input: TokenStream) -> TokenStream {
         },
     ))
 }
+
+#[proc_macro]
+pub fn add_r8_and_carry_to_a(input: TokenStream) -> TokenStream {
+    let R8TargetInput { target } = parse_macro_input!(input as R8TargetInput);
+
+    let fn_name = format_ident!("add_{}_and_carry_to_a", target.ident);
+    let target = target.ident;
+
+    TokenStream::from(create_instruction_fn(
+        fn_name,
+        quote! {
+            add_byte_and_carry_to_a(r, r.#target)
+        },
+    ))
+}
+
+#[proc_macro]
+pub fn sub_r8_from_a(input: TokenStream) -> TokenStream {
+    let R8TargetInput { target } = parse_macro_input!(input as R8TargetInput);
+
+    let fn_name = format_ident!("sub_{}_from_a", target.ident);
+    let target = target.ident;
+
+    TokenStream::from(create_instruction_fn(
+        fn_name,
+        quote! {
+            sub_from_a(r, r.#target)
+        },
+    ))
+}
