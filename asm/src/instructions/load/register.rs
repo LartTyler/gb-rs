@@ -39,6 +39,8 @@ impl parse::Parse for RegisterLoad {
             Data(d) => d.parse(data, offset)?.into(),
             PairPointer(s) => s.into(),
             Register(r) => r.into(),
+            DataPointer(p) => p.parse(data, offset)?.into(),
+            RegisterPointer(p) => p.into(),
         };
 
         Ok(op::RegisterLoad::create(self.target, source))
@@ -131,6 +133,10 @@ impl const SetRegister for RegisterLoad {
         builder.base(0x7C, Self::new(A, H));
         builder.base(0x7D, Self::new(A, L));
         builder.base(0x7F, Self::new(A, A));
+
+        // Others
+        builder.base(0xFA, Self::new(A, Pointer(Data::new())));
+        builder.base(0xF2, Self::new(A, Pointer(C)));
     }
 }
 
@@ -140,6 +146,8 @@ pub enum RegisterLoadSource {
     Data(Data<u8>),
     PairPointer(PairPointerRegisterLoadSource),
     Register(Register),
+    DataPointer(Pointer<Data<u16>>),
+    RegisterPointer(Pointer<Register>),
 }
 
 impl const From<Data<u8>> for RegisterLoadSource {
@@ -157,6 +165,18 @@ impl const From<PairPointerRegisterLoadSource> for RegisterLoadSource {
 impl const From<Register> for RegisterLoadSource {
     fn from(value: Register) -> Self {
         Self::Register(value)
+    }
+}
+
+impl const From<Pointer<Data<u16>>> for RegisterLoadSource {
+    fn from(value: Pointer<Data<u16>>) -> Self {
+        Self::DataPointer(value)
+    }
+}
+
+impl const From<Pointer<Register>> for RegisterLoadSource {
+    fn from(value: Pointer<Register>) -> Self {
+        Self::RegisterPointer(value)
     }
 }
 
