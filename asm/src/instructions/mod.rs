@@ -1,10 +1,13 @@
 use self::load::Load;
 use crate::{operations::Operation, parse, parse_helper, read, sets};
+use parse_display::Display;
 
 pub mod load;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Display)]
+#[display("{0}")]
 pub enum Instruction {
+    #[display("NOP")]
     Nop,
     Load(Load),
 }

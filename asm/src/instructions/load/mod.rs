@@ -1,12 +1,14 @@
 use super::SetRegister;
 use crate::operations::Operation;
 use crate::{parse, parse_helper, read, sets};
+use parse_display::Display;
 
 pub use pair::*;
 
 mod pair;
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Display)]
+#[display("{0}")]
 pub enum Load {
     Pair(PairLoad),
 }
