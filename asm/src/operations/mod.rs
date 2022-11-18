@@ -16,8 +16,22 @@ pub mod load;
 pub enum Operation {
     #[display("NOP")]
     Nop,
+
     #[display("STOP")]
     Stop,
+
+    #[display("DAA")]
+    DecimalAdjust,
+
+    #[display("HALT")]
+    Halt,
+
+    #[display("DI")]
+    DisableInterrupts,
+
+    #[display("EI")]
+    EnableInterrupts,
+
     Load(Load),
     Increment(Increment),
     Decrement(Decrement),
