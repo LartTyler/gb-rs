@@ -49,6 +49,16 @@ impl Instructions {
         // Calls to Instruction::parse() should get an offset to the byte _after_ the instruction.
         instr.parse(data, offset + 1)
     }
+
+    #[cfg(debug_assertions)]
+    pub fn base_len(&self) -> usize {
+        self.base.iter().filter(|i| i.is_some()).count()
+    }
+
+    #[cfg(debug_assertions)]
+    pub fn extended_len(&self) -> usize {
+        self.extended.iter().filter(|i| i.is_some()).count()
+    }
 }
 
 pub struct Builder {

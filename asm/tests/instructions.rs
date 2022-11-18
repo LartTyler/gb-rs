@@ -65,6 +65,12 @@ fn test_base_implemented() {
 
     let set = Instructions::default();
 
+    #[cfg(debug_assertions)]
+    println!(
+        "NOTE: Base instructions {:.2}% implemented",
+        set.base_len() as f64 / (256.0 - EMPTY_INSTRS.len() as f64) * 100.0
+    );
+
     for opcode in 0..=0xFF {
         if EMPTY_INSTRS.contains(&opcode) {
             assert_not_exists!(set, opcode);
@@ -77,6 +83,12 @@ fn test_base_implemented() {
 #[test]
 fn test_extended_implemented() {
     let set = Instructions::default();
+
+    #[cfg(debug_assertions)]
+    println!(
+        "NOTE: Base instructions {:.2}% implemented",
+        set.extended_len() as f64 / 256.0 * 100.0
+    );
 
     for opcode in 0..=0xFF {
         assert_exists!(set, cb opcode);
