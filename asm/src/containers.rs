@@ -1,6 +1,10 @@
 use crate::{parse, read::Read};
 use parse_display::Display;
-use std::{fmt::Display, marker::PhantomData, ops::Deref};
+use std::{
+    fmt::{Display, UpperHex},
+    marker::PhantomData,
+    ops::Deref,
+};
 
 #[derive(Debug, Display, Clone, Copy)]
 #[display("{:?}")]
@@ -77,6 +81,12 @@ impl From<u8> for Value<u8> {
 impl From<u16> for Value<u16> {
     fn from(n: u16) -> Self {
         Self(n)
+    }
+}
+
+impl<T: UpperHex> UpperHex for Value<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        UpperHex::fmt(&self.0, f)
     }
 }
 
