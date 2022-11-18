@@ -1,7 +1,7 @@
 use crate::{
     instructions::Instruction,
     operations::Operation,
-    parse::{self, Parse},
+    parse::{self, Opcode, Parse},
     read,
 };
 
@@ -23,23 +23,33 @@ impl Instructions {
         Self { base, extended }
     }
 
-    pub fn get(&self, opcode: u8) -> Option<&Instruction> {
-        let set = if opcode == 0xCB {
-            &self.extended
-        } else {
-            &self.base
-        };
+    pub fn base(&self, opcode: u8) -> Option<&Instruction> {
+        self.base.get(opcode as usize).and_then(Option::as_ref)
+    }
 
-        set.get(opcode as usize).and_then(Option::as_ref)
+    pub fn extended(&self, opcode: u8) -> Option<&Instruction> {
+        self.extended.get(opcode as usize).and_then(Option::as_ref)
     }
 
     pub fn parse<R: read::Read>(&self, data: &R, offset: u16) -> parse::Result<Operation> {
-        let opcode = data.read_byte(offset)?;
+        use parse::Error::UnknownOpcode;
 
-        let instr = self.get(opcode);
-        let instr = instr.ok_or(parse::Error::UnknownOpcode(opcode))?;
+        let mut offset = offset;
+        let instr = match data.read_byte(offset)? {
+            0xCB => {
+                // Extended instructions consume one extra byte, so we'll need to move the offset
+                // forward one byte.
+                offset += 1;
 
-        instr.parse(data, offset)
+                let opcode = data.read_byte(offset)?;
+                self.extended(opcode)
+                    .ok_or(UnknownOpcode(Opcode::Extended(opcode)))
+            }
+            opcode => self.base(opcode).ok_or(UnknownOpcode(Opcode::Base(opcode))),
+        }?;
+
+        // Calls to Instruction::parse() should get an offset to the byte _after_ the instruction.
+        instr.parse(data, offset + 1)
     }
 }
 

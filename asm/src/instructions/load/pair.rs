@@ -1,5 +1,5 @@
 use super::Load;
-use crate::containers::{Data, Pair};
+use crate::containers::{Data, Pair, Signed};
 use crate::instructions::{Instruction, SetRegister};
 use crate::operations::{load as op, Operation};
 use crate::{parse, read::Read};
@@ -28,8 +28,10 @@ impl parse::Parse for PairLoad {
     fn parse<R: Read>(&self, data: &R, offset: u16) -> parse::Result<Operation> {
         use PairLoadSource::*;
 
-        let source = match self.source {
-            Data(d) => d.parse(data, offset + 1)?,
+        let source: op::PairLoadSource = match self.source {
+            Data(d) => d.parse(data, offset + 1)?.into(),
+            Pair(p) => p.into(),
+            SignedData(d) => d.parse(data, offset + 1)?.into(),
         };
 
         Ok(op::PairLoad::create(self.target, source))
@@ -40,10 +42,17 @@ impl const SetRegister for PairLoad {
     fn register(builder: &mut crate::sets::Builder) {
         use Pair::*;
 
+        // LD r16, d16
         builder.base(0x01, Self::new(BC, Data::new()));
         builder.base(0x11, Self::new(DE, Data::new()));
         builder.base(0x21, Self::new(HL, Data::new()));
         builder.base(0x31, Self::new(SP, Data::new()));
+
+        // LD HL, SP+s8
+        builder.base(0xF8, Self::new(HL, Signed::new()));
+
+        // LD SP, HL
+        builder.base(0xF9, Self::new(SP, HL));
     }
 }
 
@@ -57,10 +66,26 @@ impl const From<PairLoad> for Instruction {
 #[display("{0}")]
 pub enum PairLoadSource {
     Data(Data<u16>),
+    Pair(Pair),
+
+    #[display("SP + {0}")]
+    SignedData(Signed<Data<u8>>),
 }
 
 impl const From<Data<u16>> for PairLoadSource {
     fn from(value: Data<u16>) -> Self {
         Self::Data(value)
+    }
+}
+
+impl const From<Pair> for PairLoadSource {
+    fn from(value: Pair) -> Self {
+        Self::Pair(value)
+    }
+}
+
+impl const From<Signed<Data<u8>>> for PairLoadSource {
+    fn from(value: Signed<Data<u8>>) -> Self {
+        Self::SignedData(value)
     }
 }

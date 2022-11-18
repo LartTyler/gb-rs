@@ -1,9 +1,13 @@
 use crate::{operations::Operation, read};
+use parse_display::Display;
 use thiserror::Error;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
+/// Trait implemented by instructions to facilitate conversion to an [Operation].
 pub trait Parse {
+    /// Parse zero or more bytes from a data source. The `offset` argument should always be
+    /// pointing to the byte _after_ the instruction byte.
     fn parse<R: read::Read>(&self, data: &R, offset: u16) -> Result<Operation>;
 }
 
@@ -12,8 +16,17 @@ pub enum Error {
     #[error("read error: {0}")]
     Read(#[from] read::Error),
 
-    #[error("unknown opcode {0:#02?}")]
-    UnknownOpcode(u8),
+    #[error("unknown opcode {0}")]
+    UnknownOpcode(Opcode),
+}
+
+#[derive(Debug, Display)]
+pub enum Opcode {
+    #[display("{0:#02?}")]
+    Base(u8),
+
+    #[display("0xCB {0:#02?}")]
+    Extended(u8),
 }
 
 #[macro_export(local_inner_macros)]
