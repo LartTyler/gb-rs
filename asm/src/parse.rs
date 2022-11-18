@@ -22,10 +22,10 @@ pub enum Error {
 
 #[derive(Debug, Display)]
 pub enum Opcode {
-    #[display("{0:#02?}")]
+    #[display("{0:#04X}")]
     Base(u8),
 
-    #[display("0xCB {0:#02?}")]
+    #[display("0xCB {0:#04X}")]
     Extended(u8),
 }
 
