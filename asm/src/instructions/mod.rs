@@ -1,3 +1,4 @@
+use self::add::Add;
 use self::decrement::Decrement;
 use self::increment::Increment;
 use self::load::Load;
@@ -7,6 +8,7 @@ use crate::parse::{Parse, ParseResult};
 use crate::{parse_helper, read::Read, register_helper, sets};
 use parse_display::Display;
 
+pub mod add;
 pub mod decrement;
 pub mod increment;
 pub mod load;
@@ -21,6 +23,7 @@ pub enum Instruction {
     Increment(Increment),
     Decrement(Decrement),
     RotateLeft(RotateLeft),
+    Add(Add),
 }
 
 impl Instruction {
@@ -28,7 +31,7 @@ impl Instruction {
         let mut builder = sets::Builder::default();
         builder.base(0x00, Instruction::Nop);
 
-        register_helper!(&mut builder, Load, Increment, Decrement, RotateLeft);
+        register_helper!(&mut builder, Load, Increment, Decrement, RotateLeft, Add);
 
         builder.build()
     }
@@ -44,6 +47,7 @@ impl Parse for Instruction {
             Self::Increment(inner),
             Self::Decrement(inner),
             Self::RotateLeft(inner),
+            Self::Add(inner),
         )
     }
 }
