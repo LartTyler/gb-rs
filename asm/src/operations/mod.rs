@@ -1,4 +1,5 @@
 use self::add::Add;
+use self::jump::Jump;
 use self::load::Load;
 use crate::instructions::decrement::Decrement;
 use crate::instructions::increment::Increment;
@@ -7,6 +8,7 @@ use crate::instructions::rotate_right::RotateRight;
 use parse_display::Display;
 
 pub mod add;
+pub mod jump;
 pub mod load;
 
 #[derive(Debug, Clone, Display)]
@@ -22,4 +24,5 @@ pub enum Operation {
     RotateLeft(RotateLeft),
     RotateRight(RotateRight),
     Add(Add),
+    Jump(Jump),
 }

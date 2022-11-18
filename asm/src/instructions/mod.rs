@@ -1,6 +1,7 @@
 use self::add::Add;
 use self::decrement::Decrement;
 use self::increment::Increment;
+use self::jump::Jump;
 use self::load::Load;
 use self::rotate_left::RotateLeft;
 use self::rotate_right::RotateRight;
@@ -12,6 +13,7 @@ use parse_display::Display;
 pub mod add;
 pub mod decrement;
 pub mod increment;
+pub mod jump;
 pub mod load;
 pub mod rotate_left;
 pub mod rotate_right;
@@ -29,6 +31,7 @@ pub enum Instruction {
     RotateLeft(RotateLeft),
     RotateRight(RotateRight),
     Add(Add),
+    Jump(Jump),
 }
 
 impl Instruction {
@@ -44,7 +47,8 @@ impl Instruction {
             Decrement,
             RotateLeft,
             Add,
-            RotateRight
+            RotateRight,
+            Jump,
         );
 
         builder.build()
@@ -64,6 +68,7 @@ impl Parse for Instruction {
             Self::RotateLeft(inner),
             Self::RotateRight(inner),
             Self::Add(inner),
+            Self::Jump(inner),
         )
     }
 }

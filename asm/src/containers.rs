@@ -6,7 +6,7 @@ use std::{
     ops::Deref,
 };
 
-#[derive(Debug, Display, Clone, Copy)]
+#[derive(Debug, Display, Clone, Copy, PartialEq, Eq)]
 #[display("{}")]
 pub enum Register {
     A,
@@ -18,7 +18,7 @@ pub enum Register {
     L,
 }
 
-#[derive(Debug, Display, Clone, Copy)]
+#[derive(Debug, Display, Clone, Copy, PartialEq, Eq)]
 #[display("{}")]
 pub enum Pair {
     BC,
@@ -27,7 +27,34 @@ pub enum Pair {
     SP,
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Display, Clone, Copy, PartialEq, Eq)]
+pub enum Flag {
+    #[display("Z")]
+    Zero,
+
+    #[display("S")]
+    Subtract,
+
+    #[display("H")]
+    HalfCarry,
+
+    #[display("C")]
+    Carry,
+}
+
+#[derive(Debug, Clone, Copy, Display, PartialEq, Eq)]
+pub enum Condition {
+    #[display("")]
+    Always,
+
+    #[display("{0}")]
+    Set(Flag),
+
+    #[display("N{0}")]
+    Unset(Flag),
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Data<T>(PhantomData<T>);
 
 impl<T> Data<T> {
@@ -60,7 +87,7 @@ impl Display for Data<u16> {
     }
 }
 
-#[derive(Debug, Display, Clone, Copy)]
+#[derive(Debug, Display, Clone, Copy, PartialEq, Eq)]
 pub struct Value<T>(pub T);
 
 impl<T> Deref for Value<T> {
@@ -89,7 +116,7 @@ impl<T: UpperHex> UpperHex for Value<T> {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Signed<T>(T);
 
 impl<T> Signed<Data<T>> {
@@ -122,7 +149,7 @@ impl Display for Signed<Value<u8>> {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Pointer<T>(pub T);
 
 impl Pointer<Data<u16>> {
