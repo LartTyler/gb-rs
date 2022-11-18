@@ -7,7 +7,7 @@ use std::{
 };
 
 #[derive(Debug, Display, Clone, Copy)]
-#[display("{:?}")]
+#[display("{}")]
 pub enum Register {
     A,
     B,
@@ -19,7 +19,7 @@ pub enum Register {
 }
 
 #[derive(Debug, Display, Clone, Copy)]
-#[display("{:?}")]
+#[display("{}")]
 pub enum Pair {
     BC,
     DE,
