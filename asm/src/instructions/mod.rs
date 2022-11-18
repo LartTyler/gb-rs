@@ -21,6 +21,8 @@ pub mod rotate_right;
 pub enum Instruction {
     #[display("NOP")]
     Nop,
+    #[display("STOP")]
+    Stop,
     Load(Load),
     Increment(Increment),
     Decrement(Decrement),
@@ -33,6 +35,7 @@ impl Instruction {
     pub const fn set() -> sets::Instructions {
         let mut builder = sets::Builder::default();
         builder.base(0x00, Instruction::Nop);
+        builder.base(0x10, Instruction::Stop);
 
         register_helper!(
             &mut builder,
@@ -54,6 +57,7 @@ impl Parse for Instruction {
             self,
             data[offset],
             Self::Nop => Operation::Nop,
+            Self::Stop => Operation::Stop,
             Self::Load(inner),
             Self::Increment(inner),
             Self::Decrement(inner),

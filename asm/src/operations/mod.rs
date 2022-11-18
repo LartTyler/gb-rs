@@ -14,6 +14,8 @@ pub mod load;
 pub enum Operation {
     #[display("NOP")]
     Nop,
+    #[display("STOP")]
+    Stop,
     Load(Load),
     Increment(Increment),
     Decrement(Decrement),
