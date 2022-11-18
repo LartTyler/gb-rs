@@ -1,8 +1,32 @@
 use gb_rs_asm::sets::Instructions;
 
+macro_rules! print_instr_result {
+    ( $opcode:ident => $result:ident ) => {
+        print_instr_result!("", $opcode, $result);
+    };
+
+    ( cb $opcode:ident => $result:ident ) => {
+        print_instr_result!("0xCB ", $opcode, $result);
+    };
+
+    ( $prefix:expr , $opcode:ident , $result:ident ) => {
+        println!(
+            "{}{:#04X} => {}",
+            $prefix,
+            $opcode,
+            match $result {
+                None => "None".to_owned(),
+                Some(i) => format!("{}", i),
+            }
+        );
+    };
+}
+
 macro_rules! assert_exists {
-    ( $instrs:ident , $opcode:expr ) => {
+    ( $instrs:ident , $opcode:ident ) => {
         let result = $instrs.base($opcode);
+        print_instr_result!($opcode => result);
+
         assert!(
             result.is_some(),
             "Instruction {:#04X} not implemented",
@@ -10,8 +34,10 @@ macro_rules! assert_exists {
         );
     };
 
-    ( $instrs:ident , cb $opcode:expr ) => {
+    ( $instrs:ident , cb $opcode:ident ) => {
         let result = $instrs.extended($opcode);
+        print_instr_result!(cb $opcode => result);
+
         assert!(
             result.is_some(),
             "Instruction 0xCB {:#04X} not implemented",
