@@ -126,6 +126,12 @@ impl Display for Signed<Value<u8>> {
 #[derive(Debug, Clone, Copy)]
 pub struct Pointer<T>(pub T);
 
+impl Pointer<Data<u16>> {
+    pub fn parse<R: Read>(&self, data: &R, offset: u16) -> parse::Result<Pointer<Value<u16>>> {
+        Ok(Pointer(data.read_word(offset)?.into()))
+    }
+}
+
 macro_rules! pointer_display_helper {
     ( $( $inner:ty => $pattern:literal $(,)? ),* ) => {
         $(
