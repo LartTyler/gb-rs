@@ -1,3 +1,4 @@
+use super::RotateLeft;
 use crate::containers::{Pair, Pointer, Register};
 use crate::instructions::{Instruction, SetRegister};
 use crate::operations::Operation;
@@ -5,8 +6,6 @@ use crate::parse::{Parse, ParseResult};
 use crate::{read::Read, sets::Builder};
 use parse_display::Display;
 use std::fmt::Display;
-
-use super::RotateLeft;
 
 #[derive(Debug, Clone, Copy)]
 pub struct CarryingRotateLeft {
