@@ -1,11 +1,9 @@
-use crate::{
-    instructions::Instruction,
-    operations::Operation,
-    parse::{self, Opcode, Parse},
-    read,
-};
+use crate::instructions::Instruction;
+use crate::operations::Operation;
+use crate::parse::{self, Opcode, Parse};
+use crate::read;
 
-pub type Set = [Option<Instruction>; 255];
+pub type Set = [Option<Instruction>; 256];
 
 pub struct Instructions {
     base: Set,
@@ -60,7 +58,7 @@ pub struct Builder {
 
 impl const Default for Builder {
     fn default() -> Self {
-        Self::new([None; 255], [None; 255])
+        Self::new([None; 256], [None; 256])
     }
 }
 
