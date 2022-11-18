@@ -71,6 +71,11 @@ impl Builder {
     where
         I: ~const Into<Instruction>,
     {
+        debug_assert!(
+            self.base[opcode as usize].is_none(),
+            "aborting due to duplicate base opcode; you'll have to check the backtrace to find out where this is happening"
+        );
+
         self.base[opcode as usize].replace(instruction.into());
     }
 
@@ -78,6 +83,11 @@ impl Builder {
     where
         I: ~const Into<Instruction>,
     {
+        debug_assert!(
+            self.extended[opcode as usize].is_none(),
+            "aborting due to duplicate extended opcode; you'll have to check the backtrace to find out where this is happening"
+        );
+
         self.extended[opcode as usize].replace(instruction.into());
     }
 
