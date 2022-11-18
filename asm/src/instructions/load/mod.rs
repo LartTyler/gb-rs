@@ -1,6 +1,6 @@
 use super::SetRegister;
 use crate::parse::{Parse, ParseResult};
-use crate::{parse_helper, read, sets};
+use crate::{parse_helper, read, register_helper, sets};
 use parse_display::Display;
 
 pub use data_pointer::*;
@@ -37,9 +37,13 @@ impl Parse for Load {
 
 impl const SetRegister for Load {
     fn register(builder: &mut sets::Builder) {
-        PairLoad::register(builder);
-        PairPointerLoad::register(builder);
-        RegisterLoad::register(builder);
+        register_helper!(
+            builder,
+            PairLoad,
+            PairPointerLoad,
+            RegisterLoad,
+            DataPointerLoad,
+        );
     }
 }
 
