@@ -3,12 +3,13 @@ use parse_display::Display;
 use thiserror::Error;
 
 pub type Result<T> = std::result::Result<T, Error>;
+pub type ParseResult = Result<Operation>;
 
 /// Trait implemented by instructions to facilitate conversion to an [Operation].
 pub trait Parse {
     /// Parse zero or more bytes from a data source. The `offset` argument should always be
     /// pointing to the byte _after_ the instruction byte.
-    fn parse<R: read::Read>(&self, data: &R, offset: u16) -> Result<Operation>;
+    fn parse<R: read::Read>(&self, data: &R, offset: u16) -> ParseResult;
 }
 
 #[derive(Debug, Error)]

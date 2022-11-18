@@ -1,8 +1,9 @@
 use super::Load;
 use crate::containers::{Data, Pair, Signed};
 use crate::instructions::{Instruction, SetRegister};
-use crate::operations::{load as op, Operation};
-use crate::{parse, read::Read};
+use crate::operations::load as op;
+use crate::parse::{Parse, ParseResult};
+use crate::read::Read;
 use parse_display::Display;
 
 #[derive(Debug, Clone, Copy, Display)]
@@ -24,8 +25,8 @@ impl PairLoad {
     }
 }
 
-impl parse::Parse for PairLoad {
-    fn parse<R: Read>(&self, data: &R, offset: u16) -> parse::Result<Operation> {
+impl Parse for PairLoad {
+    fn parse<R: Read>(&self, data: &R, offset: u16) -> ParseResult {
         use PairLoadSource::*;
 
         let source: op::PairLoadSource = match self.source {

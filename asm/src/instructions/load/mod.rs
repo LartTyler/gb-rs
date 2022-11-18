@@ -1,6 +1,6 @@
 use super::SetRegister;
-use crate::operations::Operation;
-use crate::{parse, parse_helper, read, sets};
+use crate::parse::{Parse, ParseResult};
+use crate::{parse_helper, read, sets};
 use parse_display::Display;
 
 pub use data_pointer::*;
@@ -22,8 +22,8 @@ pub enum Load {
     DataPointer(DataPointerLoad),
 }
 
-impl parse::Parse for Load {
-    fn parse<R: read::Read>(&self, data: &R, offset: u16) -> parse::Result<Operation> {
+impl Parse for Load {
+    fn parse<R: read::Read>(&self, data: &R, offset: u16) -> ParseResult {
         parse_helper!(
             self,
             data[offset],

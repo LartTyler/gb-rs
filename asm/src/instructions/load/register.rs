@@ -1,8 +1,9 @@
 use super::{Action, Load};
 use crate::containers::{Data, Pair, Pointer, Register};
 use crate::instructions::{Instruction, SetRegister};
-use crate::operations::{load as op, Operation};
-use crate::{parse, read::Read, sets::Builder};
+use crate::operations::load as op;
+use crate::parse::{Parse, ParseResult};
+use crate::{read::Read, sets::Builder};
 use parse_display::Display;
 use std::fmt::Display;
 
@@ -31,8 +32,8 @@ impl const From<RegisterLoad> for Instruction {
     }
 }
 
-impl parse::Parse for RegisterLoad {
-    fn parse<R: Read>(&self, data: &R, offset: u16) -> parse::Result<Operation> {
+impl Parse for RegisterLoad {
+    fn parse<R: Read>(&self, data: &R, offset: u16) -> ParseResult {
         use RegisterLoadSource::*;
 
         let source: op::RegisterLoadSource = match self.source {
