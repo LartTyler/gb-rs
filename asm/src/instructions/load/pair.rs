@@ -29,9 +29,9 @@ impl parse::Parse for PairLoad {
         use PairLoadSource::*;
 
         let source: op::PairLoadSource = match self.source {
-            Data(d) => d.parse(data, offset + 1)?.into(),
+            Data(d) => d.parse(data, offset)?.into(),
             Pair(p) => p.into(),
-            SignedData(d) => d.parse(data, offset + 1)?.into(),
+            SignedData(d) => d.parse(data, offset)?.into(),
         };
 
         Ok(op::PairLoad::create(self.target, source))
