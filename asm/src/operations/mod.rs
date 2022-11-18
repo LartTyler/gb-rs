@@ -1,4 +1,5 @@
 use self::add::Add;
+use self::bitwise::Bitwise;
 use self::jump::Jump;
 use self::load::Load;
 use crate::instructions::decrement::Decrement;
@@ -8,6 +9,7 @@ use crate::instructions::rotate_right::RotateRight;
 use parse_display::Display;
 
 pub mod add;
+pub mod bitwise;
 pub mod jump;
 pub mod load;
 
@@ -39,4 +41,5 @@ pub enum Operation {
     RotateRight(RotateRight),
     Add(Add),
     Jump(Jump),
+    Bitwise(Bitwise),
 }
