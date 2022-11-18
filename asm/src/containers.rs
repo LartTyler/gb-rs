@@ -61,7 +61,6 @@ impl Display for Data<u16> {
 }
 
 #[derive(Debug, Display, Clone, Copy)]
-#[display("{0}")]
 pub struct Value<T>(pub T);
 
 impl<T> Deref for Value<T> {
