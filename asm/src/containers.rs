@@ -141,8 +141,8 @@ macro_rules! pointer_display_helper {
 pointer_display_helper!(
     Data<u8> => "($FF00 + {})",
     Data<u16> => "({})",
-    Value<u8> => "($FF00 + {})",
-    Value<u16> => "({})",
+    Value<u8> => "($FF00 + {:#04X})",
+    Value<u16> => "({:#06X})",
     Register => "($FF00 + {})",
     Pair => "({})"
 );
