@@ -124,7 +124,7 @@ impl Display for Signed<Value<u8>> {
 }
 
 #[derive(Debug, Clone, Copy)]
-pub struct Pointer<T>(T);
+pub struct Pointer<T>(pub T);
 
 macro_rules! pointer_display_helper {
     ( $( $inner:ty => $pattern:literal $(,)? ),* ) => {
