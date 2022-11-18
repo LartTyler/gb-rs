@@ -3,6 +3,7 @@ use self::load::Load;
 use crate::instructions::decrement::Decrement;
 use crate::instructions::increment::Increment;
 use crate::instructions::rotate_left::RotateLeft;
+use crate::instructions::rotate_right::RotateRight;
 use parse_display::Display;
 
 pub mod add;
@@ -17,5 +18,6 @@ pub enum Operation {
     Increment(Increment),
     Decrement(Decrement),
     RotateLeft(RotateLeft),
+    RotateRight(RotateRight),
     Add(Add),
 }
