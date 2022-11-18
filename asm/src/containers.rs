@@ -93,6 +93,24 @@ impl<T: UpperHex> UpperHex for Value<T> {
 #[derive(Debug, Clone, Copy)]
 pub struct Signed<T>(T);
 
+impl<T> Signed<Data<T>> {
+    pub const fn new() -> Self {
+        Self(Data::new())
+    }
+}
+
+impl Signed<Data<u8>> {
+    pub fn parse<R: Read>(&self, data: &R, offset: u16) -> parse::Result<Signed<Value<u8>>> {
+        Ok(Signed(data.read_byte(offset)?.into()))
+    }
+}
+
+impl Signed<Data<u16>> {
+    pub fn parse<R: Read>(&self, data: &R, offset: u16) -> parse::Result<Signed<Value<u16>>> {
+        Ok(Signed(data.read_word(offset)?.into()))
+    }
+}
+
 impl Display for Signed<Data<u8>> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "s8")
