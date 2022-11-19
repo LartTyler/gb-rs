@@ -1,10 +1,8 @@
 use crate::{parse, read::Read};
 use parse_display::Display;
-use std::{
-    fmt::{Display, UpperHex},
-    marker::PhantomData,
-    ops::Deref,
-};
+use std::fmt::{Display, UpperHex};
+use std::marker::PhantomData;
+use std::ops::Deref;
 
 #[derive(Debug, Display, Clone, Copy, PartialEq, Eq)]
 #[display("{}")]
