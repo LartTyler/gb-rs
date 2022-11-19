@@ -2,17 +2,20 @@ use self::add::Add;
 use self::bitwise::Bitwise;
 use self::jump::Jump;
 use self::load::Load;
+use self::subroutine::Subroutine;
 use self::subtract::Subtract;
 use crate::instructions::decrement::Decrement;
 use crate::instructions::increment::Increment;
 use crate::instructions::rotate_left::RotateLeft;
 use crate::instructions::rotate_right::RotateRight;
+use crate::instructions::stack::Stack;
 use parse_display::Display;
 
 pub mod add;
 pub mod bitwise;
 pub mod jump;
 pub mod load;
+pub mod subroutine;
 pub mod subtract;
 
 #[derive(Debug, Clone, Display)]
@@ -45,4 +48,6 @@ pub enum Operation {
     Subtract(Subtract),
     Jump(Jump),
     Bitwise(Bitwise),
+    Subroutine(Subroutine),
+    Stack(Stack),
 }

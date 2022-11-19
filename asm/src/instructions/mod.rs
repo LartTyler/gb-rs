@@ -6,6 +6,8 @@ use self::jump::Jump;
 use self::load::Load;
 use self::rotate_left::RotateLeft;
 use self::rotate_right::RotateRight;
+use self::stack::Stack;
+use self::subroutine::Subroutine;
 use self::subtract::Subtract;
 use crate::operations::Operation;
 use crate::parse::{Parse, ParseResult};
@@ -20,6 +22,8 @@ pub mod jump;
 pub mod load;
 pub mod rotate_left;
 pub mod rotate_right;
+pub mod stack;
+pub mod subroutine;
 pub mod subtract;
 
 #[derive(Debug, Clone, Copy, Display)]
@@ -52,6 +56,8 @@ pub enum Instruction {
     Subtract(Subtract),
     Jump(Jump),
     Bitwise(Bitwise),
+    Subroutine(Subroutine),
+    Stack(Stack),
 }
 
 impl Instruction {
@@ -76,6 +82,8 @@ impl Instruction {
             RotateRight,
             Jump,
             Bitwise,
+            Subroutine,
+            Stack,
         );
 
         builder.build()
@@ -102,6 +110,8 @@ impl Parse for Instruction {
             Self::Subtract(inner),
             Self::Jump(inner),
             Self::Bitwise(inner),
+            Self::Subroutine(inner),
+            Self::Stack(inner)
         )
     }
 }
