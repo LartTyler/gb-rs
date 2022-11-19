@@ -2,6 +2,7 @@ use self::add::Add;
 use self::bitwise::Bitwise;
 use self::jump::Jump;
 use self::load::Load;
+use self::subtract::Subtract;
 use crate::instructions::decrement::Decrement;
 use crate::instructions::increment::Increment;
 use crate::instructions::rotate_left::RotateLeft;
@@ -12,6 +13,7 @@ pub mod add;
 pub mod bitwise;
 pub mod jump;
 pub mod load;
+pub mod subtract;
 
 #[derive(Debug, Clone, Display)]
 #[display("{0}")]
@@ -40,6 +42,7 @@ pub enum Operation {
     RotateLeft(RotateLeft),
     RotateRight(RotateRight),
     Add(Add),
+    Subtract(Subtract),
     Jump(Jump),
     Bitwise(Bitwise),
 }

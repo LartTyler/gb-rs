@@ -6,6 +6,7 @@ use self::jump::Jump;
 use self::load::Load;
 use self::rotate_left::RotateLeft;
 use self::rotate_right::RotateRight;
+use self::subtract::Subtract;
 use crate::operations::Operation;
 use crate::parse::{Parse, ParseResult};
 use crate::{parse_helper, read::Read, register_helper, sets};
@@ -19,6 +20,7 @@ pub mod jump;
 pub mod load;
 pub mod rotate_left;
 pub mod rotate_right;
+pub mod subtract;
 
 #[derive(Debug, Clone, Copy, Display)]
 #[display("{0}")]
@@ -47,6 +49,7 @@ pub enum Instruction {
     RotateLeft(RotateLeft),
     RotateRight(RotateRight),
     Add(Add),
+    Subtract(Subtract),
     Jump(Jump),
     Bitwise(Bitwise),
 }
@@ -69,6 +72,7 @@ impl Instruction {
             Decrement,
             RotateLeft,
             Add,
+            Subtract,
             RotateRight,
             Jump,
             Bitwise,
@@ -95,6 +99,7 @@ impl Parse for Instruction {
             Self::RotateLeft(inner),
             Self::RotateRight(inner),
             Self::Add(inner),
+            Self::Subtract(inner),
             Self::Jump(inner),
             Self::Bitwise(inner),
         )
