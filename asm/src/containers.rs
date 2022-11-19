@@ -210,3 +210,16 @@ impl Deref for Bit {
         &self.0
     }
 }
+
+#[macro_export]
+macro_rules! enum_from_helper {
+    ( $( $( $is_const:tt )? $source:ty => $enum:ident :: $variant:ident $(,)? ),* ) => {
+        $(
+            impl $( $is_const )? From<$source> for $enum {
+                fn from(value: $source) -> Self {
+                    Self::$variant(value)
+                }
+            }
+        )*
+    };
+}
