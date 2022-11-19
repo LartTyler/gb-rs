@@ -8,6 +8,7 @@ use parse_display::Display;
 
 pub use and::*;
 pub use complement::*;
+pub use or::*;
 pub use reset::*;
 pub use set::*;
 pub use test::*;
@@ -15,6 +16,7 @@ pub use xor::*;
 
 mod and;
 mod complement;
+mod or;
 mod reset;
 mod set;
 mod test;
@@ -32,6 +34,7 @@ pub enum Bitwise {
     Test(BitwiseTest),
     And(BitwiseAnd),
     Xor(BitwiseXor),
+    Or(BitwiseOr),
 }
 
 impl Parse for Bitwise {
@@ -46,6 +49,7 @@ impl Parse for Bitwise {
             Self::Test(inner),
             Self::And(inner),
             Self::Xor(inner),
+            Self::Or(inner),
         )
     }
 }
@@ -62,6 +66,7 @@ impl const SetRegister for Bitwise {
             BitwiseTest,
             BitwiseAnd,
             BitwiseXor,
+            BitwiseOr,
         );
     }
 }
