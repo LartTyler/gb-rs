@@ -86,7 +86,7 @@ fn test_extended_implemented() {
 
     #[cfg(debug_assertions)]
     println!(
-        "NOTE: Base instructions {:.2}% implemented",
+        "NOTE: Extended instructions {:.2}% implemented",
         set.extended_len() as f64 / 256.0 * 100.0
     );
 
