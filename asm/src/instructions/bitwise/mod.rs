@@ -1,3 +1,5 @@
+use self::and::BitwiseAnd;
+
 use super::{Instruction, SetRegister};
 use crate::operations::{bitwise as op, Operation};
 use crate::parse::{Parse, ParseResult};
@@ -11,6 +13,7 @@ pub use reset::*;
 pub use set::*;
 pub use test::*;
 
+mod and;
 mod complement;
 mod reset;
 mod set;
@@ -26,6 +29,7 @@ pub enum Bitwise {
     Set(BitwiseSet),
     Reset(BitwiseReset),
     Test(BitwiseTest),
+    And(BitwiseAnd),
 }
 
 impl Parse for Bitwise {
@@ -38,6 +42,7 @@ impl Parse for Bitwise {
             Self::Set(inner),
             Self::Reset(inner),
             Self::Test(inner),
+            Self::And(inner),
         )
     }
 }
@@ -51,7 +56,8 @@ impl const SetRegister for Bitwise {
             BitwiseComplement,
             BitwiseSet,
             BitwiseReset,
-            BitwiseTest
+            BitwiseTest,
+            BitwiseAnd,
         );
     }
 }

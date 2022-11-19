@@ -1,8 +1,10 @@
 use crate::instructions::bitwise::{BitwiseReset, BitwiseSet, BitwiseTest};
 use parse_display::Display;
 
+pub use and::*;
 pub use complement::*;
 
+mod and;
 mod complement;
 
 #[derive(Debug, Clone, Display)]
@@ -15,4 +17,5 @@ pub enum Bitwise {
     Set(BitwiseSet),
     Reset(BitwiseReset),
     Test(BitwiseTest),
+    And(BitwiseAnd),
 }
