@@ -9,18 +9,16 @@ use std::fmt::Display;
 
 #[derive(Debug, Clone, Copy)]
 pub struct RegisterAdd {
-    pub target: Register,
     pub source: RegisterAddSource,
     pub with_carry: bool,
 }
 
 impl RegisterAdd {
-    pub const fn new<S>(target: Register, source: S, with_carry: bool) -> Self
+    pub const fn new<S>(source: S, with_carry: bool) -> Self
     where
         S: ~const Into<RegisterAddSource>,
     {
         Self {
-            target,
             source: source.into(),
             with_carry,
         }
@@ -37,11 +35,7 @@ impl Parse for RegisterAdd {
             Data(d) => d.parse(data, offset)?.into(),
         };
 
-        Ok(op::RegisterAdd::create(
-            self.target,
-            source,
-            self.with_carry,
-        ))
+        Ok(op::RegisterAdd::create(source, self.with_carry))
     }
 }
 
@@ -50,28 +44,28 @@ impl const SetRegister for RegisterAdd {
         use Register::*;
 
         // ADD r8, r8
-        builder.base(0x80, Self::new(A, B, false));
-        builder.base(0x81, Self::new(A, C, false));
-        builder.base(0x82, Self::new(A, D, false));
-        builder.base(0x83, Self::new(A, E, false));
-        builder.base(0x84, Self::new(A, H, false));
-        builder.base(0x85, Self::new(A, L, false));
-        builder.base(0x87, Self::new(A, A, false));
+        builder.base(0x80, Self::new(B, false));
+        builder.base(0x81, Self::new(C, false));
+        builder.base(0x82, Self::new(D, false));
+        builder.base(0x83, Self::new(E, false));
+        builder.base(0x84, Self::new(H, false));
+        builder.base(0x85, Self::new(L, false));
+        builder.base(0x87, Self::new(A, false));
 
         // ADC r8, r8
-        builder.base(0x88, Self::new(A, B, true));
-        builder.base(0x89, Self::new(A, C, true));
-        builder.base(0x8A, Self::new(A, D, true));
-        builder.base(0x8B, Self::new(A, E, true));
-        builder.base(0x8C, Self::new(A, H, true));
-        builder.base(0x8D, Self::new(A, L, true));
-        builder.base(0x8F, Self::new(A, A, true));
+        builder.base(0x88, Self::new(B, true));
+        builder.base(0x89, Self::new(C, true));
+        builder.base(0x8A, Self::new(D, true));
+        builder.base(0x8B, Self::new(E, true));
+        builder.base(0x8C, Self::new(H, true));
+        builder.base(0x8D, Self::new(L, true));
+        builder.base(0x8F, Self::new(A, true));
 
         // Others
-        builder.base(0x86, Self::new(A, Pointer(Pair::HL), false));
-        builder.base(0x8E, Self::new(A, Pointer(Pair::HL), true));
-        builder.base(0xC6, Self::new(A, Data::new(), false));
-        builder.base(0xCE, Self::new(A, Data::new(), true));
+        builder.base(0x86, Self::new(Pointer(Pair::HL), false));
+        builder.base(0x8E, Self::new(Pointer(Pair::HL), true));
+        builder.base(0xC6, Self::new(Data::new(), false));
+        builder.base(0xCE, Self::new(Data::new(), true));
     }
 }
 
@@ -84,7 +78,7 @@ impl const From<RegisterAdd> for Instruction {
 impl Display for RegisterAdd {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let c = if self.with_carry { 'C' } else { 'D' };
-        write!(f, "AD{c} {}, {}", self.target, self.source)
+        write!(f, "AD{c} A, {}", self.source)
     }
 }
 

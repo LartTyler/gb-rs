@@ -6,18 +6,16 @@ use std::fmt::Display;
 
 #[derive(Debug, Clone)]
 pub struct RegisterAdd {
-    pub target: Register,
     pub source: RegisterAddSource,
     pub with_carry: bool,
 }
 
 impl RegisterAdd {
-    pub fn create<S>(target: Register, source: S, with_carry: bool) -> Operation
+    pub fn create<S>(source: S, with_carry: bool) -> Operation
     where
         S: Into<RegisterAddSource>,
     {
         Operation::Add(Add::Register(Self {
-            target,
             source: source.into(),
             with_carry,
         }))
@@ -27,7 +25,7 @@ impl RegisterAdd {
 impl Display for RegisterAdd {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let c = if self.with_carry { 'C' } else { 'D' };
-        write!(f, "AD{c} {}, {}", self.target, self.source)
+        write!(f, "AD{c} A, {}", self.source)
     }
 }
 
