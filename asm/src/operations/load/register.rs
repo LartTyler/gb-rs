@@ -1,5 +1,6 @@
 use super::Load;
 use crate::containers::{Pointer, Register, Value};
+use crate::enum_from_helper;
 use crate::instructions::load as instr;
 use crate::operations::Operation;
 use parse_display::Display;
@@ -30,35 +31,15 @@ pub enum RegisterLoadSource {
     PairPointer(instr::PairPointerRegisterLoadSource),
     Register(Register),
     DataPointer(Pointer<Value<u16>>),
+    HighDataPointer(Pointer<Value<u8>>),
     RegisterPointer(Pointer<Register>),
 }
 
-impl From<Value<u8>> for RegisterLoadSource {
-    fn from(value: Value<u8>) -> Self {
-        Self::Data(value)
-    }
-}
-
-impl From<instr::PairPointerRegisterLoadSource> for RegisterLoadSource {
-    fn from(value: instr::PairPointerRegisterLoadSource) -> Self {
-        Self::PairPointer(value)
-    }
-}
-
-impl From<Register> for RegisterLoadSource {
-    fn from(value: Register) -> Self {
-        Self::Register(value)
-    }
-}
-
-impl From<Pointer<Value<u16>>> for RegisterLoadSource {
-    fn from(value: Pointer<Value<u16>>) -> Self {
-        Self::DataPointer(value)
-    }
-}
-
-impl From<Pointer<Register>> for RegisterLoadSource {
-    fn from(value: Pointer<Register>) -> Self {
-        Self::RegisterPointer(value)
-    }
-}
+enum_from_helper!(
+    const Value<u8> => RegisterLoadSource::Data,
+    const instr::PairPointerRegisterLoadSource => RegisterLoadSource::PairPointer,
+    const Register => RegisterLoadSource::Register,
+    const Pointer<Value<u16>> => RegisterLoadSource::DataPointer,
+    const Pointer<Value<u8>> => RegisterLoadSource::HighDataPointer,
+    const Pointer<Register> => RegisterLoadSource::RegisterPointer,
+);

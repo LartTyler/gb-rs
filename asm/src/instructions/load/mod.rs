@@ -7,11 +7,13 @@ pub use data_pointer::*;
 pub use pair::*;
 pub use pair_pointer::*;
 pub use register::*;
+pub use register_pointer::*;
 
 mod data_pointer;
 mod pair;
 mod pair_pointer;
 mod register;
+mod register_pointer;
 
 #[derive(Debug, Clone, Copy, Display)]
 #[display("{0}")]
@@ -19,6 +21,7 @@ pub enum Load {
     Pair(PairLoad),
     PairPointer(PairPointerLoad),
     Register(RegisterLoad),
+    RegisterPointer(RegisterPointerLoad),
     DataPointer(DataPointerLoad),
 }
 
@@ -31,6 +34,7 @@ impl Parse for Load {
             Self::PairPointer(inner),
             Self::Register(inner),
             Self::DataPointer(inner),
+            Self::RegisterPointer(inner),
         )
     }
 }
@@ -43,6 +47,7 @@ impl const SetRegister for Load {
             PairPointerLoad,
             RegisterLoad,
             DataPointerLoad,
+            RegisterPointerLoad,
         );
     }
 }

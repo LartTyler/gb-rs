@@ -61,6 +61,9 @@ impl<T> Data<T> {
     }
 }
 
+pub type ByteData = Data<u8>;
+pub type WordData = Data<u16>;
+
 impl Data<u8> {
     pub fn parse<R: Read>(&self, data: &R, offset: u16) -> parse::Result<Value<u8>> {
         Ok(data.read_byte(offset)?.into())
@@ -153,6 +156,12 @@ pub struct Pointer<T>(pub T);
 impl Pointer<Data<u16>> {
     pub fn parse<R: Read>(&self, data: &R, offset: u16) -> parse::Result<Pointer<Value<u16>>> {
         Ok(Pointer(data.read_word(offset)?.into()))
+    }
+}
+
+impl Pointer<Data<u8>> {
+    pub fn parse<R: Read>(&self, data: &R, offset: u16) -> parse::Result<Pointer<Value<u8>>> {
+        Ok(Pointer(data.read_byte(offset)?.into()))
     }
 }
 

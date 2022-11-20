@@ -1,5 +1,6 @@
 use super::{Action, Load};
-use crate::containers::{Data, Pair, Pointer, Register};
+use crate::containers::{ByteData, Data, Pair, Pointer, Register, WordData};
+use crate::enum_from_helper;
 use crate::instructions::{Instruction, SetRegister};
 use crate::operations::load as op;
 use crate::parse::{Parse, ParseResult};
@@ -41,6 +42,7 @@ impl Parse for RegisterLoad {
             PairPointer(s) => s.into(),
             Register(r) => r.into(),
             DataPointer(p) => p.parse(data, offset)?.into(),
+            HighDataPointer(p) => p.parse(data, offset)?.into(),
             RegisterPointer(p) => p.into(),
         };
 
@@ -136,8 +138,9 @@ impl const SetRegister for RegisterLoad {
         builder.base(0x7F, Self::new(A, A));
 
         // Others
-        builder.base(0xFA, Self::new(A, Pointer(Data::new())));
+        builder.base(0xFA, Self::new(A, Pointer(WordData::new())));
         builder.base(0xF2, Self::new(A, Pointer(C)));
+        builder.base(0xF0, Self::new(A, Pointer(ByteData::new())));
     }
 }
 
@@ -148,38 +151,18 @@ pub enum RegisterLoadSource {
     PairPointer(PairPointerRegisterLoadSource),
     Register(Register),
     DataPointer(Pointer<Data<u16>>),
+    HighDataPointer(Pointer<Data<u8>>),
     RegisterPointer(Pointer<Register>),
 }
 
-impl const From<Data<u8>> for RegisterLoadSource {
-    fn from(value: Data<u8>) -> Self {
-        Self::Data(value)
-    }
-}
-
-impl const From<PairPointerRegisterLoadSource> for RegisterLoadSource {
-    fn from(value: PairPointerRegisterLoadSource) -> Self {
-        Self::PairPointer(value)
-    }
-}
-
-impl const From<Register> for RegisterLoadSource {
-    fn from(value: Register) -> Self {
-        Self::Register(value)
-    }
-}
-
-impl const From<Pointer<Data<u16>>> for RegisterLoadSource {
-    fn from(value: Pointer<Data<u16>>) -> Self {
-        Self::DataPointer(value)
-    }
-}
-
-impl const From<Pointer<Register>> for RegisterLoadSource {
-    fn from(value: Pointer<Register>) -> Self {
-        Self::RegisterPointer(value)
-    }
-}
+enum_from_helper!(
+    const Data<u8> => RegisterLoadSource::Data,
+    const PairPointerRegisterLoadSource => RegisterLoadSource::PairPointer,
+    const Register => RegisterLoadSource::Register,
+    const Pointer<Data<u16>> => RegisterLoadSource::DataPointer,
+    const Pointer<Data<u8>> => RegisterLoadSource::HighDataPointer,
+    const Pointer<Register> => RegisterLoadSource::RegisterPointer,
+);
 
 #[derive(Debug, Clone, Copy)]
 pub struct PairPointerRegisterLoadSource {

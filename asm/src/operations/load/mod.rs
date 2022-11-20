@@ -1,3 +1,5 @@
+use super::Operation;
+use crate::instructions::load::RegisterPointerLoad;
 use parse_display::Display;
 
 pub use data_pointer::*;
@@ -16,5 +18,12 @@ pub enum Load {
     Pair(PairLoad),
     PairPointer(PairPointerLoad),
     Register(RegisterLoad),
+    RegisterPointer(RegisterPointerLoad),
     DataPointer(DataPointerLoad),
+}
+
+impl From<RegisterPointerLoad> for Operation {
+    fn from(value: RegisterPointerLoad) -> Self {
+        Self::Load(Load::RegisterPointer(value))
+    }
 }
