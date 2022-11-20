@@ -9,15 +9,15 @@ use crate::sets::Builder;
 use parse_display::Display;
 
 #[derive(Debug, Clone, Copy, Display)]
-#[display("POP {target}")]
-pub struct PopStack {
-    pub target: PopStackTarget,
+#[display("PUSH {target}")]
+pub struct PushStack {
+    pub target: PushStackTarget,
 }
 
-impl PopStack {
+impl PushStack {
     pub const fn new<T>(target: T) -> Self
     where
-        T: ~const Into<PopStackTarget>,
+        T: ~const Into<PushStackTarget>,
     {
         Self {
             target: target.into(),
@@ -25,37 +25,37 @@ impl PopStack {
     }
 }
 
-impl const From<PopStack> for Instruction {
-    fn from(value: PopStack) -> Self {
-        Self::Stack(Stack::Pop(value))
+impl const From<PushStack> for Instruction {
+    fn from(value: PushStack) -> Self {
+        Self::Stack(Stack::Push(value))
     }
 }
 
-impl From<PopStack> for Operation {
-    fn from(value: PopStack) -> Self {
-        Self::Stack(Stack::Pop(value))
+impl From<PushStack> for Operation {
+    fn from(value: PushStack) -> Self {
+        Self::Stack(Stack::Push(value))
     }
 }
 
-impl const SetRegister for PopStack {
+impl const SetRegister for PushStack {
     fn register(builder: &mut Builder) {
         use Pair::*;
 
-        builder.base(0xC1, Self::new(BC));
-        builder.base(0xD1, Self::new(DE));
-        builder.base(0xE1, Self::new(HL));
-        builder.base(0xF1, Self::new(PopStackTarget::AccumulatorAndFlags));
+        builder.base(0xC5, Self::new(BC));
+        builder.base(0xD5, Self::new(DE));
+        builder.base(0xE5, Self::new(HL));
+        builder.base(0xF5, Self::new(PushStackTarget::AccumulatorAndFlags));
     }
 }
 
-impl Parse for PopStack {
+impl Parse for PushStack {
     fn parse<R: Read>(&self, _data: &R, _offset: u16) -> ParseResult {
         Ok((*self).into())
     }
 }
 
 #[derive(Debug, Clone, Copy, Display)]
-pub enum PopStackTarget {
+pub enum PushStackTarget {
     #[display("{0}")]
     Pair(Pair),
 
@@ -63,4 +63,4 @@ pub enum PopStackTarget {
     AccumulatorAndFlags,
 }
 
-enum_from_helper!(const Pair => PopStackTarget::Pair);
+enum_from_helper!(const Pair => PushStackTarget::Pair);
