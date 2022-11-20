@@ -169,6 +169,7 @@ macro_rules! pointer_display_helper {
 }
 
 pointer_display_helper!(
+    u16 => "${:04X}",
     Data<u8> => "($FF00 + {})",
     Data<u16> => "({})",
     Value<u8> => "($FF00 + {:#04X})",
