@@ -1,9 +1,8 @@
-use std::fmt::Display;
-
-use super::Bitwise;
+use super::Bit;
 use crate::containers::{Flag, Pair, Pointer, Register, Value};
 use crate::operations::Operation;
 use parse_display::Display;
+use std::fmt::Display;
 
 #[derive(Debug, Clone)]
 pub struct BitwiseComplement {
@@ -16,7 +15,7 @@ impl BitwiseComplement {
     where
         T: Into<BitwiseComplementTarget>,
     {
-        Operation::Bitwise(Bitwise::Complement(Self {
+        Operation::Bit(Bit::Complement(Self {
             target: target.into(),
             short,
         }))

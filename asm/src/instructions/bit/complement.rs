@@ -1,7 +1,6 @@
-use super::Bitwise;
 use crate::containers::{Data, Flag, Pair, Pointer, Register};
 use crate::instructions::{Instruction, SetRegister};
-use crate::operations::bitwise as op;
+use crate::operations::bit as op;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -81,7 +80,7 @@ impl Display for BitwiseComplement {
 
 impl const From<BitwiseComplement> for Instruction {
     fn from(value: BitwiseComplement) -> Self {
-        Self::Bitwise(Bitwise::Complement(value))
+        Self::Bit(super::Bit::Complement(value))
     }
 }
 

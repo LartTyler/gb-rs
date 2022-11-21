@@ -1,8 +1,7 @@
-use super::Bitwise;
 use crate::containers::{Data, Pair, Pointer, Register};
 use crate::enum_from_helper;
 use crate::instructions::{Instruction, SetRegister};
-use crate::operations::bitwise as op;
+use crate::operations::bit as op;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -27,7 +26,7 @@ impl BitwiseXor {
 
 impl const From<BitwiseXor> for Instruction {
     fn from(value: BitwiseXor) -> Self {
-        Self::Bitwise(Bitwise::Xor(value))
+        Self::Bit(super::Bit::Xor(value))
     }
 }
 

@@ -1,4 +1,4 @@
-use crate::instructions::bitwise::{
+use crate::instructions::bit::{
     BitwiseReset, BitwiseSet, BitwiseTest, ShiftLeft, ShiftRight, Swap,
 };
 use parse_display::Display;
@@ -15,7 +15,7 @@ mod xor;
 
 #[derive(Debug, Clone, Display)]
 #[display("{0}")]
-pub enum Bitwise {
+pub enum Bit {
     #[display("SCF")]
     SetCarryFlag,
 

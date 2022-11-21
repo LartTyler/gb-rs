@@ -1,5 +1,5 @@
 use self::add::Add;
-use self::bitwise::Bitwise;
+use self::bit::Bit;
 use self::decrement::Decrement;
 use self::increment::Increment;
 use self::jump::Jump;
@@ -15,7 +15,7 @@ use crate::{parse_helper, read::Read, register_helper, sets};
 use parse_display::Display;
 
 pub mod add;
-pub mod bitwise;
+pub mod bit;
 pub mod decrement;
 pub mod increment;
 pub mod jump;
@@ -55,7 +55,7 @@ pub enum Instruction {
     Add(Add),
     Subtract(Subtract),
     Jump(Jump),
-    Bitwise(Bitwise),
+    Bit(Bit),
     Subroutine(Subroutine),
     Stack(Stack),
 }
@@ -81,7 +81,7 @@ impl Instruction {
             Subtract,
             RotateRight,
             Jump,
-            Bitwise,
+            Bit,
             Subroutine,
             Stack,
         );
@@ -109,7 +109,7 @@ impl Parse for Instruction {
             Self::Add(inner),
             Self::Subtract(inner),
             Self::Jump(inner),
-            Self::Bitwise(inner),
+            Self::Bit(inner),
             Self::Subroutine(inner),
             Self::Stack(inner)
         )

@@ -1,8 +1,7 @@
-use super::Bitwise;
 use crate::containers::{Pair, Pointer, Register};
 use crate::enum_from_helper;
 use crate::instructions::{Instruction, SetRegister};
-use crate::operations::bitwise as op;
+use crate::operations::bit as op;
 use crate::operations::Operation;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
@@ -28,13 +27,13 @@ impl ShiftLeft {
 
 impl const From<ShiftLeft> for Instruction {
     fn from(value: ShiftLeft) -> Self {
-        Self::Bitwise(Bitwise::ShiftLeft(value))
+        Self::Bit(super::Bit::ShiftLeft(value))
     }
 }
 
 impl From<ShiftLeft> for Operation {
     fn from(value: ShiftLeft) -> Self {
-        Self::Bitwise(op::Bitwise::ShiftLeft(value))
+        Self::Bit(op::Bit::ShiftLeft(value))
     }
 }
 

@@ -1,4 +1,4 @@
-use super::Bitwise;
+use super::Bit;
 use crate::containers::{Pair, Pointer, Register, Value};
 use crate::enum_from_helper;
 use crate::operations::Operation;
@@ -15,7 +15,7 @@ impl BitwiseXor {
     where
         T: Into<BitwiseXorTarget>,
     {
-        Operation::Bitwise(Bitwise::Xor(Self {
+        Operation::Bit(Bit::Xor(Self {
             target: target.into(),
         }))
     }

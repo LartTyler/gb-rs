@@ -1,8 +1,7 @@
-use super::Bitwise;
 use crate::containers::{Pair, Pointer, Register};
 use crate::enum_from_helper;
 use crate::instructions::{Instruction, SetRegister};
-use crate::operations::{bitwise as op, Operation};
+use crate::operations::{bit as op, Operation};
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -27,13 +26,13 @@ impl Swap {
 
 impl const From<Swap> for Instruction {
     fn from(value: Swap) -> Self {
-        Self::Bitwise(Bitwise::Swap(value))
+        Self::Bit(super::Bit::Swap(value))
     }
 }
 
 impl From<Swap> for Operation {
     fn from(value: Swap) -> Self {
-        Self::Bitwise(op::Bitwise::Swap(value))
+        Self::Bit(op::Bit::Swap(value))
     }
 }
 

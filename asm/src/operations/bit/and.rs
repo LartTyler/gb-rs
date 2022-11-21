@@ -1,4 +1,4 @@
-use super::Bitwise;
+use super::Bit;
 use crate::containers::{Pair, Pointer, Register, Value};
 use crate::enum_from_helper;
 use crate::operations::Operation;
@@ -15,7 +15,7 @@ impl BitwiseAnd {
     where
         T: Into<BitwiseAndTarget>,
     {
-        Operation::Bitwise(Bitwise::And(Self {
+        Operation::Bit(Bit::And(Self {
             target: target.into(),
         }))
     }

@@ -1,5 +1,5 @@
 use super::{Instruction, SetRegister};
-use crate::operations::{bitwise as op, Operation};
+use crate::operations::{bit as op, Operation};
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -30,7 +30,7 @@ mod xor;
 
 #[derive(Debug, Clone, Copy, Display)]
 #[display("{0}")]
-pub enum Bitwise {
+pub enum Bit {
     #[display("SCF")]
     SetCarryFlag,
 
@@ -46,12 +46,12 @@ pub enum Bitwise {
     Swap(Swap),
 }
 
-impl Parse for Bitwise {
+impl Parse for Bit {
     fn parse<R: Read>(&self, data: &R, offset: u16) -> ParseResult {
         parse_helper!(
             self,
             data[offset],
-            Self::SetCarryFlag => Operation::Bitwise(op::Bitwise::SetCarryFlag),
+            Self::SetCarryFlag => Operation::Bit(op::Bit::SetCarryFlag),
             Self::Complement(inner),
             Self::Set(inner),
             Self::Reset(inner),
@@ -66,7 +66,7 @@ impl Parse for Bitwise {
     }
 }
 
-impl const SetRegister for Bitwise {
+impl const SetRegister for Bit {
     fn register(builder: &mut Builder) {
         builder.base(0x37, Self::SetCarryFlag);
 
@@ -86,8 +86,8 @@ impl const SetRegister for Bitwise {
     }
 }
 
-impl const From<Bitwise> for Instruction {
-    fn from(value: Bitwise) -> Self {
-        Instruction::Bitwise(value)
+impl const From<Bit> for Instruction {
+    fn from(value: Bit) -> Self {
+        Instruction::Bit(value)
     }
 }

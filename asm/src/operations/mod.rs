@@ -1,5 +1,5 @@
 use self::add::Add;
-use self::bitwise::Bitwise;
+use self::bit::Bit;
 use self::jump::Jump;
 use self::load::Load;
 use self::subroutine::Subroutine;
@@ -12,7 +12,7 @@ use crate::instructions::stack::Stack;
 use parse_display::Display;
 
 pub mod add;
-pub mod bitwise;
+pub mod bit;
 pub mod jump;
 pub mod load;
 pub mod subroutine;
@@ -47,7 +47,7 @@ pub enum Operation {
     Add(Add),
     Subtract(Subtract),
     Jump(Jump),
-    Bitwise(Bitwise),
+    Bit(Bit),
     Subroutine(Subroutine),
     Stack(Stack),
 }

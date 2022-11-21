@@ -190,18 +190,18 @@ pointer_display_helper!(
 /// Represents a bit position in a byte. The contained value will _always_ be between 0 and 7,
 /// inclusive.
 #[derive(Debug, Clone, Copy, Display)]
-pub struct Bit(u8);
+pub struct BitPosition(u8);
 
-macro_rules! bit_helper {
+macro_rules! bit_position_helper {
     ( $( $bit:expr => $name:ident $(,)? ),* ) => {
         $(
-            pub const $name: Bit = Bit($bit);
+            pub const $name: BitPosition = BitPosition($bit);
         )*
     };
 }
 
-impl Bit {
-    bit_helper!(
+impl BitPosition {
+    bit_position_helper!(
         0 => ZERO,
         1 => ONE,
         2 => TWO,
@@ -213,7 +213,7 @@ impl Bit {
     );
 }
 
-impl Deref for Bit {
+impl Deref for BitPosition {
     type Target = u8;
 
     fn deref(&self) -> &Self::Target {

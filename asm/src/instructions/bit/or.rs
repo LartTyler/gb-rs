@@ -1,8 +1,7 @@
-use super::Bitwise;
 use crate::containers::{Data, Pair, Pointer, Register};
 use crate::enum_from_helper;
 use crate::instructions::{Instruction, SetRegister};
-use crate::operations::bitwise as op;
+use crate::operations::bit as op;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -27,7 +26,7 @@ impl BitwiseOr {
 
 impl const From<BitwiseOr> for Instruction {
     fn from(value: BitwiseOr) -> Self {
-        Self::Bitwise(Bitwise::Or(value))
+        Self::Bit(super::Bit::Or(value))
     }
 }
 
