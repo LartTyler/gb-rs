@@ -1,4 +1,6 @@
-use crate::instructions::bitwise::{BitwiseReset, BitwiseSet, BitwiseTest, ShiftLeft};
+use crate::instructions::bitwise::{
+    BitwiseReset, BitwiseSet, BitwiseTest, ShiftLeft, ShiftRight, Swap,
+};
 use parse_display::Display;
 
 pub use and::*;
@@ -25,4 +27,6 @@ pub enum Bitwise {
     Xor(BitwiseXor),
     Or(BitwiseOr),
     ShiftLeft(ShiftLeft),
+    ShiftRight(ShiftRight),
+    Swap(Swap),
 }
