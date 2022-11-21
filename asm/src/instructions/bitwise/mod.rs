@@ -11,6 +11,7 @@ pub use complement::*;
 pub use or::*;
 pub use reset::*;
 pub use set::*;
+pub use shift_left::*;
 pub use test::*;
 pub use xor::*;
 
@@ -19,6 +20,7 @@ mod complement;
 mod or;
 mod reset;
 mod set;
+mod shift_left;
 mod test;
 mod xor;
 
@@ -35,6 +37,7 @@ pub enum Bitwise {
     And(BitwiseAnd),
     Xor(BitwiseXor),
     Or(BitwiseOr),
+    ShiftLeft(ShiftLeft),
 }
 
 impl Parse for Bitwise {
@@ -50,6 +53,7 @@ impl Parse for Bitwise {
             Self::And(inner),
             Self::Xor(inner),
             Self::Or(inner),
+            Self::ShiftLeft(inner),
         )
     }
 }
@@ -67,6 +71,7 @@ impl const SetRegister for Bitwise {
             BitwiseAnd,
             BitwiseXor,
             BitwiseOr,
+            ShiftLeft,
         );
     }
 }
