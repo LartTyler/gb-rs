@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 clap = { version = "4.0", features = ["derive"] }
 gb_rs_asm = { path = "../asm" }
+clap-num = "1.0"
