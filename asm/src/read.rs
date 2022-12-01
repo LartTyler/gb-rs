@@ -18,3 +18,19 @@ pub enum Error {
     #[error("could not read byte at {0:#02X}")]
     OutOfBounds(u16),
 }
+
+impl Read for [u8] {
+    fn read_byte(&self, offset: u16) -> Result<u8> {
+        self.get(offset as usize)
+            .copied()
+            .ok_or(Error::OutOfBounds(offset))
+    }
+}
+
+impl Read for Vec<u8> {
+    fn read_byte(&self, offset: u16) -> Result<u8> {
+        self.get(offset as usize)
+            .copied()
+            .ok_or(Error::OutOfBounds(offset))
+    }
+}
