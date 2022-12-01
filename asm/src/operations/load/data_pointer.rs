@@ -2,7 +2,7 @@ use super::Load;
 use crate::containers::{Pointer, Value};
 use crate::enum_from_helper;
 use crate::instructions::load as instr;
-use crate::operations::Operation;
+use crate::operations::OperationKind;
 use parse_display::Display;
 use std::fmt::Display;
 
@@ -16,8 +16,8 @@ impl DataPointerLoad {
     pub const fn create(
         target: DataPointerLoadTarget,
         source: instr::DataPointerLoadSource,
-    ) -> Operation {
-        Operation::Load(Load::DataPointer(Self { target, source }))
+    ) -> OperationKind {
+        OperationKind::Load(Load::DataPointer(Self { target, source }))
     }
 }
 

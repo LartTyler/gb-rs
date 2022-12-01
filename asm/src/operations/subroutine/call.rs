@@ -1,7 +1,7 @@
 use super::Subroutine;
 use crate::containers::{Condition, Pointer, Value};
 use crate::enum_from_helper;
-use crate::operations::Operation;
+use crate::operations::OperationKind;
 use parse_display::Display;
 use std::fmt::Display;
 
@@ -12,8 +12,8 @@ pub struct Call {
 }
 
 impl Call {
-    pub fn create(target: CallTarget, condition: Condition) -> Operation {
-        Operation::Subroutine(Subroutine::Call(Self { target, condition }))
+    pub fn create(target: CallTarget, condition: Condition) -> OperationKind {
+        OperationKind::Subroutine(Subroutine::Call(Self { target, condition }))
     }
 }
 

@@ -1,7 +1,7 @@
 use super::Subroutine;
 use crate::containers::{Condition, Data, Flag, Pointer};
 use crate::enum_from_helper;
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::operations::subroutine as op;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
@@ -39,7 +39,7 @@ impl Display for Call {
     }
 }
 
-impl const From<Call> for Instruction {
+impl const From<Call> for InstructionKind {
     fn from(value: Call) -> Self {
         Self::Subroutine(Subroutine::Call(value))
     }
@@ -51,21 +51,34 @@ impl const SetRegister for Call {
         use Flag::*;
 
         // CALL instructions
-        builder.base(0xC4, Self::new(Pointer(Data::new()), Unset(Zero)));
-        builder.base(0xCC, Self::new(Pointer(Data::new()), Set(Zero)));
-        builder.base(0xCD, Self::new(Pointer(Data::new()), Always));
-        builder.base(0xD4, Self::new(Pointer(Data::new()), Unset(Carry)));
-        builder.base(0xDC, Self::new(Pointer(Data::new()), Set(Carry)));
+        builder.base(
+            0xC4,
+            Self::new(Pointer(Data::new()), Unset(Zero)),
+            3,
+            (3, 6),
+        );
+
+        builder.base(0xCC, Self::new(Pointer(Data::new()), Set(Zero)), 3, (3, 6));
+        builder.base(0xCD, Self::new(Pointer(Data::new()), Always), 3, 6);
+
+        builder.base(
+            0xD4,
+            Self::new(Pointer(Data::new()), Unset(Carry)),
+            3,
+            (3, 6),
+        );
+
+        builder.base(0xDC, Self::new(Pointer(Data::new()), Set(Carry)), 3, (3, 6));
 
         // RST instructions
-        builder.base(0xC7, Self::new(Pointer(0x00), Always));
-        builder.base(0xCF, Self::new(Pointer(0x08), Always));
-        builder.base(0xD7, Self::new(Pointer(0x10), Always));
-        builder.base(0xDF, Self::new(Pointer(0x18), Always));
-        builder.base(0xE7, Self::new(Pointer(0x20), Always));
-        builder.base(0xEF, Self::new(Pointer(0x28), Always));
-        builder.base(0xF7, Self::new(Pointer(0x30), Always));
-        builder.base(0xFF, Self::new(Pointer(0x38), Always));
+        builder.base(0xC7, Self::new(Pointer(0x00), Always), 1, 4);
+        builder.base(0xCF, Self::new(Pointer(0x08), Always), 1, 4);
+        builder.base(0xD7, Self::new(Pointer(0x10), Always), 1, 4);
+        builder.base(0xDF, Self::new(Pointer(0x18), Always), 1, 4);
+        builder.base(0xE7, Self::new(Pointer(0x20), Always), 1, 4);
+        builder.base(0xEF, Self::new(Pointer(0x28), Always), 1, 4);
+        builder.base(0xF7, Self::new(Pointer(0x30), Always), 1, 4);
+        builder.base(0xFF, Self::new(Pointer(0x38), Always), 1, 4);
     }
 }
 

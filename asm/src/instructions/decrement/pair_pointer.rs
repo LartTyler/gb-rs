@@ -1,7 +1,7 @@
 use super::Decrement;
 use crate::containers::{Pair, Pointer};
-use crate::instructions::{Instruction, SetRegister};
-use crate::operations::Operation;
+use crate::instructions::{InstructionKind, SetRegister};
+use crate::operations::OperationKind;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -27,17 +27,17 @@ impl Parse for PairPointerDecrement {
 
 impl const SetRegister for PairPointerDecrement {
     fn register(builder: &mut Builder) {
-        builder.base(0x35, Self::new(Pointer(Pair::HL)));
+        builder.base(0x35, Self::new(Pointer(Pair::HL)), 1, 3);
     }
 }
 
-impl const From<PairPointerDecrement> for Instruction {
+impl const From<PairPointerDecrement> for InstructionKind {
     fn from(value: PairPointerDecrement) -> Self {
         Self::Decrement(Decrement::PairPointer(value))
     }
 }
 
-impl From<PairPointerDecrement> for Operation {
+impl From<PairPointerDecrement> for OperationKind {
     fn from(value: PairPointerDecrement) -> Self {
         Self::Decrement(Decrement::PairPointer(value))
     }

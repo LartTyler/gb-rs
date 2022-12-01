@@ -1,7 +1,7 @@
 use super::Increment;
 use crate::containers::{Pair, Pointer};
-use crate::instructions::{Instruction, SetRegister};
-use crate::operations::Operation;
+use crate::instructions::{InstructionKind, SetRegister};
+use crate::operations::OperationKind;
 use crate::parse::{Parse, ParseResult};
 use crate::{read::Read, sets::Builder};
 use parse_display::Display;
@@ -26,17 +26,17 @@ impl Parse for PairPointerIncrement {
 
 impl const SetRegister for PairPointerIncrement {
     fn register(builder: &mut Builder) {
-        builder.base(0x34, Self::new(Pointer(Pair::BC)));
+        builder.base(0x34, Self::new(Pointer(Pair::BC)), 1, 3);
     }
 }
 
-impl const From<PairPointerIncrement> for Instruction {
+impl const From<PairPointerIncrement> for InstructionKind {
     fn from(value: PairPointerIncrement) -> Self {
         Self::Increment(Increment::PairPointer(value))
     }
 }
 
-impl From<PairPointerIncrement> for Operation {
+impl From<PairPointerIncrement> for OperationKind {
     fn from(value: PairPointerIncrement) -> Self {
         Self::Increment(Increment::PairPointer(value))
     }

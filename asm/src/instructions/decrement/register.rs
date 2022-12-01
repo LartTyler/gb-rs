@@ -1,6 +1,6 @@
 use crate::containers::Register;
-use crate::instructions::{Instruction, SetRegister};
-use crate::operations::Operation;
+use crate::instructions::{InstructionKind, SetRegister};
+use crate::operations::OperationKind;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -30,23 +30,23 @@ impl const SetRegister for RegisterDecrement {
     fn register(builder: &mut Builder) {
         use Register::*;
 
-        builder.base(0x05, Self::new(B));
-        builder.base(0x0D, Self::new(C));
-        builder.base(0x15, Self::new(D));
-        builder.base(0x1D, Self::new(E));
-        builder.base(0x25, Self::new(H));
-        builder.base(0x2D, Self::new(L));
-        builder.base(0x3D, Self::new(A));
+        builder.base(0x05, Self::new(B), 1, 1);
+        builder.base(0x0D, Self::new(C), 1, 1);
+        builder.base(0x15, Self::new(D), 1, 1);
+        builder.base(0x1D, Self::new(E), 1, 1);
+        builder.base(0x25, Self::new(H), 1, 1);
+        builder.base(0x2D, Self::new(L), 1, 1);
+        builder.base(0x3D, Self::new(A), 1, 1);
     }
 }
 
-impl const From<RegisterDecrement> for Instruction {
+impl const From<RegisterDecrement> for InstructionKind {
     fn from(value: RegisterDecrement) -> Self {
         Self::Decrement(Decrement::Register(value))
     }
 }
 
-impl From<RegisterDecrement> for Operation {
+impl From<RegisterDecrement> for OperationKind {
     fn from(value: RegisterDecrement) -> Self {
         Self::Decrement(Decrement::Register(value))
     }

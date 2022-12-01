@@ -1,8 +1,8 @@
 use crate::containers::{Pair, Pointer, Register};
 use crate::enum_from_helper;
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::operations::bit as op;
-use crate::operations::Operation;
+use crate::operations::OperationKind;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -25,13 +25,13 @@ impl ShiftLeft {
     }
 }
 
-impl const From<ShiftLeft> for Instruction {
+impl const From<ShiftLeft> for InstructionKind {
     fn from(value: ShiftLeft) -> Self {
         Self::Bit(super::Bit::ShiftLeft(value))
     }
 }
 
-impl From<ShiftLeft> for Operation {
+impl From<ShiftLeft> for OperationKind {
     fn from(value: ShiftLeft) -> Self {
         Self::Bit(op::Bit::ShiftLeft(value))
     }
@@ -42,16 +42,16 @@ impl const SetRegister for ShiftLeft {
         use Register::*;
 
         // SLA r8
-        builder.extended(0x20, Self::new(B));
-        builder.extended(0x21, Self::new(C));
-        builder.extended(0x22, Self::new(D));
-        builder.extended(0x23, Self::new(E));
-        builder.extended(0x24, Self::new(H));
-        builder.extended(0x25, Self::new(L));
-        builder.extended(0x27, Self::new(A));
+        builder.extended(0x20, Self::new(B), 2, 2);
+        builder.extended(0x21, Self::new(C), 2, 2);
+        builder.extended(0x22, Self::new(D), 2, 2);
+        builder.extended(0x23, Self::new(E), 2, 2);
+        builder.extended(0x24, Self::new(H), 2, 2);
+        builder.extended(0x25, Self::new(L), 2, 2);
+        builder.extended(0x27, Self::new(A), 2, 2);
 
         // Others
-        builder.extended(0x26, Self::new(Pointer(Pair::HL)));
+        builder.extended(0x26, Self::new(Pointer(Pair::HL)), 2, 4);
     }
 }
 

@@ -1,7 +1,7 @@
 use super::RotateRight;
 use crate::containers::{Pair, Pointer, Register};
-use crate::instructions::{Instruction, SetRegister};
-use crate::operations::Operation;
+use crate::instructions::{InstructionKind, SetRegister};
+use crate::operations::OperationKind;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -37,19 +37,19 @@ impl const SetRegister for CyclicRotateRight {
         use Register::*;
 
         // RRCA
-        builder.base(0x0F, Self::new(A, false));
+        builder.base(0x0F, Self::new(A, false), 1, 1);
 
         // PREFIX RRC r8
-        builder.extended(0x08, Self::new(B, true));
-        builder.extended(0x09, Self::new(C, true));
-        builder.extended(0x0A, Self::new(D, true));
-        builder.extended(0x0B, Self::new(E, true));
-        builder.extended(0x0C, Self::new(H, true));
-        builder.extended(0x0D, Self::new(L, true));
-        builder.extended(0x0F, Self::new(A, true));
+        builder.extended(0x08, Self::new(B, true), 2, 2);
+        builder.extended(0x09, Self::new(C, true), 2, 2);
+        builder.extended(0x0A, Self::new(D, true), 2, 2);
+        builder.extended(0x0B, Self::new(E, true), 2, 2);
+        builder.extended(0x0C, Self::new(H, true), 2, 2);
+        builder.extended(0x0D, Self::new(L, true), 2, 2);
+        builder.extended(0x0F, Self::new(A, true), 2, 2);
 
         // PREFIX RRC (HL)
-        builder.extended(0x0E, Self::new(Pointer(Pair::HL), true));
+        builder.extended(0x0E, Self::new(Pointer(Pair::HL), true), 2, 4);
     }
 }
 
@@ -60,13 +60,13 @@ impl Display for CyclicRotateRight {
     }
 }
 
-impl const From<CyclicRotateRight> for Instruction {
+impl const From<CyclicRotateRight> for InstructionKind {
     fn from(value: CyclicRotateRight) -> Self {
         Self::RotateRight(RotateRight::Cyclic(value))
     }
 }
 
-impl From<CyclicRotateRight> for Operation {
+impl From<CyclicRotateRight> for OperationKind {
     fn from(value: CyclicRotateRight) -> Self {
         Self::RotateRight(RotateRight::Cyclic(value))
     }

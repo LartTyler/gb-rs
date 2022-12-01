@@ -233,3 +233,24 @@ macro_rules! enum_from_helper {
         )*
     };
 }
+
+#[derive(Debug, Clone, Copy)]
+pub enum Cycles {
+    Fixed(u8),
+    Variable { min: u8, max: u8 },
+}
+
+impl const From<u8> for Cycles {
+    fn from(value: u8) -> Self {
+        Self::Fixed(value)
+    }
+}
+
+impl const From<(u8, u8)> for Cycles {
+    fn from(value: (u8, u8)) -> Self {
+        Self::Variable {
+            min: value.0,
+            max: value.1,
+        }
+    }
+}

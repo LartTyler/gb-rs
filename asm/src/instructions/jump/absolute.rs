@@ -1,7 +1,7 @@
 use super::Jump;
 use crate::containers::{Condition, Data, Flag, Pair, Pointer};
 use crate::enum_from_helper;
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::operations::jump as op;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
@@ -37,7 +37,7 @@ impl Display for AbsoluteJump {
     }
 }
 
-impl const From<AbsoluteJump> for Instruction {
+impl const From<AbsoluteJump> for InstructionKind {
     fn from(value: AbsoluteJump) -> Self {
         Self::Jump(Jump::Absolute(value))
     }
@@ -48,12 +48,25 @@ impl const SetRegister for AbsoluteJump {
         use Condition::*;
         use Flag::*;
 
-        builder.base(0xC2, Self::new(Pointer(Data::new()), Unset(Zero)));
-        builder.base(0xC3, Self::new(Pointer(Data::new()), Always));
-        builder.base(0xCA, Self::new(Pointer(Data::new()), Set(Zero)));
-        builder.base(0xD2, Self::new(Pointer(Data::new()), Unset(Carry)));
-        builder.base(0xDA, Self::new(Pointer(Data::new()), Set(Carry)));
-        builder.base(0xE9, Self::new(Pointer(Pair::HL), Always));
+        builder.base(
+            0xC2,
+            Self::new(Pointer(Data::new()), Unset(Zero)),
+            3,
+            (3, 4),
+        );
+
+        builder.base(0xC3, Self::new(Pointer(Data::new()), Always), 3, 4);
+        builder.base(0xCA, Self::new(Pointer(Data::new()), Set(Zero)), 3, (3, 4));
+
+        builder.base(
+            0xD2,
+            Self::new(Pointer(Data::new()), Unset(Carry)),
+            3,
+            (3, 4),
+        );
+
+        builder.base(0xDA, Self::new(Pointer(Data::new()), Set(Carry)), 3, (3, 4));
+        builder.base(0xE9, Self::new(Pointer(Pair::HL), Always), 1, 1);
     }
 }
 

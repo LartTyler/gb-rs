@@ -1,6 +1,6 @@
 use super::Bit;
 use crate::containers::{Flag, Pair, Pointer, Register, Value};
-use crate::operations::Operation;
+use crate::operations::OperationKind;
 use parse_display::Display;
 use std::fmt::Display;
 
@@ -11,11 +11,11 @@ pub struct BitwiseComplement {
 }
 
 impl BitwiseComplement {
-    pub fn create<T>(target: T, short: bool) -> Operation
+    pub fn create<T>(target: T, short: bool) -> OperationKind
     where
         T: Into<BitwiseComplementTarget>,
     {
-        Operation::Bit(Bit::Complement(Self {
+        OperationKind::Bit(Bit::Complement(Self {
             target: target.into(),
             short,
         }))

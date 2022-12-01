@@ -1,6 +1,6 @@
 use crate::containers::{Data, Pair, Pointer, Register};
 use crate::enum_from_helper;
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::operations::bit as op;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
@@ -24,7 +24,7 @@ impl BitwiseAnd {
     }
 }
 
-impl const From<BitwiseAnd> for Instruction {
+impl const From<BitwiseAnd> for InstructionKind {
     fn from(value: BitwiseAnd) -> Self {
         Self::Bit(super::Bit::And(value))
     }
@@ -49,17 +49,17 @@ impl const SetRegister for BitwiseAnd {
         use Register::*;
 
         // AND r8
-        builder.base(0xA0, Self::new(B));
-        builder.base(0xA1, Self::new(C));
-        builder.base(0xA2, Self::new(D));
-        builder.base(0xA3, Self::new(E));
-        builder.base(0xA4, Self::new(H));
-        builder.base(0xA5, Self::new(L));
-        builder.base(0xA7, Self::new(A));
+        builder.base(0xA0, Self::new(B), 1, 1);
+        builder.base(0xA1, Self::new(C), 1, 1);
+        builder.base(0xA2, Self::new(D), 1, 1);
+        builder.base(0xA3, Self::new(E), 1, 1);
+        builder.base(0xA4, Self::new(H), 1, 1);
+        builder.base(0xA5, Self::new(L), 1, 1);
+        builder.base(0xA7, Self::new(A), 1, 1);
 
         // Others
-        builder.base(0xA6, Self::new(Pointer(Pair::HL)));
-        builder.base(0xE6, Self::new(Data::new()));
+        builder.base(0xA6, Self::new(Pointer(Pair::HL)), 1, 2);
+        builder.base(0xE6, Self::new(Data::new()), 2, 2);
     }
 }
 

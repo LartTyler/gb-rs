@@ -1,6 +1,6 @@
 use super::{Action, Load};
 use crate::containers::{Data, Pair, Pointer, Register};
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::operations::load as op;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
@@ -27,7 +27,7 @@ impl PairPointerLoad {
     }
 }
 
-impl const From<PairPointerLoad> for Instruction {
+impl const From<PairPointerLoad> for InstructionKind {
     fn from(value: PairPointerLoad) -> Self {
         Self::Load(Load::PairPointer(value))
     }
@@ -57,22 +57,22 @@ impl const SetRegister for PairPointerLoad {
         use Register::*;
 
         // LD (r16), r8
-        builder.base(0x02, Self::new(Pointer(BC), A, None));
-        builder.base(0x12, Self::new(Pointer(DE), A, None));
-        builder.base(0x70, Self::new(Pointer(HL), B, None));
-        builder.base(0x71, Self::new(Pointer(HL), C, None));
-        builder.base(0x72, Self::new(Pointer(HL), D, None));
-        builder.base(0x73, Self::new(Pointer(HL), E, None));
-        builder.base(0x74, Self::new(Pointer(HL), H, None));
-        builder.base(0x75, Self::new(Pointer(HL), L, None));
-        builder.base(0x77, Self::new(Pointer(HL), A, None));
+        builder.base(0x02, Self::new(Pointer(BC), A, None), 1, 2);
+        builder.base(0x12, Self::new(Pointer(DE), A, None), 1, 2);
+        builder.base(0x70, Self::new(Pointer(HL), B, None), 1, 2);
+        builder.base(0x71, Self::new(Pointer(HL), C, None), 1, 2);
+        builder.base(0x72, Self::new(Pointer(HL), D, None), 1, 2);
+        builder.base(0x73, Self::new(Pointer(HL), E, None), 1, 2);
+        builder.base(0x74, Self::new(Pointer(HL), H, None), 1, 2);
+        builder.base(0x75, Self::new(Pointer(HL), L, None), 1, 2);
+        builder.base(0x77, Self::new(Pointer(HL), A, None), 1, 2);
 
         // LD (HL±), A
-        builder.base(0x22, Self::new(Pointer(HL), A, Increment));
-        builder.base(0x32, Self::new(Pointer(HL), A, Decrement));
+        builder.base(0x22, Self::new(Pointer(HL), A, Increment), 1, 2);
+        builder.base(0x32, Self::new(Pointer(HL), A, Decrement), 1, 2);
 
         // Others
-        builder.base(0x36, Self::new(Pointer(HL), Data::new(), None));
+        builder.base(0x36, Self::new(Pointer(HL), Data::new(), None), 2, 3);
     }
 }
 

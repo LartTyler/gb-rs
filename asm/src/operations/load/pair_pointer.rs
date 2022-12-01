@@ -1,7 +1,7 @@
 use super::Load;
 use crate::containers::{Pair, Pointer, Register, Value};
 use crate::instructions::load::Action;
-use crate::operations::Operation;
+use crate::operations::OperationKind;
 use parse_display::Display;
 use std::fmt::Display;
 
@@ -13,11 +13,11 @@ pub struct PairPointerLoad {
 }
 
 impl PairPointerLoad {
-    pub fn create<S>(target: Pointer<Pair>, source: S, action: Action) -> Operation
+    pub fn create<S>(target: Pointer<Pair>, source: S, action: Action) -> OperationKind
     where
         S: Into<PairPointerLoadSource>,
     {
-        Operation::Load(Load::PairPointer(Self {
+        OperationKind::Load(Load::PairPointer(Self {
             target,
             source: source.into(),
             action,
@@ -27,7 +27,7 @@ impl PairPointerLoad {
 
 impl Display for PairPointerLoad {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "LD ({}{}), {}", self.target, self.action, self.source)
+        write!(f, "LD ({}{}), {}", self.target.0, self.action, self.source)
     }
 }
 

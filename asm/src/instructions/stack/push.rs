@@ -1,8 +1,8 @@
 use super::Stack;
 use crate::containers::Pair;
 use crate::enum_from_helper;
-use crate::instructions::{Instruction, SetRegister};
-use crate::operations::Operation;
+use crate::instructions::{InstructionKind, SetRegister};
+use crate::operations::OperationKind;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -25,13 +25,13 @@ impl PushStack {
     }
 }
 
-impl const From<PushStack> for Instruction {
+impl const From<PushStack> for InstructionKind {
     fn from(value: PushStack) -> Self {
         Self::Stack(Stack::Push(value))
     }
 }
 
-impl From<PushStack> for Operation {
+impl From<PushStack> for OperationKind {
     fn from(value: PushStack) -> Self {
         Self::Stack(Stack::Push(value))
     }
@@ -41,10 +41,10 @@ impl const SetRegister for PushStack {
     fn register(builder: &mut Builder) {
         use Pair::*;
 
-        builder.base(0xC5, Self::new(BC));
-        builder.base(0xD5, Self::new(DE));
-        builder.base(0xE5, Self::new(HL));
-        builder.base(0xF5, Self::new(PushStackTarget::AccumulatorAndFlags));
+        builder.base(0xC5, Self::new(BC), 1, 4);
+        builder.base(0xD5, Self::new(DE), 1, 4);
+        builder.base(0xE5, Self::new(HL), 1, 4);
+        builder.base(0xF5, Self::new(PushStackTarget::AccumulatorAndFlags), 1, 4);
     }
 }
 
