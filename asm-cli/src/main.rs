@@ -26,7 +26,8 @@ fn main() {
             Err(e) => panic!("{:?}", e),
         };
 
-        print!("{:#06X} | {}", stack_pointer, instr);
+        println!("{:?}", instr);
+        print!("{:#06X} | {}", stack_pointer, instr.kind);
         io::stdout().flush().expect("could not flush stdout");
 
         let mut input = String::new();
@@ -34,6 +35,6 @@ fn main() {
             .read_line(&mut input)
             .expect("error reading stdin");
 
-        stack_pointer += 1;
+        stack_pointer += instr.width as u16;
     }
 }
