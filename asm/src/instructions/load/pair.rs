@@ -1,6 +1,6 @@
 use super::Load;
 use crate::containers::{Data, Pair, Signed};
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::operations::load as op;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
@@ -44,22 +44,22 @@ impl const SetRegister for PairLoad {
         use Pair::*;
 
         // LD r16, d16
-        builder.base(0x01, Self::new(BC, Data::new()));
-        builder.base(0x11, Self::new(DE, Data::new()));
-        builder.base(0x21, Self::new(HL, Data::new()));
-        builder.base(0x31, Self::new(SP, Data::new()));
+        builder.base(0x01, Self::new(BC, Data::new()), 3, 3);
+        builder.base(0x11, Self::new(DE, Data::new()), 3, 3);
+        builder.base(0x21, Self::new(HL, Data::new()), 3, 3);
+        builder.base(0x31, Self::new(SP, Data::new()), 3, 3);
 
         // LD HL, SP+s8
-        builder.base(0xF8, Self::new(HL, Signed::new()));
+        builder.base(0xF8, Self::new(HL, Signed::new()), 2, 3);
 
         // LD SP, HL
-        builder.base(0xF9, Self::new(SP, HL));
+        builder.base(0xF9, Self::new(SP, HL), 1, 2);
     }
 }
 
-impl const From<PairLoad> for Instruction {
+impl const From<PairLoad> for InstructionKind {
     fn from(value: PairLoad) -> Self {
-        Instruction::Load(Load::Pair(value))
+        InstructionKind::Load(Load::Pair(value))
     }
 }
 

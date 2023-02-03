@@ -1,6 +1,6 @@
 use crate::containers::{Data, Pair, Pointer, Register};
 use crate::enum_from_helper;
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::operations::bit as op;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
@@ -24,7 +24,7 @@ impl BitwiseXor {
     }
 }
 
-impl const From<BitwiseXor> for Instruction {
+impl const From<BitwiseXor> for InstructionKind {
     fn from(value: BitwiseXor) -> Self {
         Self::Bit(super::Bit::Xor(value))
     }
@@ -49,17 +49,17 @@ impl const SetRegister for BitwiseXor {
         use Register::*;
 
         // XOR r8
-        builder.base(0xA8, Self::new(B));
-        builder.base(0xA9, Self::new(C));
-        builder.base(0xAA, Self::new(D));
-        builder.base(0xAB, Self::new(E));
-        builder.base(0xAC, Self::new(H));
-        builder.base(0xAD, Self::new(L));
-        builder.base(0xAF, Self::new(A));
+        builder.base(0xA8, Self::new(B), 1, 1);
+        builder.base(0xA9, Self::new(C), 1, 1);
+        builder.base(0xAA, Self::new(D), 1, 1);
+        builder.base(0xAB, Self::new(E), 1, 1);
+        builder.base(0xAC, Self::new(H), 1, 1);
+        builder.base(0xAD, Self::new(L), 1, 1);
+        builder.base(0xAF, Self::new(A), 1, 1);
 
         // Others
-        builder.base(0xAE, Self::new(Pointer(Pair::HL)));
-        builder.base(0xEE, Self::new(Data::new()));
+        builder.base(0xAE, Self::new(Pointer(Pair::HL)), 1, 2);
+        builder.base(0xEE, Self::new(Data::new()), 2, 2);
     }
 }
 

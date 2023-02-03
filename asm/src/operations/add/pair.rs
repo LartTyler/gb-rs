@@ -1,6 +1,6 @@
 use super::Add;
 use crate::containers::{Pair, Signed, Value};
-use crate::operations::Operation;
+use crate::operations::OperationKind;
 use parse_display::Display;
 
 #[derive(Debug, Clone, Display)]
@@ -11,11 +11,11 @@ pub struct PairAdd {
 }
 
 impl PairAdd {
-    pub fn create<S>(target: Pair, source: S) -> Operation
+    pub fn create<S>(target: Pair, source: S) -> OperationKind
     where
         S: Into<PairAddSource>,
     {
-        Operation::Add(Add::Pair(Self {
+        OperationKind::Add(Add::Pair(Self {
             target,
             source: source.into(),
         }))

@@ -1,7 +1,7 @@
 use super::Jump;
 use crate::containers::{Condition, Pair, Pointer, Value};
 use crate::enum_from_helper;
-use crate::operations::Operation;
+use crate::operations::OperationKind;
 use parse_display::Display;
 use std::fmt::Display;
 
@@ -12,8 +12,8 @@ pub struct AbsoluteJump {
 }
 
 impl AbsoluteJump {
-    pub fn create(target: AbsoluteJumpTarget, condition: Condition) -> Operation {
-        Operation::Jump(Jump::Absolute(Self { target, condition }))
+    pub fn create(target: AbsoluteJumpTarget, condition: Condition) -> OperationKind {
+        OperationKind::Jump(Jump::Absolute(Self { target, condition }))
     }
 }
 

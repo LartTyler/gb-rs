@@ -1,6 +1,6 @@
 use super::Jump;
 use crate::containers::{Condition, Data, Flag, Signed};
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::operations::jump as op;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
@@ -32,17 +32,17 @@ impl const SetRegister for RelativeJump {
         use Flag::{Carry, Zero};
 
         // JR cc, s8
-        builder.base(0x20, Self::new(Signed::new(), Unset(Zero)));
-        builder.base(0x28, Self::new(Signed::new(), Set(Zero)));
-        builder.base(0x30, Self::new(Signed::new(), Unset(Carry)));
-        builder.base(0x38, Self::new(Signed::new(), Set(Carry)));
+        builder.base(0x20, Self::new(Signed::new(), Unset(Zero)), 2, (2, 3));
+        builder.base(0x28, Self::new(Signed::new(), Set(Zero)), 2, (2, 3));
+        builder.base(0x30, Self::new(Signed::new(), Unset(Carry)), 2, (2, 3));
+        builder.base(0x38, Self::new(Signed::new(), Set(Carry)), 2, (2, 3));
 
         // Others
-        builder.base(0x18, Self::new(Signed::new(), Always));
+        builder.base(0x18, Self::new(Signed::new(), Always), 2, 3);
     }
 }
 
-impl const From<RelativeJump> for Instruction {
+impl const From<RelativeJump> for InstructionKind {
     fn from(value: RelativeJump) -> Self {
         Self::Jump(Jump::Relative(value))
     }

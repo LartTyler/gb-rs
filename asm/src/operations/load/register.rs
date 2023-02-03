@@ -2,7 +2,7 @@ use super::Load;
 use crate::containers::{Pointer, Register, Value};
 use crate::enum_from_helper;
 use crate::instructions::load as instr;
-use crate::operations::Operation;
+use crate::operations::OperationKind;
 use parse_display::Display;
 
 #[derive(Debug, Clone, Display)]
@@ -13,11 +13,11 @@ pub struct RegisterLoad {
 }
 
 impl RegisterLoad {
-    pub fn create<S>(target: Register, source: S) -> Operation
+    pub fn create<S>(target: Register, source: S) -> OperationKind
     where
         S: Into<RegisterLoadSource>,
     {
-        Operation::Load(Load::Register(Self {
+        OperationKind::Load(Load::Register(Self {
             target,
             source: source.into(),
         }))

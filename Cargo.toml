@@ -1,6 +1,7 @@
 [workspace]
 members = [
 	"asm",
+	"asm-cli",
 	"core",
 	"cpu",
 	"cpu/macros",

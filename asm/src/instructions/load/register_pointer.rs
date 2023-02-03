@@ -1,5 +1,5 @@
 use super::Load;
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -9,7 +9,7 @@ use parse_display::Display;
 #[display("LD (C), A")]
 pub struct RegisterPointerLoad;
 
-impl const From<RegisterPointerLoad> for Instruction {
+impl const From<RegisterPointerLoad> for InstructionKind {
     fn from(value: RegisterPointerLoad) -> Self {
         Self::Load(Load::RegisterPointer(value))
     }
@@ -17,7 +17,7 @@ impl const From<RegisterPointerLoad> for Instruction {
 
 impl const SetRegister for RegisterPointerLoad {
     fn register(builder: &mut Builder) {
-        builder.base(0xE2, Self);
+        builder.base(0xE2, Self, 2, 2);
     }
 }
 

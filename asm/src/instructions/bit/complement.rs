@@ -1,5 +1,5 @@
 use crate::containers::{Data, Flag, Pair, Pointer, Register};
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::operations::bit as op;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
@@ -46,19 +46,19 @@ impl const SetRegister for BitwiseComplement {
         use Register::*;
 
         // CP r8
-        builder.base(0xB8, Self::new(B, false));
-        builder.base(0xB9, Self::new(C, false));
-        builder.base(0xBA, Self::new(D, false));
-        builder.base(0xBB, Self::new(E, false));
-        builder.base(0xBC, Self::new(H, false));
-        builder.base(0xBD, Self::new(L, false));
-        builder.base(0xBF, Self::new(A, false));
+        builder.base(0xB8, Self::new(B, false), 1, 1);
+        builder.base(0xB9, Self::new(C, false), 1, 1);
+        builder.base(0xBA, Self::new(D, false), 1, 1);
+        builder.base(0xBB, Self::new(E, false), 1, 1);
+        builder.base(0xBC, Self::new(H, false), 1, 1);
+        builder.base(0xBD, Self::new(L, false), 1, 1);
+        builder.base(0xBF, Self::new(A, false), 1, 1);
 
         // Others
-        builder.base(0x2F, Self::new(A, true));
-        builder.base(0x3F, Self::new(Carry, true));
-        builder.base(0xBE, Self::new(Pointer(Pair::HL), false));
-        builder.base(0xFE, Self::new(Data::new(), false));
+        builder.base(0x2F, Self::new(A, true), 1, 1);
+        builder.base(0x3F, Self::new(Carry, true), 1, 1);
+        builder.base(0xBE, Self::new(Pointer(Pair::HL), false), 1, 2);
+        builder.base(0xFE, Self::new(Data::new(), false), 2, 2);
     }
 }
 
@@ -78,7 +78,7 @@ impl Display for BitwiseComplement {
     }
 }
 
-impl const From<BitwiseComplement> for Instruction {
+impl const From<BitwiseComplement> for InstructionKind {
     fn from(value: BitwiseComplement) -> Self {
         Self::Bit(super::Bit::Complement(value))
     }

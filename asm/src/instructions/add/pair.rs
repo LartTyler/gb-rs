@@ -1,6 +1,6 @@
 use super::Add;
 use crate::containers::{Data, Pair, Signed};
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::operations::add as op;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
@@ -44,17 +44,17 @@ impl const SetRegister for PairAdd {
         use Pair::*;
 
         // ADD r16, r16
-        builder.base(0x09, Self::new(HL, BC));
-        builder.base(0x19, Self::new(HL, DE));
-        builder.base(0x29, Self::new(HL, HL));
-        builder.base(0x39, Self::new(HL, SP));
+        builder.base(0x09, Self::new(HL, BC), 1, 2);
+        builder.base(0x19, Self::new(HL, DE), 1, 2);
+        builder.base(0x29, Self::new(HL, HL), 1, 2);
+        builder.base(0x39, Self::new(HL, SP), 1, 2);
 
         // Others
-        builder.base(0xE8, Self::new(SP, Signed::new()));
+        builder.base(0xE8, Self::new(SP, Signed::new()), 2, 4);
     }
 }
 
-impl const From<PairAdd> for Instruction {
+impl const From<PairAdd> for InstructionKind {
     fn from(value: PairAdd) -> Self {
         Self::Add(Add::Pair(value))
     }

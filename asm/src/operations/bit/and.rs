@@ -1,7 +1,7 @@
 use super::Bit;
 use crate::containers::{Pair, Pointer, Register, Value};
 use crate::enum_from_helper;
-use crate::operations::Operation;
+use crate::operations::OperationKind;
 use parse_display::Display;
 
 #[derive(Debug, Clone, Display)]
@@ -11,11 +11,11 @@ pub struct BitwiseAnd {
 }
 
 impl BitwiseAnd {
-    pub fn create<T>(target: T) -> Operation
+    pub fn create<T>(target: T) -> OperationKind
     where
         T: Into<BitwiseAndTarget>,
     {
-        Operation::Bit(Bit::And(Self {
+        OperationKind::Bit(Bit::And(Self {
             target: target.into(),
         }))
     }

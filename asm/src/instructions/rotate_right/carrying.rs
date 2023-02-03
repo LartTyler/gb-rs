@@ -1,7 +1,7 @@
 use super::RotateRight;
 use crate::containers::{Pair, Pointer, Register};
-use crate::instructions::{Instruction, SetRegister};
-use crate::operations::Operation;
+use crate::instructions::{InstructionKind, SetRegister};
+use crate::operations::OperationKind;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -37,19 +37,19 @@ impl const SetRegister for CarryingRotateRight {
         use Register::*;
 
         // RRA
-        builder.base(0x1F, Self::new(A, false));
+        builder.base(0x1F, Self::new(A, false), 1, 1);
 
         // PREFIX RR r8
-        builder.extended(0x18, Self::new(B, true));
-        builder.extended(0x19, Self::new(C, true));
-        builder.extended(0x1A, Self::new(D, true));
-        builder.extended(0x1B, Self::new(E, true));
-        builder.extended(0x1C, Self::new(H, true));
-        builder.extended(0x1D, Self::new(L, true));
-        builder.extended(0x1F, Self::new(A, true));
+        builder.extended(0x18, Self::new(B, true), 2, 2);
+        builder.extended(0x19, Self::new(C, true), 2, 2);
+        builder.extended(0x1A, Self::new(D, true), 2, 2);
+        builder.extended(0x1B, Self::new(E, true), 2, 2);
+        builder.extended(0x1C, Self::new(H, true), 2, 2);
+        builder.extended(0x1D, Self::new(L, true), 2, 2);
+        builder.extended(0x1F, Self::new(A, true), 2, 2);
 
         // PREFIX RR (HL)
-        builder.extended(0x1E, Self::new(Pointer(Pair::HL), true));
+        builder.extended(0x1E, Self::new(Pointer(Pair::HL), true), 2, 4);
     }
 }
 
@@ -60,13 +60,13 @@ impl Display for CarryingRotateRight {
     }
 }
 
-impl const From<CarryingRotateRight> for Instruction {
+impl const From<CarryingRotateRight> for InstructionKind {
     fn from(value: CarryingRotateRight) -> Self {
         Self::RotateRight(RotateRight::Carrying(value))
     }
 }
 
-impl From<CarryingRotateRight> for Operation {
+impl From<CarryingRotateRight> for OperationKind {
     fn from(value: CarryingRotateRight) -> Self {
         Self::RotateRight(RotateRight::Carrying(value))
     }

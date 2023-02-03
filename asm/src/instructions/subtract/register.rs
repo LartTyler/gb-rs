@@ -1,7 +1,7 @@
 use super::Subtract;
 use crate::containers::{Data, Pair, Pointer, Register};
 use crate::enum_from_helper;
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::operations::subtract as op;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
@@ -27,7 +27,7 @@ impl RegisterSubtract {
     }
 }
 
-impl const From<RegisterSubtract> for Instruction {
+impl const From<RegisterSubtract> for InstructionKind {
     fn from(value: RegisterSubtract) -> Self {
         Self::Subtract(Subtract::Register(value))
     }
@@ -59,28 +59,28 @@ impl const SetRegister for RegisterSubtract {
         use Register::*;
 
         // SUB A, r8
-        builder.base(0x90, Self::new(B, false));
-        builder.base(0x91, Self::new(C, false));
-        builder.base(0x92, Self::new(D, false));
-        builder.base(0x93, Self::new(E, false));
-        builder.base(0x94, Self::new(H, false));
-        builder.base(0x95, Self::new(L, false));
-        builder.base(0x97, Self::new(A, false));
+        builder.base(0x90, Self::new(B, false), 1, 1);
+        builder.base(0x91, Self::new(C, false), 1, 1);
+        builder.base(0x92, Self::new(D, false), 1, 1);
+        builder.base(0x93, Self::new(E, false), 1, 1);
+        builder.base(0x94, Self::new(H, false), 1, 1);
+        builder.base(0x95, Self::new(L, false), 1, 1);
+        builder.base(0x97, Self::new(A, false), 1, 1);
 
         // SBC A, r8
-        builder.base(0x98, Self::new(B, true));
-        builder.base(0x99, Self::new(C, true));
-        builder.base(0x9A, Self::new(D, true));
-        builder.base(0x9B, Self::new(E, true));
-        builder.base(0x9C, Self::new(H, true));
-        builder.base(0x9D, Self::new(L, true));
-        builder.base(0x9F, Self::new(A, true));
+        builder.base(0x98, Self::new(B, true), 1, 1);
+        builder.base(0x99, Self::new(C, true), 1, 1);
+        builder.base(0x9A, Self::new(D, true), 1, 1);
+        builder.base(0x9B, Self::new(E, true), 1, 1);
+        builder.base(0x9C, Self::new(H, true), 1, 1);
+        builder.base(0x9D, Self::new(L, true), 1, 1);
+        builder.base(0x9F, Self::new(A, true), 1, 1);
 
         // Others
-        builder.base(0x96, Self::new(Pointer(Pair::HL), false));
-        builder.base(0x9E, Self::new(Pointer(Pair::HL), true));
-        builder.base(0xD6, Self::new(Data::new(), false));
-        builder.base(0xDE, Self::new(Data::new(), true));
+        builder.base(0x96, Self::new(Pointer(Pair::HL), false), 1, 2);
+        builder.base(0x9E, Self::new(Pointer(Pair::HL), true), 1, 2);
+        builder.base(0xD6, Self::new(Data::new(), false), 2, 2);
+        builder.base(0xDE, Self::new(Data::new(), true), 2, 2);
     }
 }
 

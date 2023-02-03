@@ -1,5 +1,5 @@
-use super::{Instruction, SetRegister};
-use crate::operations::{bit as op, Operation};
+use super::{InstructionKind, SetRegister};
+use crate::operations::{bit as op, OperationKind};
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -51,7 +51,7 @@ impl Parse for Bit {
         parse_helper!(
             self,
             data[offset],
-            Self::SetCarryFlag => Operation::Bit(op::Bit::SetCarryFlag),
+            Self::SetCarryFlag => OperationKind::Bit(op::Bit::SetCarryFlag),
             Self::Complement(inner),
             Self::Set(inner),
             Self::Reset(inner),
@@ -68,7 +68,7 @@ impl Parse for Bit {
 
 impl const SetRegister for Bit {
     fn register(builder: &mut Builder) {
-        builder.base(0x37, Self::SetCarryFlag);
+        builder.base(0x37, Self::SetCarryFlag, 1, 1);
 
         register_helper!(
             builder,
@@ -86,8 +86,8 @@ impl const SetRegister for Bit {
     }
 }
 
-impl const From<Bit> for Instruction {
+impl const From<Bit> for InstructionKind {
     fn from(value: Bit) -> Self {
-        Instruction::Bit(value)
+        InstructionKind::Bit(value)
     }
 }
