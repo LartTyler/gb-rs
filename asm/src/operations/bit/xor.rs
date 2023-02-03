@@ -1,7 +1,7 @@
 use super::Bit;
 use crate::containers::{Pair, Pointer, Register, Value};
 use crate::enum_from_helper;
-use crate::operations::Operation;
+use crate::operations::OperationKind;
 use parse_display::Display;
 
 #[derive(Debug, Clone, Copy, Display)]
@@ -11,11 +11,11 @@ pub struct BitwiseXor {
 }
 
 impl BitwiseXor {
-    pub fn create<T>(target: T) -> Operation
+    pub fn create<T>(target: T) -> OperationKind
     where
         T: Into<BitwiseXorTarget>,
     {
-        Operation::Bit(Bit::Xor(Self {
+        OperationKind::Bit(Bit::Xor(Self {
             target: target.into(),
         }))
     }

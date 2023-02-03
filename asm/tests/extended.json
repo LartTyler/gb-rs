@@ -1,0 +1,2306 @@
+[
+	{
+		"opcode": 0,
+		"label": "RLC B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 1,
+		"label": "RLC C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 2,
+		"label": "RLC D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 3,
+		"label": "RLC E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 4,
+		"label": "RLC H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 5,
+		"label": "RLC L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 6,
+		"label": "RLC (HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 7,
+		"label": "RLC A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 8,
+		"label": "RRC B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 9,
+		"label": "RRC C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 10,
+		"label": "RRC D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 11,
+		"label": "RRC E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 12,
+		"label": "RRC H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 13,
+		"label": "RRC L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 14,
+		"label": "RRC (HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 15,
+		"label": "RRC A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 16,
+		"label": "RL B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 17,
+		"label": "RL C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 18,
+		"label": "RL D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 19,
+		"label": "RL E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 20,
+		"label": "RL H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 21,
+		"label": "RL L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 22,
+		"label": "RL (HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 23,
+		"label": "RL A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 24,
+		"label": "RR B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 25,
+		"label": "RR C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 26,
+		"label": "RR D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 27,
+		"label": "RR E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 28,
+		"label": "RR H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 29,
+		"label": "RR L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 30,
+		"label": "RR (HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 31,
+		"label": "RR A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 32,
+		"label": "SLA B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 33,
+		"label": "SLA C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 34,
+		"label": "SLA D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 35,
+		"label": "SLA E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 36,
+		"label": "SLA H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 37,
+		"label": "SLA L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 38,
+		"label": "SLA (HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 39,
+		"label": "SLA A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 40,
+		"label": "SRA B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 41,
+		"label": "SRA C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 42,
+		"label": "SRA D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 43,
+		"label": "SRA E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 44,
+		"label": "SRA H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 45,
+		"label": "SRA L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 46,
+		"label": "SRA (HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 47,
+		"label": "SRA A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 48,
+		"label": "SWAP B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 49,
+		"label": "SWAP C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 50,
+		"label": "SWAP D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 51,
+		"label": "SWAP E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 52,
+		"label": "SWAP H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 53,
+		"label": "SWAP L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 54,
+		"label": "SWAP (HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 55,
+		"label": "SWAP A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 56,
+		"label": "SRL B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 57,
+		"label": "SRL C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 58,
+		"label": "SRL D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 59,
+		"label": "SRL E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 60,
+		"label": "SRL H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 61,
+		"label": "SRL L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 62,
+		"label": "SRL (HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 63,
+		"label": "SRL A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 64,
+		"label": "BIT 0,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 65,
+		"label": "BIT 0,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 66,
+		"label": "BIT 0,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 67,
+		"label": "BIT 0,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 68,
+		"label": "BIT 0,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 69,
+		"label": "BIT 0,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 70,
+		"label": "BIT 0,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 71,
+		"label": "BIT 0,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 72,
+		"label": "BIT 1,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 73,
+		"label": "BIT 1,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 74,
+		"label": "BIT 1,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 75,
+		"label": "BIT 1,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 76,
+		"label": "BIT 1,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 77,
+		"label": "BIT 1,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 78,
+		"label": "BIT 1,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 79,
+		"label": "BIT 1,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 80,
+		"label": "BIT 2,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 81,
+		"label": "BIT 2,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 82,
+		"label": "BIT 2,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 83,
+		"label": "BIT 2,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 84,
+		"label": "BIT 2,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 85,
+		"label": "BIT 2,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 86,
+		"label": "BIT 2,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 87,
+		"label": "BIT 2,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 88,
+		"label": "BIT 3,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 89,
+		"label": "BIT 3,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 90,
+		"label": "BIT 3,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 91,
+		"label": "BIT 3,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 92,
+		"label": "BIT 3,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 93,
+		"label": "BIT 3,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 94,
+		"label": "BIT 3,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 95,
+		"label": "BIT 3,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 96,
+		"label": "BIT 4,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 97,
+		"label": "BIT 4,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 98,
+		"label": "BIT 4,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 99,
+		"label": "BIT 4,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 100,
+		"label": "BIT 4,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 101,
+		"label": "BIT 4,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 102,
+		"label": "BIT 4,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 103,
+		"label": "BIT 4,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 104,
+		"label": "BIT 5,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 105,
+		"label": "BIT 5,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 106,
+		"label": "BIT 5,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 107,
+		"label": "BIT 5,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 108,
+		"label": "BIT 5,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 109,
+		"label": "BIT 5,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 110,
+		"label": "BIT 5,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 111,
+		"label": "BIT 5,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 112,
+		"label": "BIT 6,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 113,
+		"label": "BIT 6,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 114,
+		"label": "BIT 6,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 115,
+		"label": "BIT 6,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 116,
+		"label": "BIT 6,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 117,
+		"label": "BIT 6,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 118,
+		"label": "BIT 6,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 119,
+		"label": "BIT 6,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 120,
+		"label": "BIT 7,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 121,
+		"label": "BIT 7,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 122,
+		"label": "BIT 7,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 123,
+		"label": "BIT 7,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 124,
+		"label": "BIT 7,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 125,
+		"label": "BIT 7,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 126,
+		"label": "BIT 7,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 127,
+		"label": "BIT 7,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 128,
+		"label": "RES 0,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 129,
+		"label": "RES 0,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 130,
+		"label": "RES 0,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 131,
+		"label": "RES 0,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 132,
+		"label": "RES 0,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 133,
+		"label": "RES 0,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 134,
+		"label": "RES 0,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 135,
+		"label": "RES 0,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 136,
+		"label": "RES 1,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 137,
+		"label": "RES 1,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 138,
+		"label": "RES 1,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 139,
+		"label": "RES 1,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 140,
+		"label": "RES 1,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 141,
+		"label": "RES 1,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 142,
+		"label": "RES 1,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 143,
+		"label": "RES 1,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 144,
+		"label": "RES 2,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 145,
+		"label": "RES 2,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 146,
+		"label": "RES 2,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 147,
+		"label": "RES 2,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 148,
+		"label": "RES 2,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 149,
+		"label": "RES 2,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 150,
+		"label": "RES 2,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 151,
+		"label": "RES 2,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 152,
+		"label": "RES 3,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 153,
+		"label": "RES 3,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 154,
+		"label": "RES 3,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 155,
+		"label": "RES 3,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 156,
+		"label": "RES 3,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 157,
+		"label": "RES 3,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 158,
+		"label": "RES 3,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 159,
+		"label": "RES 3,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 160,
+		"label": "RES 4,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 161,
+		"label": "RES 4,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 162,
+		"label": "RES 4,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 163,
+		"label": "RES 4,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 164,
+		"label": "RES 4,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 165,
+		"label": "RES 4,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 166,
+		"label": "RES 4,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 167,
+		"label": "RES 4,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 168,
+		"label": "RES 5,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 169,
+		"label": "RES 5,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 170,
+		"label": "RES 5,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 171,
+		"label": "RES 5,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 172,
+		"label": "RES 5,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 173,
+		"label": "RES 5,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 174,
+		"label": "RES 5,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 175,
+		"label": "RES 5,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 176,
+		"label": "RES 6,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 177,
+		"label": "RES 6,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 178,
+		"label": "RES 6,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 179,
+		"label": "RES 6,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 180,
+		"label": "RES 6,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 181,
+		"label": "RES 6,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 182,
+		"label": "RES 6,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 183,
+		"label": "RES 6,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 184,
+		"label": "RES 7,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 185,
+		"label": "RES 7,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 186,
+		"label": "RES 7,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 187,
+		"label": "RES 7,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 188,
+		"label": "RES 7,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 189,
+		"label": "RES 7,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 190,
+		"label": "RES 7,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 191,
+		"label": "RES 7,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 192,
+		"label": "SET 0,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 193,
+		"label": "SET 0,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 194,
+		"label": "SET 0,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 195,
+		"label": "SET 0,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 196,
+		"label": "SET 0,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 197,
+		"label": "SET 0,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 198,
+		"label": "SET 0,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 199,
+		"label": "SET 0,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 200,
+		"label": "SET 1,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 201,
+		"label": "SET 1,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 202,
+		"label": "SET 1,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 203,
+		"label": "SET 1,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 204,
+		"label": "SET 1,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 205,
+		"label": "SET 1,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 206,
+		"label": "SET 1,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 207,
+		"label": "SET 1,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 208,
+		"label": "SET 2,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 209,
+		"label": "SET 2,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 210,
+		"label": "SET 2,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 211,
+		"label": "SET 2,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 212,
+		"label": "SET 2,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 213,
+		"label": "SET 2,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 214,
+		"label": "SET 2,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 215,
+		"label": "SET 2,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 216,
+		"label": "SET 3,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 217,
+		"label": "SET 3,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 218,
+		"label": "SET 3,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 219,
+		"label": "SET 3,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 220,
+		"label": "SET 3,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 221,
+		"label": "SET 3,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 222,
+		"label": "SET 3,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 223,
+		"label": "SET 3,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 224,
+		"label": "SET 4,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 225,
+		"label": "SET 4,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 226,
+		"label": "SET 4,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 227,
+		"label": "SET 4,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 228,
+		"label": "SET 4,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 229,
+		"label": "SET 4,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 230,
+		"label": "SET 4,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 231,
+		"label": "SET 4,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 232,
+		"label": "SET 5,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 233,
+		"label": "SET 5,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 234,
+		"label": "SET 5,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 235,
+		"label": "SET 5,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 236,
+		"label": "SET 5,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 237,
+		"label": "SET 5,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 238,
+		"label": "SET 5,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 239,
+		"label": "SET 5,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 240,
+		"label": "SET 6,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 241,
+		"label": "SET 6,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 242,
+		"label": "SET 6,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 243,
+		"label": "SET 6,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 244,
+		"label": "SET 6,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 245,
+		"label": "SET 6,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 246,
+		"label": "SET 6,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 247,
+		"label": "SET 6,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 248,
+		"label": "SET 7,B",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 249,
+		"label": "SET 7,C",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 250,
+		"label": "SET 7,D",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 251,
+		"label": "SET 7,E",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 252,
+		"label": "SET 7,H",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 253,
+		"label": "SET 7,L",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	},
+	{
+		"opcode": 254,
+		"label": "SET 7,(HL)",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 4
+		}
+	},
+	{
+		"opcode": 255,
+		"label": "SET 7,A",
+		"width": 2,
+		"cycles": {
+			"kind": "fixed",
+			"value": 2
+		}
+	}
+]

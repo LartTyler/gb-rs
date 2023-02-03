@@ -1,9 +1,9 @@
-use crate::{operations::Operation, read};
+use crate::{operations::OperationKind, read};
 use parse_display::Display;
 use thiserror::Error;
 
 pub type Result<T> = std::result::Result<T, Error>;
-pub type ParseResult = Result<Operation>;
+pub type ParseResult = Result<OperationKind>;
 
 /// Trait implemented by instructions to facilitate conversion to an [Operation].
 pub trait Parse {

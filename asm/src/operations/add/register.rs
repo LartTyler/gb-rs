@@ -1,6 +1,6 @@
 use super::Add;
 use crate::containers::{Pair, Pointer, Register, Value};
-use crate::operations::Operation;
+use crate::operations::OperationKind;
 use parse_display::Display;
 use std::fmt::Display;
 
@@ -11,11 +11,11 @@ pub struct RegisterAdd {
 }
 
 impl RegisterAdd {
-    pub fn create<S>(source: S, with_carry: bool) -> Operation
+    pub fn create<S>(source: S, with_carry: bool) -> OperationKind
     where
         S: Into<RegisterAddSource>,
     {
-        Operation::Add(Add::Register(Self {
+        OperationKind::Add(Add::Register(Self {
             source: source.into(),
             with_carry,
         }))

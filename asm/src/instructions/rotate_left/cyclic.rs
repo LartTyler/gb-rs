@@ -1,7 +1,7 @@
 use super::RotateLeft;
 use crate::containers::{Pair, Pointer, Register};
-use crate::instructions::{Instruction, SetRegister};
-use crate::operations::Operation;
+use crate::instructions::{InstructionKind, SetRegister};
+use crate::operations::OperationKind;
 use crate::parse::{Parse, ParseResult};
 use crate::{read::Read, sets::Builder};
 use parse_display::Display;
@@ -43,29 +43,29 @@ impl const SetRegister for CyclicRotateLeft {
         use Register::*;
 
         // RLCA
-        builder.base(0x07, Self::new(A, false));
+        builder.base(0x07, Self::new(A, false), 1, 1);
 
         // PREFIX RLC r8
-        builder.extended(0x00, Self::new(B, true));
-        builder.extended(0x01, Self::new(C, true));
-        builder.extended(0x02, Self::new(D, true));
-        builder.extended(0x03, Self::new(E, true));
-        builder.extended(0x04, Self::new(H, true));
-        builder.extended(0x05, Self::new(L, true));
-        builder.extended(0x07, Self::new(A, true));
+        builder.extended(0x00, Self::new(B, true), 2, 2);
+        builder.extended(0x01, Self::new(C, true), 2, 2);
+        builder.extended(0x02, Self::new(D, true), 2, 2);
+        builder.extended(0x03, Self::new(E, true), 2, 2);
+        builder.extended(0x04, Self::new(H, true), 2, 2);
+        builder.extended(0x05, Self::new(L, true), 2, 2);
+        builder.extended(0x07, Self::new(A, true), 2, 2);
 
         // PREFIX RLC (HL)
-        builder.extended(0x06, Self::new(Pointer(Pair::HL), true));
+        builder.extended(0x06, Self::new(Pointer(Pair::HL), true), 2, 4);
     }
 }
 
-impl const From<CyclicRotateLeft> for Instruction {
+impl const From<CyclicRotateLeft> for InstructionKind {
     fn from(value: CyclicRotateLeft) -> Self {
         Self::RotateLeft(RotateLeft::Cylic(value))
     }
 }
 
-impl From<CyclicRotateLeft> for Operation {
+impl From<CyclicRotateLeft> for OperationKind {
     fn from(value: CyclicRotateLeft) -> Self {
         Self::RotateLeft(RotateLeft::Cylic(value))
     }

@@ -1,6 +1,7 @@
-use crate::instructions::Instruction;
+use crate::containers::Cycles;
+use crate::instructions::{Instruction, InstructionKind};
 use crate::operations::Operation;
-use crate::parse::{self, Opcode, Parse};
+use crate::parse::{self, Opcode};
 use crate::read;
 
 pub type Set = [Option<Instruction>; 256];
@@ -12,7 +13,7 @@ pub struct Instructions {
 
 impl Default for Instructions {
     fn default() -> Self {
-        Instruction::set()
+        InstructionKind::set()
     }
 }
 
@@ -77,28 +78,38 @@ impl Builder {
         Self { base, extended }
     }
 
-    pub const fn base<I>(&mut self, opcode: u8, instruction: I)
+    pub const fn base<I, C>(&mut self, opcode: u8, instruction: I, width: u8, cycles: C)
     where
-        I: ~const Into<Instruction>,
+        I: ~const Into<InstructionKind>,
+        C: ~const Into<Cycles>,
     {
         debug_assert!(
             self.base[opcode as usize].is_none(),
             "aborting due to duplicate base opcode; you'll have to check the backtrace to find out where this is happening"
         );
 
-        self.base[opcode as usize].replace(instruction.into());
+        self.base[opcode as usize].replace(Instruction {
+            kind: instruction.into(),
+            width,
+            cycles: cycles.into(),
+        });
     }
 
-    pub const fn extended<I>(&mut self, opcode: u8, instruction: I)
+    pub const fn extended<I, C>(&mut self, opcode: u8, instruction: I, width: u8, cycles: C)
     where
-        I: ~const Into<Instruction>,
+        I: ~const Into<InstructionKind>,
+        C: ~const Into<Cycles>,
     {
         debug_assert!(
             self.extended[opcode as usize].is_none(),
             "aborting due to duplicate extended opcode; you'll have to check the backtrace to find out where this is happening"
         );
 
-        self.extended[opcode as usize].replace(instruction.into());
+        self.extended[opcode as usize].replace(Instruction {
+            kind: instruction.into(),
+            width,
+            cycles: cycles.into(),
+        });
     }
 
     pub const fn build(self) -> Instructions {

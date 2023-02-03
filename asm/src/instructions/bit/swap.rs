@@ -1,7 +1,7 @@
 use crate::containers::{Pair, Pointer, Register};
 use crate::enum_from_helper;
-use crate::instructions::{Instruction, SetRegister};
-use crate::operations::{bit as op, Operation};
+use crate::instructions::{InstructionKind, SetRegister};
+use crate::operations::{bit as op, OperationKind};
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -24,13 +24,13 @@ impl Swap {
     }
 }
 
-impl const From<Swap> for Instruction {
+impl const From<Swap> for InstructionKind {
     fn from(value: Swap) -> Self {
         Self::Bit(super::Bit::Swap(value))
     }
 }
 
-impl From<Swap> for Operation {
+impl From<Swap> for OperationKind {
     fn from(value: Swap) -> Self {
         Self::Bit(op::Bit::Swap(value))
     }
@@ -40,14 +40,14 @@ impl const SetRegister for Swap {
     fn register(builder: &mut Builder) {
         use Register::*;
 
-        builder.extended(0x30, Self::new(B));
-        builder.extended(0x31, Self::new(C));
-        builder.extended(0x32, Self::new(D));
-        builder.extended(0x33, Self::new(E));
-        builder.extended(0x34, Self::new(H));
-        builder.extended(0x35, Self::new(L));
-        builder.extended(0x36, Self::new(Pointer(Pair::HL)));
-        builder.extended(0x37, Self::new(A));
+        builder.extended(0x30, Self::new(B), 2, 2);
+        builder.extended(0x31, Self::new(C), 2, 2);
+        builder.extended(0x32, Self::new(D), 2, 2);
+        builder.extended(0x33, Self::new(E), 2, 2);
+        builder.extended(0x34, Self::new(H), 2, 2);
+        builder.extended(0x35, Self::new(L), 2, 2);
+        builder.extended(0x36, Self::new(Pointer(Pair::HL)), 2, 4);
+        builder.extended(0x37, Self::new(A), 2, 2);
     }
 }
 

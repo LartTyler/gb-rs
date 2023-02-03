@@ -1,6 +1,6 @@
 use super::Subroutine;
 use crate::containers::{Condition, Flag};
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -21,7 +21,7 @@ impl Return {
     }
 }
 
-impl const From<Return> for Instruction {
+impl const From<Return> for InstructionKind {
     fn from(value: Return) -> Self {
         Self::Subroutine(Subroutine::Return(value))
     }
@@ -32,12 +32,12 @@ impl const SetRegister for Return {
         use Condition::*;
         use Flag::*;
 
-        builder.base(0xC0, Self::new(Unset(Zero), false));
-        builder.base(0xC8, Self::new(Set(Zero), false));
-        builder.base(0xC9, Self::new(Always, false));
-        builder.base(0xD0, Self::new(Unset(Carry), false));
-        builder.base(0xD8, Self::new(Set(Carry), false));
-        builder.base(0xD9, Self::new(Always, true));
+        builder.base(0xC0, Self::new(Unset(Zero), false), 1, (2, 5));
+        builder.base(0xC8, Self::new(Set(Zero), false), 1, (2, 5));
+        builder.base(0xC9, Self::new(Always, false), 1, 4);
+        builder.base(0xD0, Self::new(Unset(Carry), false), 1, (2, 5));
+        builder.base(0xD8, Self::new(Set(Carry), false), 1, (2, 5));
+        builder.base(0xD9, Self::new(Always, true), 1, 4);
     }
 }
 

@@ -1,8 +1,8 @@
 use super::Stack;
 use crate::containers::Pair;
 use crate::enum_from_helper;
-use crate::instructions::{Instruction, SetRegister};
-use crate::operations::Operation;
+use crate::instructions::{InstructionKind, SetRegister};
+use crate::operations::OperationKind;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -25,13 +25,13 @@ impl PopStack {
     }
 }
 
-impl const From<PopStack> for Instruction {
+impl const From<PopStack> for InstructionKind {
     fn from(value: PopStack) -> Self {
         Self::Stack(Stack::Pop(value))
     }
 }
 
-impl From<PopStack> for Operation {
+impl From<PopStack> for OperationKind {
     fn from(value: PopStack) -> Self {
         Self::Stack(Stack::Pop(value))
     }
@@ -41,10 +41,10 @@ impl const SetRegister for PopStack {
     fn register(builder: &mut Builder) {
         use Pair::*;
 
-        builder.base(0xC1, Self::new(BC));
-        builder.base(0xD1, Self::new(DE));
-        builder.base(0xE1, Self::new(HL));
-        builder.base(0xF1, Self::new(PopStackTarget::AccumulatorAndFlags));
+        builder.base(0xC1, Self::new(BC), 1, 3);
+        builder.base(0xD1, Self::new(DE), 1, 3);
+        builder.base(0xE1, Self::new(HL), 1, 3);
+        builder.base(0xF1, Self::new(PopStackTarget::AccumulatorAndFlags), 1, 3);
     }
 }
 

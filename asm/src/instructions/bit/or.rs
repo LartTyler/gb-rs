@@ -1,6 +1,6 @@
 use crate::containers::{Data, Pair, Pointer, Register};
 use crate::enum_from_helper;
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::operations::bit as op;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
@@ -24,7 +24,7 @@ impl BitwiseOr {
     }
 }
 
-impl const From<BitwiseOr> for Instruction {
+impl const From<BitwiseOr> for InstructionKind {
     fn from(value: BitwiseOr) -> Self {
         Self::Bit(super::Bit::Or(value))
     }
@@ -49,17 +49,17 @@ impl const SetRegister for BitwiseOr {
         use Register::*;
 
         // OR r8
-        builder.base(0xB0, Self::new(B));
-        builder.base(0xB1, Self::new(C));
-        builder.base(0xB2, Self::new(D));
-        builder.base(0xB3, Self::new(E));
-        builder.base(0xB4, Self::new(H));
-        builder.base(0xB5, Self::new(L));
-        builder.base(0xB7, Self::new(A));
+        builder.base(0xB0, Self::new(B), 1, 1);
+        builder.base(0xB1, Self::new(C), 1, 1);
+        builder.base(0xB2, Self::new(D), 1, 1);
+        builder.base(0xB3, Self::new(E), 1, 1);
+        builder.base(0xB4, Self::new(H), 1, 1);
+        builder.base(0xB5, Self::new(L), 1, 1);
+        builder.base(0xB7, Self::new(A), 1, 1);
 
         // Others
-        builder.base(0xB6, Self::new(Pointer(Pair::HL)));
-        builder.base(0xF6, Self::new(Data::new()));
+        builder.base(0xB6, Self::new(Pointer(Pair::HL)), 1, 2);
+        builder.base(0xF6, Self::new(Data::new()), 2, 2);
     }
 }
 

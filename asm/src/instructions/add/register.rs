@@ -1,6 +1,6 @@
 use super::Add;
 use crate::containers::{Data, Pair, Pointer, Register};
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::operations::add as op;
 use crate::parse::{Parse, ParseResult};
 use crate::{read::Read, sets::Builder};
@@ -44,32 +44,32 @@ impl const SetRegister for RegisterAdd {
         use Register::*;
 
         // ADD r8, r8
-        builder.base(0x80, Self::new(B, false));
-        builder.base(0x81, Self::new(C, false));
-        builder.base(0x82, Self::new(D, false));
-        builder.base(0x83, Self::new(E, false));
-        builder.base(0x84, Self::new(H, false));
-        builder.base(0x85, Self::new(L, false));
-        builder.base(0x87, Self::new(A, false));
+        builder.base(0x80, Self::new(B, false), 1, 1);
+        builder.base(0x81, Self::new(C, false), 1, 1);
+        builder.base(0x82, Self::new(D, false), 1, 1);
+        builder.base(0x83, Self::new(E, false), 1, 1);
+        builder.base(0x84, Self::new(H, false), 1, 1);
+        builder.base(0x85, Self::new(L, false), 1, 1);
+        builder.base(0x87, Self::new(A, false), 1, 1);
 
         // ADC r8, r8
-        builder.base(0x88, Self::new(B, true));
-        builder.base(0x89, Self::new(C, true));
-        builder.base(0x8A, Self::new(D, true));
-        builder.base(0x8B, Self::new(E, true));
-        builder.base(0x8C, Self::new(H, true));
-        builder.base(0x8D, Self::new(L, true));
-        builder.base(0x8F, Self::new(A, true));
+        builder.base(0x88, Self::new(B, true), 1, 1);
+        builder.base(0x89, Self::new(C, true), 1, 1);
+        builder.base(0x8A, Self::new(D, true), 1, 1);
+        builder.base(0x8B, Self::new(E, true), 1, 1);
+        builder.base(0x8C, Self::new(H, true), 1, 1);
+        builder.base(0x8D, Self::new(L, true), 1, 1);
+        builder.base(0x8F, Self::new(A, true), 1, 1);
 
         // Others
-        builder.base(0x86, Self::new(Pointer(Pair::HL), false));
-        builder.base(0x8E, Self::new(Pointer(Pair::HL), true));
-        builder.base(0xC6, Self::new(Data::new(), false));
-        builder.base(0xCE, Self::new(Data::new(), true));
+        builder.base(0x86, Self::new(Pointer(Pair::HL), false), 1, 2);
+        builder.base(0x8E, Self::new(Pointer(Pair::HL), true), 1, 2);
+        builder.base(0xC6, Self::new(Data::new(), false), 2, 2);
+        builder.base(0xCE, Self::new(Data::new(), true), 2, 2);
     }
 }
 
-impl const From<RegisterAdd> for Instruction {
+impl const From<RegisterAdd> for InstructionKind {
     fn from(value: RegisterAdd) -> Self {
         Self::Add(Add::Register(value))
     }

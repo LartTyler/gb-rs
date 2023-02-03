@@ -1,7 +1,7 @@
 use super::Load;
 use crate::containers::{ByteData, Data, Pair, Pointer, Register, WordData};
 use crate::enum_from_helper;
-use crate::instructions::{Instruction, SetRegister};
+use crate::instructions::{InstructionKind, SetRegister};
 use crate::operations::load as op;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
@@ -52,14 +52,14 @@ impl Parse for DataPointerLoad {
 
 impl const SetRegister for DataPointerLoad {
     fn register(builder: &mut crate::sets::Builder) {
-        builder.base(0x08, Self::new(Pointer(WordData::new()), Pair::SP));
-        builder.base(0xEA, Self::new(Pointer(WordData::new()), Register::A));
+        builder.base(0x08, Self::new(Pointer(WordData::new()), Pair::SP), 3, 5);
+        builder.base(0xEA, Self::new(Pointer(WordData::new()), Register::A), 3, 4);
 
-        builder.base(0xE0, Self::new(Pointer(ByteData::new()), Register::A));
+        builder.base(0xE0, Self::new(Pointer(ByteData::new()), Register::A), 2, 3);
     }
 }
 
-impl const From<DataPointerLoad> for Instruction {
+impl const From<DataPointerLoad> for InstructionKind {
     fn from(value: DataPointerLoad) -> Self {
         Self::Load(Load::DataPointer(value))
     }

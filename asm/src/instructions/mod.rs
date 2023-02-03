@@ -9,8 +9,9 @@ use self::rotate_right::RotateRight;
 use self::stack::Stack;
 use self::subroutine::Subroutine;
 use self::subtract::Subtract;
-use crate::operations::Operation;
-use crate::parse::{Parse, ParseResult};
+use crate::containers::Cycles;
+use crate::operations::{Operation, OperationKind};
+use crate::parse::{self, Parse, ParseResult};
 use crate::{parse_helper, read::Read, register_helper, sets};
 use parse_display::Display;
 
@@ -26,9 +27,26 @@ pub mod stack;
 pub mod subroutine;
 pub mod subtract;
 
+#[derive(Debug, Clone, Copy)]
+pub struct Instruction {
+    pub kind: InstructionKind,
+    pub width: u8,
+    pub cycles: Cycles,
+}
+
+impl Instruction {
+    pub fn parse<R: Read>(&self, data: &R, offset: u16) -> parse::Result<Operation> {
+        Ok(Operation {
+            kind: self.kind.parse(data, offset)?,
+            width: self.width,
+            cycles: self.cycles,
+        })
+    }
+}
+
 #[derive(Debug, Clone, Copy, Display)]
 #[display("{0}")]
-pub enum Instruction {
+pub enum InstructionKind {
     #[display("NOP")]
     Nop,
 
@@ -60,16 +78,16 @@ pub enum Instruction {
     Stack(Stack),
 }
 
-impl Instruction {
+impl InstructionKind {
     pub const fn set() -> sets::Instructions {
         let mut builder = sets::Builder::default();
 
-        builder.base(0x00, Instruction::Nop);
-        builder.base(0x10, Instruction::Stop);
-        builder.base(0x27, Instruction::DecimalAdjust);
-        builder.base(0x76, Instruction::Halt);
-        builder.base(0xF3, Instruction::DisableInterrupts);
-        builder.base(0xFB, Instruction::EnableInterrupts);
+        builder.base(0x00, InstructionKind::Nop, 1, 1);
+        builder.base(0x10, InstructionKind::Stop, 1, 1);
+        builder.base(0x27, InstructionKind::DecimalAdjust, 1, 1);
+        builder.base(0x76, InstructionKind::Halt, 1, 1);
+        builder.base(0xF3, InstructionKind::DisableInterrupts, 1, 1);
+        builder.base(0xFB, InstructionKind::EnableInterrupts, 1, 1);
 
         register_helper!(
             &mut builder,
@@ -90,17 +108,17 @@ impl Instruction {
     }
 }
 
-impl Parse for Instruction {
+impl Parse for InstructionKind {
     fn parse<R: Read>(&self, data: &R, offset: u16) -> ParseResult {
         parse_helper!(
             self,
             data[offset],
-            Self::Nop => Operation::Nop,
-            Self::Stop => Operation::Stop,
-            Self::DecimalAdjust => Operation::DecimalAdjust,
-            Self::Halt => Operation::Halt,
-            Self::DisableInterrupts => Operation::DisableInterrupts,
-            Self::EnableInterrupts => Operation::EnableInterrupts,
+            Self::Nop => OperationKind::Nop,
+            Self::Stop => OperationKind::Stop,
+            Self::DecimalAdjust => OperationKind::DecimalAdjust,
+            Self::Halt => OperationKind::Halt,
+            Self::DisableInterrupts => OperationKind::DisableInterrupts,
+            Self::EnableInterrupts => OperationKind::EnableInterrupts,
             Self::Load(inner),
             Self::Increment(inner),
             Self::Decrement(inner),

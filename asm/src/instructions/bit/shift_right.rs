@@ -1,7 +1,7 @@
 use crate::containers::{Pair, Pointer, Register};
 use crate::enum_from_helper;
-use crate::instructions::{Instruction, SetRegister};
-use crate::operations::{bit as op, Operation};
+use crate::instructions::{InstructionKind, SetRegister};
+use crate::operations::{bit as op, OperationKind};
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -32,13 +32,13 @@ impl Display for ShiftRight {
     }
 }
 
-impl const From<ShiftRight> for Instruction {
+impl const From<ShiftRight> for InstructionKind {
     fn from(value: ShiftRight) -> Self {
         Self::Bit(super::Bit::ShiftRight(value))
     }
 }
 
-impl From<ShiftRight> for Operation {
+impl From<ShiftRight> for OperationKind {
     fn from(value: ShiftRight) -> Self {
         Self::Bit(op::Bit::ShiftRight(value))
     }
@@ -50,24 +50,24 @@ impl const SetRegister for ShiftRight {
         use ShiftRightKind::*;
 
         // SRA instructions
-        builder.extended(0x28, Self::new(B, Arithmetic));
-        builder.extended(0x29, Self::new(C, Arithmetic));
-        builder.extended(0x2A, Self::new(D, Arithmetic));
-        builder.extended(0x2B, Self::new(E, Arithmetic));
-        builder.extended(0x2C, Self::new(H, Arithmetic));
-        builder.extended(0x2D, Self::new(L, Arithmetic));
-        builder.extended(0x2E, Self::new(Pointer(Pair::HL), Arithmetic));
-        builder.extended(0x2F, Self::new(A, Arithmetic));
+        builder.extended(0x28, Self::new(B, Arithmetic), 2, 2);
+        builder.extended(0x29, Self::new(C, Arithmetic), 2, 2);
+        builder.extended(0x2A, Self::new(D, Arithmetic), 2, 2);
+        builder.extended(0x2B, Self::new(E, Arithmetic), 2, 2);
+        builder.extended(0x2C, Self::new(H, Arithmetic), 2, 2);
+        builder.extended(0x2D, Self::new(L, Arithmetic), 2, 2);
+        builder.extended(0x2E, Self::new(Pointer(Pair::HL), Arithmetic), 2, 4);
+        builder.extended(0x2F, Self::new(A, Arithmetic), 2, 2);
 
         // SRL instructions
-        builder.extended(0x38, Self::new(B, Logical));
-        builder.extended(0x39, Self::new(C, Logical));
-        builder.extended(0x3A, Self::new(D, Logical));
-        builder.extended(0x3B, Self::new(E, Logical));
-        builder.extended(0x3C, Self::new(H, Logical));
-        builder.extended(0x3D, Self::new(L, Logical));
-        builder.extended(0x3E, Self::new(Pointer(Pair::HL), Logical));
-        builder.extended(0x3F, Self::new(A, Logical));
+        builder.extended(0x38, Self::new(B, Logical), 2, 2);
+        builder.extended(0x39, Self::new(C, Logical), 2, 2);
+        builder.extended(0x3A, Self::new(D, Logical), 2, 2);
+        builder.extended(0x3B, Self::new(E, Logical), 2, 2);
+        builder.extended(0x3C, Self::new(H, Logical), 2, 2);
+        builder.extended(0x3D, Self::new(L, Logical), 2, 2);
+        builder.extended(0x3E, Self::new(Pointer(Pair::HL), Logical), 2, 4);
+        builder.extended(0x3F, Self::new(A, Logical), 2, 2);
     }
 }
 

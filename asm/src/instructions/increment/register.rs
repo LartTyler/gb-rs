@@ -1,7 +1,7 @@
 use super::Increment;
 use crate::containers::Register;
-use crate::instructions::{Instruction, SetRegister};
-use crate::operations::Operation;
+use crate::instructions::{InstructionKind, SetRegister};
+use crate::operations::OperationKind;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use crate::sets::Builder;
@@ -29,23 +29,23 @@ impl const SetRegister for RegisterIncrement {
     fn register(builder: &mut Builder) {
         use Register::*;
 
-        builder.base(0x04, Self::new(B));
-        builder.base(0x0C, Self::new(C));
-        builder.base(0x14, Self::new(D));
-        builder.base(0x1C, Self::new(E));
-        builder.base(0x24, Self::new(H));
-        builder.base(0x2C, Self::new(L));
-        builder.base(0x3C, Self::new(A));
+        builder.base(0x04, Self::new(B), 1, 1);
+        builder.base(0x0C, Self::new(C), 1, 1);
+        builder.base(0x14, Self::new(D), 1, 1);
+        builder.base(0x1C, Self::new(E), 1, 1);
+        builder.base(0x24, Self::new(H), 1, 1);
+        builder.base(0x2C, Self::new(L), 1, 1);
+        builder.base(0x3C, Self::new(A), 1, 1);
     }
 }
 
-impl const From<RegisterIncrement> for Instruction {
+impl const From<RegisterIncrement> for InstructionKind {
     fn from(value: RegisterIncrement) -> Self {
         Self::Increment(Increment::Register(value))
     }
 }
 
-impl From<RegisterIncrement> for Operation {
+impl From<RegisterIncrement> for OperationKind {
     fn from(value: RegisterIncrement) -> Self {
         Self::Increment(Increment::Register(value))
     }

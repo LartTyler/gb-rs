@@ -1,6 +1,6 @@
 use super::Load;
 use crate::containers::{Pair, Signed, Value};
-use crate::operations::Operation;
+use crate::operations::OperationKind;
 use parse_display::Display;
 
 #[derive(Debug, Clone, Display)]
@@ -11,11 +11,11 @@ pub struct PairLoad {
 }
 
 impl PairLoad {
-    pub fn create<S>(target: Pair, source: S) -> Operation
+    pub fn create<S>(target: Pair, source: S) -> OperationKind
     where
         S: Into<PairLoadSource>,
     {
-        Operation::Load(Load::Pair(Self {
+        OperationKind::Load(Load::Pair(Self {
             target,
             source: source.into(),
         }))

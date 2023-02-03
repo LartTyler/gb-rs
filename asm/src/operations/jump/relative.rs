@@ -1,6 +1,6 @@
 use super::Jump;
 use crate::containers::{Condition, Signed, Value};
-use crate::operations::Operation;
+use crate::operations::OperationKind;
 use std::fmt::Display;
 
 #[derive(Debug, Clone)]
@@ -10,11 +10,11 @@ pub struct RelativeJump {
 }
 
 impl RelativeJump {
-    pub fn create<O>(offset: O, condition: Condition) -> Operation
+    pub fn create<O>(offset: O, condition: Condition) -> OperationKind
     where
         O: Into<Signed<Value<u8>>>,
     {
-        Operation::Jump(Jump::Relative(Self {
+        OperationKind::Jump(Jump::Relative(Self {
             offset: offset.into(),
             condition,
         }))

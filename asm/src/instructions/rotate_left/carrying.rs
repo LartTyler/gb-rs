@@ -1,7 +1,7 @@
 use super::RotateLeft;
 use crate::containers::{Pair, Pointer, Register};
-use crate::instructions::{Instruction, SetRegister};
-use crate::operations::Operation;
+use crate::instructions::{InstructionKind, SetRegister};
+use crate::operations::OperationKind;
 use crate::parse::{Parse, ParseResult};
 use crate::{read::Read, sets::Builder};
 use parse_display::Display;
@@ -43,29 +43,29 @@ impl const SetRegister for CarryingRotateLeft {
         use Register::*;
 
         // RLA
-        builder.base(0x17, Self::new(A, false));
+        builder.base(0x17, Self::new(A, false), 1, 1);
 
         // PREFIX RL r8
-        builder.extended(0x10, Self::new(B, true));
-        builder.extended(0x11, Self::new(C, true));
-        builder.extended(0x12, Self::new(D, true));
-        builder.extended(0x13, Self::new(E, true));
-        builder.extended(0x14, Self::new(H, true));
-        builder.extended(0x15, Self::new(L, true));
-        builder.extended(0x17, Self::new(A, true));
+        builder.extended(0x10, Self::new(B, true), 2, 2);
+        builder.extended(0x11, Self::new(C, true), 2, 2);
+        builder.extended(0x12, Self::new(D, true), 2, 2);
+        builder.extended(0x13, Self::new(E, true), 2, 2);
+        builder.extended(0x14, Self::new(H, true), 2, 2);
+        builder.extended(0x15, Self::new(L, true), 2, 2);
+        builder.extended(0x17, Self::new(A, true), 2, 2);
 
         // PREFIX RL (HL)
-        builder.extended(0x16, Self::new(Pointer(Pair::HL), true));
+        builder.extended(0x16, Self::new(Pointer(Pair::HL), true), 2, 4);
     }
 }
 
-impl const From<CarryingRotateLeft> for Instruction {
+impl const From<CarryingRotateLeft> for InstructionKind {
     fn from(value: CarryingRotateLeft) -> Self {
         Self::RotateLeft(RotateLeft::Carrying(value))
     }
 }
 
-impl From<CarryingRotateLeft> for Operation {
+impl From<CarryingRotateLeft> for OperationKind {
     fn from(value: CarryingRotateLeft) -> Self {
         Self::RotateLeft(RotateLeft::Carrying(value))
     }

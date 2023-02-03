@@ -1,7 +1,7 @@
 use super::Decrement;
 use crate::containers::Pair;
-use crate::instructions::{Instruction, SetRegister};
-use crate::operations::Operation;
+use crate::instructions::{InstructionKind, SetRegister};
+use crate::operations::OperationKind;
 use crate::parse::{Parse, ParseResult};
 use crate::read::Read;
 use parse_display::Display;
@@ -28,20 +28,20 @@ impl const SetRegister for PairDecrement {
     fn register(builder: &mut crate::sets::Builder) {
         use Pair::*;
 
-        builder.base(0x0B, Self::new(BC));
-        builder.base(0x1B, Self::new(DE));
-        builder.base(0x2B, Self::new(HL));
-        builder.base(0x3B, Self::new(SP));
+        builder.base(0x0B, Self::new(BC), 1, 2);
+        builder.base(0x1B, Self::new(DE), 1, 2);
+        builder.base(0x2B, Self::new(HL), 1, 2);
+        builder.base(0x3B, Self::new(SP), 1, 2);
     }
 }
 
-impl const From<PairDecrement> for Instruction {
+impl const From<PairDecrement> for InstructionKind {
     fn from(value: PairDecrement) -> Self {
         Self::Decrement(Decrement::Pair(value))
     }
 }
 
-impl From<PairDecrement> for Operation {
+impl From<PairDecrement> for OperationKind {
     fn from(value: PairDecrement) -> Self {
         Self::Decrement(Decrement::Pair(value))
     }

@@ -1,4 +1,4 @@
-use super::Operation;
+use super::OperationKind;
 use crate::instructions::load::RegisterPointerLoad;
 use parse_display::Display;
 
@@ -22,7 +22,7 @@ pub enum Load {
     DataPointer(DataPointerLoad),
 }
 
-impl From<RegisterPointerLoad> for Operation {
+impl From<RegisterPointerLoad> for OperationKind {
     fn from(value: RegisterPointerLoad) -> Self {
         Self::Load(Load::RegisterPointer(value))
     }

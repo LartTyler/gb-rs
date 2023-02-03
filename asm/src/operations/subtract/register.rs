@@ -1,7 +1,7 @@
 use super::Subtract;
 use crate::containers::{Pair, Pointer, Register, Value};
 use crate::enum_from_helper;
-use crate::operations::Operation;
+use crate::operations::OperationKind;
 use parse_display::Display;
 use std::fmt::Display;
 
@@ -12,11 +12,11 @@ pub struct RegisterSubtract {
 }
 
 impl RegisterSubtract {
-    pub fn create<S>(source: S, with_carry: bool) -> Operation
+    pub fn create<S>(source: S, with_carry: bool) -> OperationKind
     where
         S: Into<RegisterSubtractSource>,
     {
-        Operation::Subtract(Subtract::Register(Self {
+        OperationKind::Subtract(Subtract::Register(Self {
             source: source.into(),
             with_carry,
         }))

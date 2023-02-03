@@ -6,8 +6,8 @@ pub trait Read {
     fn read_byte(&self, offset: u16) -> Result<u8>;
 
     fn read_word(&self, offset: u16) -> Result<u16> {
-        let high = self.read_byte(offset)? as u16;
-        let low = self.read_byte(offset + 1)? as u16;
+        let low = self.read_byte(offset)? as u16;
+        let high = self.read_byte(offset + 1)? as u16;
 
         Ok((high << 8) | low)
     }
@@ -17,4 +17,20 @@ pub trait Read {
 pub enum Error {
     #[error("could not read byte at {0:#02X}")]
     OutOfBounds(u16),
+}
+
+impl Read for [u8] {
+    fn read_byte(&self, offset: u16) -> Result<u8> {
+        self.get(offset as usize)
+            .copied()
+            .ok_or(Error::OutOfBounds(offset))
+    }
+}
+
+impl Read for Vec<u8> {
+    fn read_byte(&self, offset: u16) -> Result<u8> {
+        self.get(offset as usize)
+            .copied()
+            .ok_or(Error::OutOfBounds(offset))
+    }
 }

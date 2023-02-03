@@ -1,4 +1,4 @@
-use super::Operation;
+use super::OperationKind;
 use crate::instructions::subroutine::Return;
 use parse_display::Display;
 
@@ -13,7 +13,7 @@ pub enum Subroutine {
     Call(Call),
 }
 
-impl From<Return> for Operation {
+impl From<Return> for OperationKind {
     fn from(value: Return) -> Self {
         Self::Subroutine(Subroutine::Return(value))
     }
