@@ -146,7 +146,14 @@ impl Display for Signed<Data<u8>> {
 
 impl Display for Signed<Value<u8>> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", *self.0 as i8)
+        let val: i8 = (*self).into();
+        write!(f, "{}", val)
+    }
+}
+
+impl From<Signed<Value<u8>>> for i8 {
+    fn from(value: Signed<Value<u8>>) -> Self {
+        *value.0 as i8
     }
 }
 
@@ -162,6 +169,14 @@ impl Pointer<Data<u16>> {
 impl Pointer<Data<u8>> {
     pub fn parse<R: Read>(&self, data: &R, offset: u16) -> parse::Result<Pointer<Value<u8>>> {
         Ok(Pointer(data.read_byte(offset)?.into()))
+    }
+}
+
+impl<T> Deref for Pointer<T> {
+    type Target = T;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
 

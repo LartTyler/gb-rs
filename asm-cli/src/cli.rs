@@ -1,4 +1,4 @@
-use clap::Parser;
+use clap::{Parser, ValueEnum};
 use std::path::PathBuf;
 
 #[derive(Debug, Parser)]
@@ -15,6 +15,15 @@ pub struct Cli {
     #[arg(short, long, value_parser = clap_num::maybe_hex::<u16>)]
     pub limit: Option<u16>,
 
+    #[arg(long, value_enum, default_value_t = LimitUnit::Instructions)]
+    pub limit_on: LimitUnit,
+
     #[arg(short, action = clap::ArgAction::Count)]
     pub verbose: u8,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
+pub enum LimitUnit {
+    Instructions,
+    Bytes,
 }
