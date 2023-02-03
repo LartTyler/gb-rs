@@ -4,7 +4,7 @@ Just another Gameboy emulator, written in Rust.
 # Features
 Currently completed (or rather, "ready") features include:
 
-- [ ] Disassembler
+- [x] Disassembler / ASM parser
 - [ ] Cartridge and MBC emulation
 	- [x] MBC0 (no memory bank controller)
 	- [x] MBC1
