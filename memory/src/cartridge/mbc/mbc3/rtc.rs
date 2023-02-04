@@ -45,6 +45,12 @@ pub struct Rtc {
     timer: RefCell<Option<Instant>>,
 }
 
+impl Default for Rtc {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 const RTC_FLAG_HALT: u8 = 0x40;
 const RTC_FLAG_CARRY: u8 = 0x80;
 const RTC_FLAGS: u8 = RTC_FLAG_HALT | RTC_FLAG_CARRY;
@@ -228,9 +234,9 @@ impl Rtc {
         }
 
         if elapsed >= 86_400 || carry.is_some() {
-            let days = bytes_to_word(inner.days_low, inner.days_high) as u64;
+            let days = bytes_to_word(inner.days_high, inner.days_low) as u64;
             let days = days + carry.unwrap_or(0);
-            let (low, high) = word_to_bytes((days % 512) as u16);
+            let [high, low] = word_to_bytes((days % 512) as u16);
 
             inner.days_low = low;
             inner.days_high = (inner.days_high & 0xFE) | high;
@@ -245,7 +251,7 @@ impl Rtc {
         }
 
         if carry.is_some() {
-            inner.days_high = inner.days_high | RTC_FLAG_CARRY;
+            inner.days_high |= RTC_FLAG_CARRY;
         }
     }
 }

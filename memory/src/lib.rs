@@ -1,5 +1,6 @@
 use crate::cartridge::{Cartridge, CartridgeError};
 use crate::constants::*;
+use gb_rs_asm::read::Read;
 use gb_rs_core::bytes::{bytes_to_word, word_to_bytes};
 use gb_rs_core::config::CONFIGURATION;
 use gb_rs_core::DeviceMode;
@@ -80,7 +81,10 @@ impl Memory {
     }
 
     pub fn read_word(&self, address: u16) -> u16 {
-        bytes_to_word(self.read_byte(address + 1), self.read_byte(address))
+        let low = self.read_byte(address);
+        let high = self.read_byte(address + 1);
+
+        bytes_to_word(high, low)
     }
 
     pub fn write_byte(&mut self, address: u16, value: u8) {
@@ -123,10 +127,16 @@ impl Memory {
     }
 
     pub fn write_word(&mut self, address: u16, value: u16) {
-        let (low, high) = word_to_bytes(value);
+        let [high, low] = word_to_bytes(value);
 
-        self.write_byte(address + 1, low);
-        self.write_byte(address, high);
+        self.write_byte(address, low);
+        self.write_byte(address + 1, high);
+    }
+}
+
+impl Read for Memory {
+    fn read_byte(&self, offset: u16) -> gb_rs_asm::read::Result<u8> {
+        Ok(Memory::read_byte(self, offset))
     }
 }
 

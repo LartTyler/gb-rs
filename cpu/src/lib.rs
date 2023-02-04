@@ -1,27 +1,33 @@
-use crate::instructions::get_instruction;
-use crate::registers::Registers;
+use gb_rs_asm::sets::Instructions;
 use gb_rs_memory::Memory;
+use instructions::{Effect, Execute};
 
 pub mod instructions;
 pub mod registers;
 
 pub struct Cpu {
-    registers: Registers,
+    registers: registers::Registers,
+    instructions: Instructions,
+    cycle_counter: u16,
 }
 
 impl Cpu {
     pub fn step(&mut self, memory: &mut Memory) {
-        let opcode = memory.read_byte(self.registers.stack_pointer);
-        let instruction = get_instruction(opcode);
+        let operation = self
+            .instructions
+            .parse(memory, self.registers.program_counter)
+            .unwrap();
 
-        if instruction.is_none() {
-            panic!(
-                "Unrecognized instruction opcode {:#x} at {:#x}",
-                opcode, self.registers.stack_pointer
-            );
-        }
+        let Effect { cycles } = operation.kind.execute(self, memory, operation.cycles);
 
-        let effect = instruction.unwrap()(&mut self.registers, memory);
-        self.registers.stack_pointer += effect.width_bytes as u16;
+        self.registers.update_pc(operation.width);
+        self.update_cycles(cycles);
+    }
+
+    fn update_cycles<C>(&mut self, cycles: C)
+    where
+        C: Into<u16>,
+    {
+        self.cycle_counter = self.cycle_counter.wrapping_add(cycles.into());
     }
 }

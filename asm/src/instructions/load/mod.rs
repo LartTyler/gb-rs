@@ -63,3 +63,13 @@ pub enum Action {
     #[display("-")]
     Decrement,
 }
+
+impl Action {
+    pub fn apply(&self, value: &mut u16) {
+        match self {
+            Self::Increment => *value = value.wrapping_add(1),
+            Self::Decrement => *value = value.wrapping_sub(1),
+            Self::None => (),
+        };
+    }
+}

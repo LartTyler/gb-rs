@@ -2,14 +2,14 @@ use std::ops::{Add, BitAnd};
 
 /// "Splits" a `u16` into a byte pair.
 ///
-/// The returned tuple contains the values in the order `(low, high)`.
-pub fn word_to_bytes(value: u16) -> (u8, u8) {
-    (value as u8, (value >> 8) as u8)
+/// The returned tuple contains the values in the order `(high, low)`.
+pub fn word_to_bytes(value: u16) -> [u8; 2] {
+    value.to_be_bytes()
 }
 
 /// "Combines" two bytes into a 16-bit (word) representation.
-pub fn bytes_to_word(low: u8, high: u8) -> u16 {
-    ((high as u16) << 8) | low as u16
+pub fn bytes_to_word(high: u8, low: u8) -> u16 {
+    u16::from_be_bytes([high, low])
 }
 
 /// A "half carry" occurs during an add if there is a carry from bit 3 to 4 (i.e. from the low

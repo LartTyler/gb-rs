@@ -13,11 +13,13 @@ pub enum SupportedDeviceMode {
     Any,
 }
 
-impl Into<DeviceMode> for SupportedDeviceMode {
-    fn into(self) -> DeviceMode {
-        match self {
-            SupportedDeviceMode::Classic => DeviceMode::Classic,
-            SupportedDeviceMode::Color | SupportedDeviceMode::Any => DeviceMode::Color,
+impl From<SupportedDeviceMode> for DeviceMode {
+    fn from(value: SupportedDeviceMode) -> Self {
+        use SupportedDeviceMode::*;
+
+        match value {
+            Classic => Self::Classic,
+            Color | Any => Self::Color,
         }
     }
 }
@@ -160,8 +162,8 @@ pub fn get_device_mode(rom: &[u8]) -> SupportedDeviceMode {
 pub fn get_licensee_id(rom: &[u8]) -> u16 {
     match rom[constants::OLD_LICENSEE] {
         0x33 => bytes_to_word(
-            rom[constants::NEW_LICENSEE_LOW],
             rom[constants::NEW_LICENSEE_HIGH],
+            rom[constants::NEW_LICENSEE_LOW],
         ),
         x => x as u16,
     }

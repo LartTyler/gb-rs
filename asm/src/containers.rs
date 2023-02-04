@@ -28,16 +28,16 @@ pub enum Pair {
 #[derive(Debug, Display, Clone, Copy, PartialEq, Eq)]
 pub enum Flag {
     #[display("Z")]
-    Zero,
+    Zero = 0x80,
 
     #[display("S")]
-    Subtract,
+    Subtract = 0x40,
 
     #[display("H")]
-    HalfCarry,
+    HalfCarry = 0x20,
 
     #[display("C")]
-    Carry,
+    Carry = 0x10,
 }
 
 #[derive(Debug, Clone, Copy, Display, PartialEq, Eq)]
@@ -111,6 +111,18 @@ impl From<u16> for Value<u16> {
     }
 }
 
+impl From<Value<u8>> for u8 {
+    fn from(value: Value<u8>) -> Self {
+        *value
+    }
+}
+
+impl From<Value<u16>> for u16 {
+    fn from(value: Value<u16>) -> Self {
+        *value
+    }
+}
+
 impl<T: UpperHex> UpperHex for Value<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         UpperHex::fmt(&self.0, f)
@@ -157,6 +169,12 @@ impl From<Signed<Value<u8>>> for i8 {
     }
 }
 
+impl From<Signed<Value<u8>>> for i16 {
+    fn from(value: Signed<Value<u8>>) -> Self {
+        (*value.0 as i8).into()
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Pointer<T>(pub T);
 
@@ -177,6 +195,24 @@ impl<T> Deref for Pointer<T> {
 
     fn deref(&self) -> &Self::Target {
         &self.0
+    }
+}
+
+impl From<Pointer<Value<u8>>> for u8 {
+    fn from(value: Pointer<Value<u8>>) -> Self {
+        (*value).into()
+    }
+}
+
+impl From<Pointer<Value<u8>>> for u16 {
+    fn from(value: Pointer<Value<u8>>) -> Self {
+        (**value).into()
+    }
+}
+
+impl From<Pointer<Value<u16>>> for u16 {
+    fn from(value: Pointer<Value<u16>>) -> Self {
+        (*value).into()
     }
 }
 
@@ -266,6 +302,42 @@ impl const From<(u8, u8)> for Cycles {
         Self::Variable {
             min: value.0,
             max: value.1,
+        }
+    }
+}
+
+/// Attempts to convert a [`Cycles`] back into a `u8`. Conversion fails only if [`Cycles`] is not
+/// [`Cycles::Fixed`].
+///
+/// This is intended as a convenience for operations that never branch, and can reasonably call
+/// [`Result::expect()`] on the returned value.
+impl const TryFrom<Cycles> for u8 {
+    type Error = ();
+
+    fn try_from(value: Cycles) -> Result<Self, Self::Error> {
+        use Cycles::*;
+
+        match value {
+            Fixed(n) => Ok(n),
+            _ => Err(()),
+        }
+    }
+}
+
+/// Attempts to convert a [`Cycles`] back into a `(u8, u8)`. Conversion fails only if [`Cycles`] is
+/// not [`Cycles::Variable`].
+///
+/// This is intended as a convenience for operations that always branch, and can reasonably call
+/// [`Result::expect()`] on the returned value.
+impl const TryFrom<Cycles> for (u8, u8) {
+    type Error = ();
+
+    fn try_from(value: Cycles) -> Result<Self, Self::Error> {
+        use Cycles::*;
+
+        match value {
+            Variable { min, max } => Ok((min, max)),
+            _ => Err(()),
         }
     }
 }

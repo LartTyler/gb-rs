@@ -6,6 +6,7 @@ lazy_static! {
     pub static ref CONFIGURATION: Config = Config::new();
 }
 
+#[derive(Default)]
 pub struct Config {
     mode: Option<DeviceMode>,
     verbose: bool,
@@ -57,14 +58,5 @@ impl Config {
                     .help("Sets the level of verbosity"),
             )
             .get_matches()
-    }
-}
-
-impl Default for Config {
-    fn default() -> Self {
-        Config {
-            mode: None,
-            verbose: false,
-        }
     }
 }

@@ -1,3 +1,4 @@
+use gb_rs_asm::containers::{Flag, Pair, Register};
 use gb_rs_core::bytes::{bytes_to_word, word_to_bytes};
 
 #[derive(Debug, Default)]
@@ -15,91 +16,67 @@ pub struct Registers {
     pub stop_flag: bool,
 }
 
-#[derive(Copy, Clone)]
-pub enum Flag {
-    Zero = 0x80,
-    Subtract = 0x40,
-    HalfCarry = 0x20,
-    Carry = 0x10,
-}
-
-#[derive(Copy, Clone, PartialEq, Eq)]
-pub enum ByteRegister {
-    A,
-    B,
-    C,
-    D,
-    E,
-    H,
-    L,
-}
-
-#[derive(Copy, Clone)]
-pub enum PairRegister {
-    AF,
-    BC,
-    DE,
-    HL,
-    SP,
-}
-
 impl Registers {
-    pub fn get_byte(&self, reg: ByteRegister) -> u8 {
+    pub fn get_byte(&self, reg: Register) -> u8 {
+        use Register::*;
+
         match reg {
-            ByteRegister::A => self.a,
-            ByteRegister::B => self.b,
-            ByteRegister::C => self.c,
-            ByteRegister::D => self.d,
-            ByteRegister::E => self.e,
-            ByteRegister::H => self.h,
-            ByteRegister::L => self.l,
+            A => self.a,
+            B => self.b,
+            C => self.c,
+            D => self.d,
+            E => self.e,
+            H => self.h,
+            L => self.l,
         }
     }
 
-    pub fn set_byte(&mut self, reg: ByteRegister, value: u8) {
+    pub fn set_byte(&mut self, reg: Register, value: u8) {
+        use Register::*;
+
         let reg = match reg {
-            ByteRegister::A => &mut self.a,
-            ByteRegister::B => &mut self.b,
-            ByteRegister::C => &mut self.c,
-            ByteRegister::D => &mut self.d,
-            ByteRegister::E => &mut self.e,
-            ByteRegister::H => &mut self.h,
-            ByteRegister::L => &mut self.l,
+            A => &mut self.a,
+            B => &mut self.b,
+            C => &mut self.c,
+            D => &mut self.d,
+            E => &mut self.e,
+            H => &mut self.h,
+            L => &mut self.l,
         };
 
         *reg = value;
     }
 
-    pub fn get_pair(&self, reg: PairRegister) -> u16 {
+    pub fn get_pair(&self, reg: Pair) -> u16 {
+        use Pair::*;
+
         match reg {
-            PairRegister::AF => bytes_to_word(self.flags, self.a),
-            PairRegister::BC => bytes_to_word(self.c, self.b),
-            PairRegister::DE => bytes_to_word(self.e, self.d),
-            PairRegister::HL => bytes_to_word(self.l, self.h),
-            PairRegister::SP => self.stack_pointer,
+            BC => bytes_to_word(self.b, self.c),
+            DE => bytes_to_word(self.d, self.e),
+            HL => bytes_to_word(self.h, self.l),
+            SP => self.stack_pointer,
         }
     }
 
-    pub fn set_pair(&mut self, reg: PairRegister, value: u16) {
-        let (low, high) = word_to_bytes(value);
+    pub fn set_pair(&mut self, reg: Pair, value: u16) {
+        let [high, low] = word_to_bytes(value);
+
+        use Pair::*;
+
         match reg {
-            PairRegister::AF => {
-                self.flags = low;
-                self.a = high;
-            }
-            PairRegister::BC => {
-                self.c = low;
+            BC => {
                 self.b = high;
+                self.c = low;
             }
-            PairRegister::DE => {
-                self.e = low;
+            DE => {
                 self.d = high;
+                self.e = low;
             }
-            PairRegister::HL => {
-                self.l = low;
+            HL => {
                 self.h = high;
+                self.l = low;
             }
-            PairRegister::SP => self.stack_pointer = value,
+            SP => self.stack_pointer = value,
         }
     }
 
@@ -125,5 +102,46 @@ impl Registers {
 
     pub fn clear_flags(&mut self) {
         self.flags = 0;
+    }
+
+    pub fn update_pc<U>(&mut self, update: U)
+    where
+        U: Into<UpdateKind>,
+    {
+        update.into().apply(&mut self.program_counter);
+    }
+}
+
+pub enum UpdateKind {
+    Forward(u8),
+    Offset(i8),
+    Set(u16),
+}
+
+impl UpdateKind {
+    pub fn apply(self, pc: &mut u16) {
+        match self {
+            Self::Forward(n) => *pc = pc.wrapping_add(n.into()),
+            Self::Offset(n) => *pc = pc.wrapping_add_signed(n.into()),
+            Self::Set(n) => *pc = n,
+        }
+    }
+}
+
+impl From<u8> for UpdateKind {
+    fn from(value: u8) -> Self {
+        Self::Forward(value)
+    }
+}
+
+impl From<i8> for UpdateKind {
+    fn from(value: i8) -> Self {
+        Self::Offset(value)
+    }
+}
+
+impl From<u16> for UpdateKind {
+    fn from(value: u16) -> Self {
+        Self::Set(value)
     }
 }
