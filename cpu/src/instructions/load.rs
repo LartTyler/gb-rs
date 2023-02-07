@@ -28,14 +28,7 @@ impl Execute for PairLoad {
                 let output = initial_value.add_with_flags(data.as_twos_complement());
 
                 cpu.registers.flags.reset();
-
-                if output.half_carry {
-                    cpu.registers.flags.set(Flag::HalfCarry);
-                }
-
-                if output.carry {
-                    cpu.registers.flags.set(Flag::Carry);
-                }
+                cpu.registers.flags.update_from_math_result(&output);
 
                 output.result
             }

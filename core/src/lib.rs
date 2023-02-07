@@ -1,3 +1,5 @@
+use std::ops::{BitAnd, Sub};
+
 pub mod bytes;
 pub mod config;
 
@@ -63,5 +65,41 @@ impl Z80Add<i16> for u16 {
 
     fn add_with_flags(self, rhs: i16) -> MathResult<Self::Output> {
         self.add_with_flags(rhs as u16)
+    }
+}
+
+pub trait Z80Sub<Rhs = Self> {
+    type Output;
+
+    fn sub_with_flags(self, rhs: Rhs) -> MathResult<Self::Output>;
+}
+
+impl Z80Sub for u8 {
+    type Output = Self;
+
+    fn sub_with_flags(self, rhs: Self) -> MathResult<Self::Output> {
+        let half_carry = ((self & 0xF).wrapping_sub(rhs & 0xF) & 0x10) > 0;
+        let (result, carry) = self.overflowing_sub(rhs);
+
+        MathResult {
+            half_carry,
+            carry,
+            result,
+        }
+    }
+}
+
+impl Z80Sub for u16 {
+    type Output = Self;
+
+    fn sub_with_flags(self, rhs: Self) -> MathResult<Self::Output> {
+        let half_carry = ((self & 0xF).wrapping_sub(rhs & 0xF) & 0x10) > 0;
+        let (result, carry) = self.overflowing_sub(rhs);
+
+        MathResult {
+            half_carry,
+            carry,
+            result,
+        }
     }
 }

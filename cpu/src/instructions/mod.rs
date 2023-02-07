@@ -3,8 +3,10 @@ use gb_rs_asm::{containers::Cycles, operations::OperationKind};
 use gb_rs_memory::Memory;
 use std::convert::TryInto;
 
+mod decrement;
 mod increment;
 mod load;
+mod rotate_left;
 
 pub struct Effect {
     pub cycles: u8,
@@ -25,18 +27,6 @@ impl From<Cycles> for Effect {
 
 pub trait Execute {
     fn execute(self, cpu: &mut Cpu, memory: &mut Memory, cycles: Cycles) -> Effect;
-}
-
-impl Execute for OperationKind {
-    fn execute(self, cpu: &mut Cpu, memory: &mut Memory, cycles: Cycles) -> Effect {
-        use OperationKind::*;
-
-        match self {
-            Nop => Effect { cycles: 1 },
-            Load(load) => load.execute(cpu, memory, cycles),
-            _ => todo!(),
-        }
-    }
 }
 
 #[macro_export(local_inner_macros)]
@@ -64,4 +54,25 @@ macro_rules! parse_pass_arm_rhs {
     ( $cpu:ident, $memory:ident, $cycles:ident => $retval:expr ) => {
         $retval
     };
+}
+
+impl Execute for OperationKind {
+    enum_pass_execute!(
+        Self::Nop => Effect { cycles: 1 },
+        Self::Load(inner),
+        Self::Increment(inner),
+        Self::Decrement(inner),
+        Self::RotateLeft(inner),
+    );
+
+    //fn execute(self, cpu: &mut Cpu, memory: &mut Memory, cycles: Cycles) -> Effect {
+    //    use OperationKind::*;
+
+    //    match self {
+    //        Nop => Effect { cycles: 1 },
+    //        Load(load) => load.execute(cpu, memory, cycles),
+    //        Increment(inner) => inner.execute(cpu, memory, cycles)
+    //        _ => todo!(),
+    //    }
+    //}
 }
