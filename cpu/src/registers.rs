@@ -1,5 +1,67 @@
 use gb_rs_asm::containers::{Flag, Pair, Register};
-use gb_rs_core::bytes::{bytes_to_word, word_to_bytes};
+use gb_rs_core::{
+    bytes::{bytes_to_word, word_to_bytes},
+    MathResult,
+};
+
+/// Used to mask the flags register, since only the upper 4 bits of the register are used.
+const FLAGS_MASK: u8 = 0xF0;
+
+#[derive(Default, Debug)]
+pub struct FlagsRegister(u8);
+
+impl FlagsRegister {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn has(&self, flag: Flag) -> bool {
+        self.0 & (flag as u8) > 0
+    }
+
+    pub fn set(&mut self, flag: Flag) {
+        self.0 |= flag as u8;
+    }
+
+    pub fn set_if(&mut self, flag: Flag, condition: bool) {
+        if condition {
+            self.set(flag);
+        } else {
+            self.unset(flag);
+        }
+    }
+
+    pub fn unset(&mut self, flag: Flag) {
+        self.0 &= !(flag as u8) & FLAGS_MASK;
+    }
+
+    pub fn reset(&mut self) {
+        self.0 = 0;
+    }
+
+    pub fn replace(&mut self, flags: u8) {
+        self.0 = flags & FLAGS_MASK;
+    }
+
+    pub fn update_from_math_result<T>(
+        &mut self,
+        MathResult {
+            half_carry, carry, ..
+        }: &MathResult<T>,
+    ) {
+        if *half_carry {
+            self.set(Flag::HalfCarry);
+        } else {
+            self.unset(Flag::HalfCarry);
+        }
+
+        if *carry {
+            self.set(Flag::Carry);
+        } else {
+            self.unset(Flag::Carry);
+        }
+    }
+}
 
 #[derive(Debug, Default)]
 pub struct Registers {
@@ -12,7 +74,7 @@ pub struct Registers {
     pub l: u8,
     pub stack_pointer: u16,
     pub program_counter: u16,
-    pub flags: u8,
+    pub flags: FlagsRegister,
     pub stop_flag: bool,
 }
 
@@ -78,30 +140,6 @@ impl Registers {
             }
             SP => self.stack_pointer = value,
         }
-    }
-
-    pub fn get_flag(&self, flag: Flag) -> bool {
-        self.flags & flag as u8 != 0
-    }
-
-    pub fn set_flag(&mut self, flag: Flag, value: bool) {
-        if value {
-            self.flags |= flag as u8;
-        } else {
-            self.flags &= !(flag as u8);
-        }
-    }
-
-    pub fn is_flag_set(&self, flag: Flag) -> bool {
-        self.flags & (flag as u8) > 0
-    }
-
-    pub fn clear_flag(&mut self, flag: Flag) {
-        self.set_flag(flag, false);
-    }
-
-    pub fn clear_flags(&mut self) {
-        self.flags = 0;
     }
 
     pub fn update_pc<U>(&mut self, update: U)

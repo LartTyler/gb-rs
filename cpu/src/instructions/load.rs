@@ -3,7 +3,7 @@ use crate::{enum_pass_execute, Cpu};
 use gb_rs_asm::containers::{Cycles, Flag};
 use gb_rs_asm::instructions::load::{Action, DataPointerLoadSource, RegisterPointerLoad};
 use gb_rs_asm::operations::load::*;
-use gb_rs_core::bytes::is_half_carry;
+use gb_rs_core::Z80Add;
 use gb_rs_memory::Memory;
 
 impl Execute for Load {
@@ -25,16 +25,19 @@ impl Execute for PairLoad {
             Pair(source) => cpu.registers.get_pair(source),
             SignedData(data) => {
                 let initial_value = cpu.registers.stack_pointer;
-                let rhs: i16 = data.into();
+                let output = initial_value.add_with_flags(data.as_twos_complement());
 
-                cpu.registers.clear_flags();
-                cpu.registers
-                    .set_flag(Flag::HalfCarry, is_half_carry(initial_value, rhs as u16));
+                cpu.registers.flags.reset();
 
-                let (new_value, overflow) = initial_value.overflowing_add_signed(rhs);
-                cpu.registers.set_flag(Flag::Carry, overflow);
+                if output.half_carry {
+                    cpu.registers.flags.set(Flag::HalfCarry);
+                }
 
-                new_value
+                if output.carry {
+                    cpu.registers.flags.set(Flag::Carry);
+                }
+
+                output.result
             }
         };
 

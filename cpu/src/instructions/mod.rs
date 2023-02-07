@@ -3,6 +3,7 @@ use gb_rs_asm::{containers::Cycles, operations::OperationKind};
 use gb_rs_memory::Memory;
 use std::convert::TryInto;
 
+mod increment;
 mod load;
 
 pub struct Effect {

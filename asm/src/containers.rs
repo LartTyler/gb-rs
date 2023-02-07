@@ -138,6 +138,18 @@ impl<T> Signed<Data<T>> {
     }
 }
 
+impl Signed<Value<u8>> {
+    /// Returns the underlying `u8` that represents this signed value.
+    ///
+    /// The Z80 encodes signed values as two's complement. Instead of converting the `u8` to an
+    /// `i8`, it can sometimes be more convenient to work with the raw two's complement `u8`
+    /// instead, e.g. in the case that you need to
+    /// [add a signed value to an unsigned value](https://en.wikipedia.org/wiki/Two%27s_complement#Addition).
+    pub fn as_twos_complement(&self) -> u8 {
+        *self.0
+    }
+}
+
 impl Signed<Data<u8>> {
     pub fn parse<R: Read>(&self, data: &R, offset: u16) -> parse::Result<Signed<Value<u8>>> {
         Ok(Signed(data.read_byte(offset)?.into()))
