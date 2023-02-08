@@ -303,6 +303,29 @@ pub enum Cycles {
     Variable { min: u8, max: u8 },
 }
 
+impl Cycles {
+    /// Extracts the contained type using the value of a `toggle`, usually from the result of
+    /// comparing a CPU flag against a [`Condition`].
+    ///
+    /// If [`Cycles::Fixed`], the wrapped value is always returned.
+    ///
+    /// If [`Cycles::Variable`], then:
+    /// - If the toggle is `true`, return the `max` value (the branch was taken)
+    /// - If the toggle is `false`, return the `min` value (the branch was NOT taken)
+    pub fn with_toggle(self, toggle: bool) -> u8 {
+        match self {
+            Self::Fixed(n) => n,
+            Self::Variable { min, max } => {
+                if toggle {
+                    max
+                } else {
+                    min
+                }
+            }
+        }
+    }
+}
+
 impl const From<u8> for Cycles {
     fn from(value: u8) -> Self {
         Self::Fixed(value)

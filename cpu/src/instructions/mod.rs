@@ -3,10 +3,15 @@ use gb_rs_asm::{containers::Cycles, operations::OperationKind};
 use gb_rs_memory::Memory;
 use std::convert::TryInto;
 
+mod add;
+mod bit;
 mod decrement;
 mod increment;
+mod jump;
 mod load;
 mod rotate_left;
+mod rotate_right;
+mod subtract;
 
 pub struct Effect {
     pub cycles: u8,
@@ -59,20 +64,21 @@ macro_rules! parse_pass_arm_rhs {
 impl Execute for OperationKind {
     enum_pass_execute!(
         Self::Nop => Effect { cycles: 1 },
+        Self::Stop => todo!(),
+        Self::DecimalAdjust => todo!(),
+        Self::Halt => todo!(),
+        Self::DisableInterrupts => todo!(),
+        Self::EnableInterrupts => todo!(),
         Self::Load(inner),
         Self::Increment(inner),
         Self::Decrement(inner),
         Self::RotateLeft(inner),
+        Self::RotateRight(inner),
+        Self::Add(inner),
+        Self::Subtract(inner),
+        Self::Jump(inner),
+        Self::Bit(inner),
+        Self::Subroutine(inner),
+        Self::Stack(inner),
     );
-
-    //fn execute(self, cpu: &mut Cpu, memory: &mut Memory, cycles: Cycles) -> Effect {
-    //    use OperationKind::*;
-
-    //    match self {
-    //        Nop => Effect { cycles: 1 },
-    //        Load(load) => load.execute(cpu, memory, cycles),
-    //        Increment(inner) => inner.execute(cpu, memory, cycles)
-    //        _ => todo!(),
-    //    }
-    //}
 }

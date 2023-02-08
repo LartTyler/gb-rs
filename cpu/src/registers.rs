@@ -35,6 +35,10 @@ impl FlagsRegister {
         self.0 &= !(flag as u8) & FLAGS_MASK;
     }
 
+    pub fn toggle(&mut self, flag: Flag) {
+        self.set_if(flag, !self.has(flag));
+    }
+
     pub fn reset(&mut self) {
         self.0 = 0;
     }

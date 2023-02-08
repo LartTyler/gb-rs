@@ -1,6 +1,7 @@
-use gb_rs_asm::sets::Instructions;
+use gb_rs_asm::{containers::Condition, sets::Instructions};
 use gb_rs_memory::Memory;
 use instructions::{Effect, Execute};
+use registers::FlagsRegister;
 
 pub mod instructions;
 pub mod registers;
@@ -29,5 +30,21 @@ impl Cpu {
         C: Into<u16>,
     {
         self.cycle_counter = self.cycle_counter.wrapping_add(cycles.into());
+    }
+}
+
+pub trait ConditionTest {
+    fn test(&self, flags: &FlagsRegister) -> bool;
+}
+
+impl ConditionTest for Condition {
+    fn test(&self, flags: &FlagsRegister) -> bool {
+        use Condition::*;
+
+        match self {
+            Always => true,
+            Set(flag) => flags.has(*flag),
+            Unset(flag) => !flags.has(*flag),
+        }
     }
 }

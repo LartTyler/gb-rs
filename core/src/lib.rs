@@ -1,5 +1,3 @@
-use std::ops::{BitAnd, Sub};
-
 pub mod bytes;
 pub mod config;
 
@@ -13,6 +11,24 @@ pub struct MathResult<T> {
     pub half_carry: bool,
     pub carry: bool,
     pub result: T,
+}
+
+impl<T> MathResult<T> {
+    /// Merges two [`MathResult`]s using the following semantics:
+    /// - The resulting `half_carry` is `true` if either `half_carry` was `true`.
+    /// - The resulting `carry` is `true` if either `carry` was `true`.
+    /// - The `result` is set to the value of the right-hand side's `result`.
+    ///
+    /// This function is intended to be used with ADC and SBC instructions, where the operation is
+    /// implemented using a normal add / subtract, followed by the same operation on the value of
+    /// the [`Flag::Carry`] flag.
+    pub fn merge(self, other: Self) -> Self {
+        Self {
+            half_carry: self.half_carry || other.half_carry,
+            carry: self.carry || other.carry,
+            result: other.result,
+        }
+    }
 }
 
 pub trait Z80Add<Rhs = Self> {
