@@ -34,7 +34,7 @@ pub enum Bit {
     #[display("SCF")]
     SetCarryFlag,
 
-    Complement(BitwiseComplement),
+    Complement(Complement),
     Set(BitwiseSet),
     Reset(BitwiseReset),
     Test(BitwiseTest),
@@ -72,7 +72,7 @@ impl const SetRegister for Bit {
 
         register_helper!(
             builder,
-            BitwiseComplement,
+            Complement,
             BitwiseSet,
             BitwiseReset,
             BitwiseTest,
