@@ -1,5 +1,6 @@
 use self::add::Add;
 use self::bit::Bit;
+use self::compare::Compare;
 use self::decrement::Decrement;
 use self::increment::Increment;
 use self::jump::Jump;
@@ -17,6 +18,7 @@ use parse_display::Display;
 
 pub mod add;
 pub mod bit;
+pub mod compare;
 pub mod decrement;
 pub mod increment;
 pub mod jump;
@@ -72,6 +74,7 @@ pub enum InstructionKind {
     RotateRight(RotateRight),
     Add(Add),
     Subtract(Subtract),
+    Compare(Compare),
     Jump(Jump),
     Bit(Bit),
     Subroutine(Subroutine),
@@ -97,6 +100,7 @@ impl InstructionKind {
             RotateLeft,
             Add,
             Subtract,
+            Compare,
             RotateRight,
             Jump,
             Bit,
@@ -126,6 +130,7 @@ impl Parse for InstructionKind {
             Self::RotateRight(inner),
             Self::Add(inner),
             Self::Subtract(inner),
+            Self::Compare(inner),
             Self::Jump(inner),
             Self::Bit(inner),
             Self::Subroutine(inner),

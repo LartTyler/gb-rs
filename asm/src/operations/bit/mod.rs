@@ -1,15 +1,15 @@
 use crate::instructions::bit::{
-    BitwiseReset, BitwiseSet, BitwiseTest, ShiftLeft, ShiftRight, Swap,
+    BitwiseReset, BitwiseSet, BitwiseTest, Complement, ShiftLeft, ShiftRight, Swap,
 };
 use parse_display::Display;
 
 pub use and::*;
-pub use complement::*;
 pub use or::*;
 pub use xor::*;
 
+use super::OperationKind;
+
 mod and;
-mod complement;
 mod or;
 mod xor;
 
@@ -19,7 +19,7 @@ pub enum Bit {
     #[display("SCF")]
     SetCarryFlag,
 
-    Complement(BitwiseComplement),
+    Complement(Complement),
     Set(BitwiseSet),
     Reset(BitwiseReset),
     Test(BitwiseTest),
@@ -29,4 +29,10 @@ pub enum Bit {
     ShiftLeft(ShiftLeft),
     ShiftRight(ShiftRight),
     Swap(Swap),
+}
+
+impl From<Complement> for OperationKind {
+    fn from(value: Complement) -> Self {
+        Self::Bit(Bit::Complement(value))
+    }
 }

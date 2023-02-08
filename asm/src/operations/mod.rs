@@ -1,5 +1,6 @@
 use self::add::Add;
 use self::bit::Bit;
+use self::compare::Compare;
 use self::jump::Jump;
 use self::load::Load;
 use self::subroutine::Subroutine;
@@ -14,6 +15,7 @@ use parse_display::Display;
 
 pub mod add;
 pub mod bit;
+pub mod compare;
 pub mod jump;
 pub mod load;
 pub mod subroutine;
@@ -54,6 +56,7 @@ pub enum OperationKind {
     RotateRight(RotateRight),
     Add(Add),
     Subtract(Subtract),
+    Compare(Compare),
     Jump(Jump),
     Bit(Bit),
     Subroutine(Subroutine),
