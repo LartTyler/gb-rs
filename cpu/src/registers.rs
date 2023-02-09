@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use gb_rs_asm::containers::{Flag, Pair, Register};
 use gb_rs_core::{
     bytes::{bytes_to_word, word_to_bytes},
@@ -64,6 +66,26 @@ impl FlagsRegister {
         } else {
             self.unset(Flag::Carry);
         }
+    }
+}
+
+impl Deref for FlagsRegister {
+    type Target = u8;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl From<FlagsRegister> for u8 {
+    fn from(value: FlagsRegister) -> Self {
+        value.0
+    }
+}
+
+impl From<u8> for FlagsRegister {
+    fn from(value: u8) -> Self {
+        Self(value & FLAGS_MASK)
     }
 }
 

@@ -255,6 +255,20 @@ pointer_display_helper!(
 #[derive(Debug, Clone, Copy, Display)]
 pub struct BitPosition(u8);
 
+impl BitPosition {
+    pub fn with_set(&self, value: u8) -> u8 {
+        value | (1 << self.0)
+    }
+
+    pub fn with_unset(&self, value: u8) -> u8 {
+        value & !(1 << self.0)
+    }
+
+    pub fn is_set(&self, value: u8) -> bool {
+        value & (1 << self.0) > 0
+    }
+}
+
 macro_rules! bit_position_helper {
     ( $( $bit:expr => $name:ident $(,)? ),* ) => {
         $(

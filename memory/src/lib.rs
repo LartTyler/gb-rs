@@ -15,6 +15,7 @@ pub struct Memory {
     oam: Vec<u8>,
     io: Vec<u8>,
     hram: Vec<u8>,
+    interrupt_flags: u8,
     interrupt_enable: u8,
     vram_bank: usize,
     wram_bank: usize,
@@ -44,6 +45,7 @@ impl Memory {
             oam: vec![0; OAM_SIZE],
             io: vec![0; IO_SIZE],
             hram: vec![0; HRAM_SIZE],
+            interrupt_flags: 0,
             interrupt_enable: 0,
             vram_bank: 0,
             wram_bank: 1,
@@ -72,8 +74,10 @@ impl Memory {
                 self.wram.get(address)
             }
             OAM_START..=OAM_END => self.oam.get(address - OAM_START),
+            INTERRUPT_FLAGS => Some(&self.interrupt_flags),
             IO_START..=IO_END => self.io.get(address - IO_START),
             HRAM_START..=HRAM_END => self.hram.get(address - HRAM_START),
+            INTERRUPT_ENABLE => Some(&self.interrupt_enable),
             _ => unreachable!(),
         };
 
@@ -115,9 +119,10 @@ impl Memory {
                 self.wram.get_mut(address)
             }
             OAM_START..=OAM_END => self.oam.get_mut(address - OAM_START),
+            INTERRUPT_FLAGS => Some(&mut self.interrupt_flags),
             IO_START..=IO_END => self.io.get_mut(address - IO_START),
             HRAM_START..=HRAM_END => self.hram.get_mut(address - HRAM_START),
-            0xFFFF => Some(&mut self.interrupt_enable),
+            INTERRUPT_ENABLE => Some(&mut self.interrupt_enable),
             _ => unreachable!(),
         };
 

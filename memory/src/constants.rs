@@ -28,6 +28,8 @@ pub const OAM_START: usize = 0xFE00;
 pub const OAM_END: usize = 0xFE9F;
 pub const OAM_SIZE: usize = OAM_END - OAM_START;
 
+pub const INTERRUPT_FLAGS: usize = 0xFF0F;
+
 pub const IO_START: usize = 0xFF00;
 pub const IO_END: usize = 0xFF7F;
 pub const IO_SIZE: usize = IO_END - IO_START;

@@ -10,6 +10,7 @@ pub struct Cpu {
     registers: registers::Registers,
     instructions: Instructions,
     cycle_counter: u16,
+    interrupts_enabled: bool,
 }
 
 impl Cpu {

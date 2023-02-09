@@ -5,12 +5,15 @@ use std::convert::TryInto;
 
 mod add;
 mod bit;
+mod compare;
 mod decrement;
 mod increment;
 mod jump;
 mod load;
 mod rotate_left;
 mod rotate_right;
+mod stack;
+mod subroutine;
 mod subtract;
 
 pub struct Effect {
@@ -76,6 +79,7 @@ impl Execute for OperationKind {
         Self::RotateRight(inner),
         Self::Add(inner),
         Self::Subtract(inner),
+        Self::Compare(inner),
         Self::Jump(inner),
         Self::Bit(inner),
         Self::Subroutine(inner),
