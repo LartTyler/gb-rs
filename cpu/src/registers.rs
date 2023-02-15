@@ -1,20 +1,22 @@
-use std::ops::Deref;
-
 use gb_rs_asm::containers::{Flag, Pair, Register};
 use gb_rs_core::{
     bytes::{bytes_to_word, word_to_bytes},
-    MathResult,
+    DeviceMode, MathResult,
+};
+use std::{
+    fmt::{Display, Write},
+    ops::Deref,
 };
 
 /// Used to mask the flags register, since only the upper 4 bits of the register are used.
 const FLAGS_MASK: u8 = 0xF0;
 
-#[derive(Default, Debug)]
+#[derive(Debug)]
 pub struct FlagsRegister(u8);
 
 impl FlagsRegister {
     pub fn new() -> Self {
-        Self::default()
+        Self(Flag::Zero as u8)
     }
 
     pub fn has(&self, flag: Flag) -> bool {
@@ -69,6 +71,12 @@ impl FlagsRegister {
     }
 }
 
+impl Default for FlagsRegister {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Deref for FlagsRegister {
     type Target = u8;
 
@@ -89,6 +97,22 @@ impl From<u8> for FlagsRegister {
     }
 }
 
+impl Display for FlagsRegister {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let z = self.has(Flag::Zero).then_some('z');
+        f.write_char(z.unwrap_or('-'))?;
+
+        let s = self.has(Flag::Subtract).then_some('s');
+        f.write_char(s.unwrap_or('-'))?;
+
+        let h = self.has(Flag::HalfCarry).then_some('h');
+        f.write_char(h.unwrap_or('-'))?;
+
+        let c = self.has(Flag::Carry).then_some('c');
+        f.write_char(c.unwrap_or('-'))
+    }
+}
+
 #[derive(Debug, Default)]
 pub struct Registers {
     pub a: u8,
@@ -105,6 +129,27 @@ pub struct Registers {
 }
 
 impl Registers {
+    pub fn new(mode: DeviceMode) -> Self {
+        match mode {
+            DeviceMode::Classic => Self {
+                a: 0x11,
+                e: 0x08,
+                stack_pointer: 0xFFFE,
+                program_counter: 0x0100,
+                ..Default::default()
+            },
+            DeviceMode::Color => Self {
+                a: 0x11,
+                d: 0xFF,
+                e: 0x56,
+                l: 0x0D,
+                stack_pointer: 0xFFFE,
+                program_counter: 0x0100,
+                ..Default::default()
+            },
+        }
+    }
+
     pub fn get_byte(&self, reg: Register) -> u8 {
         use Register::*;
 

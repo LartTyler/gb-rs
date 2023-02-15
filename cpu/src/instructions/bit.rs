@@ -30,7 +30,7 @@ impl Execute for Bit {
 }
 
 impl Execute for Complement {
-    fn execute(self, cpu: &mut Cpu, memory: &mut Memory, cycles: Cycles) -> Effect {
+    fn execute(self, cpu: &mut Cpu, _memory: &mut Memory, cycles: Cycles) -> Effect {
         use ComplementTarget::*;
 
         match self.target {

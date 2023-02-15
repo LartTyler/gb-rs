@@ -6,6 +6,7 @@ use crate::read;
 
 pub type Set = [Option<Instruction>; 256];
 
+#[derive(Debug)]
 pub struct Instructions {
     base: Set,
     extended: Set,

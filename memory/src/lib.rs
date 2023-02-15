@@ -2,14 +2,13 @@ use crate::cartridge::{Cartridge, CartridgeError};
 use crate::constants::*;
 use gb_rs_asm::read::Read;
 use gb_rs_core::bytes::{bytes_to_word, word_to_bytes};
-use gb_rs_core::config::CONFIGURATION;
 use gb_rs_core::DeviceMode;
 
 pub mod cartridge;
 pub mod constants;
 
 pub struct Memory {
-    cartridge: Cartridge,
+    pub cartridge: Cartridge,
     vram: Vec<u8>,
     wram: Vec<u8>,
     oam: Vec<u8>,
@@ -24,11 +23,7 @@ pub struct Memory {
 impl Memory {
     pub fn new(rom: Vec<u8>) -> MemoryResult {
         let cartridge = Cartridge::new(rom)?;
-        let mode = if let Some(mode) = CONFIGURATION.get_mode() {
-            mode
-        } else {
-            cartridge.get_device_mode().into()
-        };
+        let mode = cartridge.get_device_mode().into();
 
         let (vram, wram) = match mode {
             DeviceMode::Color => (

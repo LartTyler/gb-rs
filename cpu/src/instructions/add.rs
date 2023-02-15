@@ -4,7 +4,7 @@ use gb_rs_asm::{
     containers::{Cycles, Flag, Pair},
     operations::add::*,
 };
-use gb_rs_core::{MathResult, Z80Add};
+use gb_rs_core::Z80Add;
 use gb_rs_memory::Memory;
 
 impl Execute for Add {
@@ -12,7 +12,7 @@ impl Execute for Add {
 }
 
 impl Execute for PairAdd {
-    fn execute(self, cpu: &mut Cpu, memory: &mut Memory, cycles: Cycles) -> Effect {
+    fn execute(self, cpu: &mut Cpu, _memory: &mut Memory, cycles: Cycles) -> Effect {
         let lhs = cpu.registers.get_pair(self.target);
 
         let output = match self.source {

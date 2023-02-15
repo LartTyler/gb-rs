@@ -8,7 +8,7 @@ impl Execute for Jump {
 }
 
 impl Execute for AbsoluteJump {
-    fn execute(self, cpu: &mut Cpu, memory: &mut Memory, cycles: Cycles) -> Effect {
+    fn execute(self, cpu: &mut Cpu, _memory: &mut Memory, cycles: Cycles) -> Effect {
         use AbsoluteJumpTarget::*;
 
         let addr = match self.target {
@@ -31,7 +31,7 @@ impl Execute for AbsoluteJump {
 }
 
 impl Execute for RelativeJump {
-    fn execute(self, cpu: &mut Cpu, memory: &mut Memory, cycles: Cycles) -> Effect {
+    fn execute(self, cpu: &mut Cpu, _memory: &mut Memory, cycles: Cycles) -> Effect {
         let jumped = if self.condition.test(&cpu.registers.flags) {
             let addr = cpu.registers.program_counter;
             let addr = addr.wrapping_add_signed(self.offset.into());

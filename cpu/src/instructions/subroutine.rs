@@ -37,19 +37,12 @@ impl Execute for Return {
 impl Execute for Call {
     fn execute(self, cpu: &mut Cpu, memory: &mut Memory, cycles: Cycles) -> Effect {
         let branched = if self.condition.test(&cpu.registers.flags) {
+            memory.write_word(cpu.registers.stack_pointer, cpu.registers.program_counter);
             cpu.registers.stack_pointer -= 2;
 
-            memory.write_word(
-                cpu.registers.stack_pointer,
-                // CALL instructions are 3 bytes wide (including the opcode), and RET expects the
-                // return address on the stack to be the instruction AFTER the CALL instruction
-                // that is being returned from.
-                cpu.registers.program_counter + 3,
-            );
-
-            cpu.registers.stack_pointer -= 2;
-
-            let target_addr = memory.read_word(cpu.registers.program_counter);
+            // PC is updated BEFORE [`Execute::execute()`] is called, so we need to step back two
+            // bytes to properly load the target address.
+            let target_addr = memory.read_word(cpu.registers.program_counter - 2);
             cpu.registers.program_counter = target_addr;
 
             true

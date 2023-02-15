@@ -6,7 +6,7 @@ use gb_rs_core::DeviceMode;
 pub mod constants;
 pub mod mbc;
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub enum SupportedDeviceMode {
     Color,
     Classic,
@@ -25,12 +25,12 @@ impl From<SupportedDeviceMode> for DeviceMode {
 }
 
 pub struct Cartridge {
-    title: String,
-    device_mode: SupportedDeviceMode,
-    licensee_id: u16,
-    sgb_support: bool,
-    version: u8,
-    controller: Box<dyn MemoryBankController>,
+    pub title: String,
+    pub device_mode: SupportedDeviceMode,
+    pub licensee_id: u16,
+    pub sgb_support: bool,
+    pub version: u8,
+    pub controller: Box<dyn MemoryBankController>,
 }
 
 impl Cartridge {

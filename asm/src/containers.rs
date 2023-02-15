@@ -311,9 +311,12 @@ macro_rules! enum_from_helper {
     };
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Display)]
 pub enum Cycles {
+    #[display("{0}")]
     Fixed(u8),
+
+    #[display("{min}/{max}")]
     Variable { min: u8, max: u8 },
 }
 

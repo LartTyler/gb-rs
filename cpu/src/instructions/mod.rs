@@ -65,24 +65,44 @@ macro_rules! parse_pass_arm_rhs {
 }
 
 impl Execute for OperationKind {
-    enum_pass_execute!(
-        Self::Nop => Effect { cycles: 1 },
-        Self::Stop => todo!(),
-        Self::DecimalAdjust => todo!(),
-        Self::Halt => todo!(),
-        Self::DisableInterrupts => todo!(),
-        Self::EnableInterrupts => todo!(),
-        Self::Load(inner),
-        Self::Increment(inner),
-        Self::Decrement(inner),
-        Self::RotateLeft(inner),
-        Self::RotateRight(inner),
-        Self::Add(inner),
-        Self::Subtract(inner),
-        Self::Compare(inner),
-        Self::Jump(inner),
-        Self::Bit(inner),
-        Self::Subroutine(inner),
-        Self::Stack(inner),
-    );
+    fn execute(self, cpu: &mut Cpu, memory: &mut Memory, cycles: Cycles) -> Effect {
+        match self {
+            Self::Nop => Effect { cycles: 1 },
+            Self::Stop => do_stop(cpu, memory),
+            Self::Halt => do_halt(cpu, memory),
+            Self::DecimalAdjust => do_decimal_adjust(cpu, memory),
+            Self::DisableInterrupts => {
+                cpu.interrupts_enabled = false;
+                Effect { cycles: 1 }
+            }
+            Self::EnableInterrupts => {
+                cpu.interrupts_enabled = true;
+                Effect { cycles: 1 }
+            }
+            Self::Load(inner) => inner.execute(cpu, memory, cycles),
+            Self::Increment(inner) => inner.execute(cpu, memory, cycles),
+            Self::Decrement(inner) => inner.execute(cpu, memory, cycles),
+            Self::RotateLeft(inner) => inner.execute(cpu, memory, cycles),
+            Self::RotateRight(inner) => inner.execute(cpu, memory, cycles),
+            Self::Add(inner) => inner.execute(cpu, memory, cycles),
+            Self::Subtract(inner) => inner.execute(cpu, memory, cycles),
+            Self::Compare(inner) => inner.execute(cpu, memory, cycles),
+            Self::Jump(inner) => inner.execute(cpu, memory, cycles),
+            Self::Bit(inner) => inner.execute(cpu, memory, cycles),
+            Self::Subroutine(inner) => inner.execute(cpu, memory, cycles),
+            Self::Stack(inner) => inner.execute(cpu, memory, cycles),
+        }
+    }
+}
+
+fn do_stop(_cpu: &mut Cpu, _memory: &mut Memory) -> Effect {
+    todo!()
+}
+
+fn do_halt(_cpu: &mut Cpu, _memory: &mut Memory) -> Effect {
+    todo!()
+}
+
+fn do_decimal_adjust(_cpu: &mut Cpu, _memory: &mut Memory) -> Effect {
+    todo!()
 }
