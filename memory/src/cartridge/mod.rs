@@ -84,15 +84,10 @@ impl Cartridge {
 
 pub type CartridgeResult = Result<Cartridge, CartridgeError>;
 
-#[derive(Debug)]
+#[derive(Debug, thiserror::Error)]
 pub enum CartridgeError {
-    ControllerError(mbc::CreateError),
-}
-
-impl From<mbc::CreateError> for CartridgeError {
-    fn from(e: mbc::CreateError) -> Self {
-        CartridgeError::ControllerError(e)
-    }
+    #[error("controller error: {0}")]
+    ControllerError(#[from] mbc::CreateError),
 }
 
 /// Returns the maximum possible title length, based on the value of the

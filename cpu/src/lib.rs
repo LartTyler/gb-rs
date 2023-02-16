@@ -40,8 +40,12 @@ impl Cpu {
             .parse(memory, self.registers.program_counter)
             .unwrap();
 
-        self.inspector
-            .send_fn(|| Message::Operation(operation.clone()));
+        let pc = self.registers.program_counter;
+
+        self.inspector.send_fn(|| Message::Operation {
+            op: operation.clone(),
+            pc,
+        });
 
         // PC needs to be updated BEFORE executing the instruction, otherwise we end up with
         // inconsistent positioning if the instruction changes PC, e.g. during a relative jump.

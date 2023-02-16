@@ -140,15 +140,10 @@ impl Read for Memory {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, thiserror::Error)]
 pub enum MemoryError {
-    CartridgeError(CartridgeError),
+    #[error("cartridge error: {0}")]
+    CartridgeError(#[from] CartridgeError),
 }
 
 pub type MemoryResult = Result<Memory, MemoryError>;
-
-impl From<CartridgeError> for MemoryError {
-    fn from(e: CartridgeError) -> Self {
-        MemoryError::CartridgeError(e)
-    }
-}

@@ -37,6 +37,6 @@ impl Inspector {
 }
 
 pub enum Message {
-    Operation(Operation),
+    Operation { pc: u16, op: Operation },
     Step,
 }

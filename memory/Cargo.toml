@@ -8,3 +8,4 @@ edition = "2018"
 [dependencies]
 gb-rs-core = { path = "../core" }
 gb_rs_asm = { path = "../asm" }
+thiserror = "1.0"

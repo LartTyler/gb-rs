@@ -68,11 +68,14 @@ impl ControllerType {
 
 pub type CreateResult = Result<Box<dyn MemoryBankController>, CreateError>;
 
-#[derive(Debug)]
+#[derive(Debug, thiserror::Error)]
 pub enum CreateError {
     /// Indicates the value in the ROM's [`CONTROLLER_TYPE`] header could not be mapped to a
     /// supported controller type.
+    #[error("unsupported controller type id {0}")]
     UnsupportedControllerType(u8),
+
+    #[error("unsupported ram size id {0}")]
     UnsupportedRamSize(u8),
 }
 
