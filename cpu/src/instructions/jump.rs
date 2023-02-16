@@ -33,9 +33,8 @@ impl Execute for AbsoluteJump {
 impl Execute for RelativeJump {
     fn execute(self, cpu: &mut Cpu, _memory: &mut Memory, cycles: Cycles) -> Effect {
         let jumped = if self.condition.test(&cpu.registers.flags) {
-            let addr = cpu.registers.program_counter;
-            let addr = addr.wrapping_add_signed(self.offset.into());
-            cpu.registers.program_counter = addr;
+            let offset: i8 = self.offset.into();
+            cpu.registers.update_pc(offset);
 
             true
         } else {
