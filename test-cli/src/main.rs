@@ -32,6 +32,17 @@ fn main() {
             Command::Quit => break,
             Command::Info => show_device_state(&hardware),
             Command::Next => hardware.cpu.step(&mut hardware.memory),
+            Command::Convert {
+                original,
+                value,
+                format,
+            } => {
+                println!(
+                    "{} {original} = {}",
+                    output::prefix_style(),
+                    format.as_formatted(value)
+                );
+            }
             Command::Memory(addr, kind) => {
                 let value = match kind {
                     MemoryReadKind::Byte => hardware.memory.read_byte(addr).into(),
@@ -57,7 +68,7 @@ fn main() {
 
 fn show_device_state(Hardware { cpu, memory }: &Hardware) {
     cpu.show();
-    println!("");
+    println!();
 
     let next_op = memory.read_byte(cpu.registers.program_counter);
 
@@ -70,7 +81,7 @@ fn show_device_state(Hardware { cpu, memory }: &Hardware) {
 
     println!("{}", output::title_style("Next:"));
     next_op.unwrap().show();
-    println!("");
+    println!();
 }
 
 fn on_inspector_message(message: Message) {

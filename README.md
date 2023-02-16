@@ -24,3 +24,5 @@ Big thanks to the following for providing excellent documentation for the inner 
 - [PastRaiser's Gameboy CPU Instruction Set Table](https://pastraiser.com/cpu/gameboy/gameboy_opcodes.html)
 - [RGBDS Opcode Reference](https://rgbds.gbdev.io/docs/v0.5.2/gbz80.7)
 - [WTF is the DAA Instruction](https://ehaskins.com/2018-01-30%20Z80%20DAA/)
+- Matt Currie's [Mealyroom Tearoom Tests](https://github.com/mattcurrie/mealybug-tearoom-tests)
+- Kevin Horton's [Nitty Gritty Gameboy VRAM Timings](http://blog.kevtris.org/blogfiles/Nitty%20Gritty%20Gameboy%20VRAM%20Timing.txt)

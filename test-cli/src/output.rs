@@ -6,7 +6,7 @@ pub fn prefix_style() -> StyledObject<&'static str> {
     style(">>").black().bright()
 }
 
-pub fn title_style<'a>(title: &'a str) -> StyledObject<&'a str> {
+pub fn title_style(title: &str) -> StyledObject<&str> {
     style(title).bold()
 }
 

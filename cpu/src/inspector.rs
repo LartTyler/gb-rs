@@ -23,7 +23,7 @@ impl Inspector {
             return;
         };
 
-        if let Err(_) = sender.send(message) {
+        if sender.send(message).is_err() {
             self.sender = None;
         }
     }
