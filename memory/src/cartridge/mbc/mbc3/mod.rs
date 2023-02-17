@@ -1,3 +1,4 @@
+use super::ControllerType;
 use crate::cartridge::constants::RAM_SIZE;
 use crate::cartridge::mbc::{map_ram_address, map_rom_address};
 use crate::cartridge::{get_ram_size, MemoryBankController};
@@ -36,6 +37,10 @@ impl Mbc3 {
 }
 
 impl MemoryBankController for Mbc3 {
+    fn get_controller_type(&self) -> ControllerType {
+        ControllerType::Mbc3
+    }
+
     fn rom_read(&self, address: usize) -> u8 {
         match address {
             ROM0_START..=ROM0_END => *self.rom.get(address).unwrap_or(&0xFF),

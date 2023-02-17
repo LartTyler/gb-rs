@@ -30,7 +30,11 @@ impl Execute for RegisterIncrement {
         cpu.registers.set_byte(self.target, output.result);
 
         cpu.registers.flags.unset(Flag::Subtract);
-        cpu.registers.flags.update_from_math_result(&output);
+        cpu.registers.flags.set_if(Flag::Zero, output.is_zero());
+
+        cpu.registers
+            .flags
+            .set_if(Flag::HalfCarry, output.half_carry);
 
         cycles.into()
     }
@@ -43,7 +47,11 @@ impl Execute for PairPointerIncrement {
         memory.write_byte(addr, output.result);
 
         cpu.registers.flags.unset(Flag::Subtract);
-        cpu.registers.flags.update_from_math_result(&output);
+        cpu.registers.flags.set_if(Flag::Zero, output.is_zero());
+
+        cpu.registers
+            .flags
+            .set_if(Flag::HalfCarry, output.half_carry);
 
         cycles.into()
     }

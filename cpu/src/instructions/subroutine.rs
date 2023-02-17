@@ -37,8 +37,8 @@ impl Execute for Return {
 impl Execute for Call {
     fn execute(self, cpu: &mut Cpu, memory: &mut Memory, cycles: Cycles) -> Effect {
         let branched = if self.condition.test(&cpu.registers.flags) {
-            memory.write_word(cpu.registers.stack_pointer, cpu.registers.program_counter);
             cpu.registers.stack_pointer -= 2;
+            memory.write_word(cpu.registers.stack_pointer, cpu.registers.program_counter);
 
             // PC is updated BEFORE [`Execute::execute()`] is called, so we need to step back two
             // bytes to properly load the target address.

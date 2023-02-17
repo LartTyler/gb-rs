@@ -1,3 +1,4 @@
+use super::ControllerType;
 use crate::cartridge::constants::RAM_SIZE;
 use crate::cartridge::mbc::{map_ram_address, map_rom_address};
 use crate::cartridge::{get_ram_size, MemoryBankController};
@@ -29,11 +30,15 @@ impl Mbc1 {
 }
 
 impl MemoryBankController for Mbc1 {
+    fn get_controller_type(&self) -> ControllerType {
+        ControllerType::Mbc1
+    }
+
     fn rom_read(&self, address: usize) -> u8 {
         match address {
             ROM0_START..=ROM0_END => *self.rom.get(address).unwrap_or(&0xFF),
             ROM_BANK_START..=ROM_BANK_END => *self
-                .ram
+                .rom
                 .get(map_rom_address(self.rom_bank, address))
                 .unwrap_or(&0xFF),
             _ => panic!("ROM read out of range for MBC1: {:#X}", address),
@@ -44,9 +49,7 @@ impl MemoryBankController for Mbc1 {
         match address {
             0x0000..=0x1FFF => self.ram_enabled = value & 0x0A == 0x0A,
             0x2000..=0x3FFF => {
-                let lower = core::cmp::max(1, value & 0x1F);
-
-                self.rom_bank = (self.rom_bank & 0x60) | lower;
+                self.rom_bank = 1.max(value & 0x1F);
             }
             0x4000..=0x5FFF => {
                 let bits = value & 0x03;

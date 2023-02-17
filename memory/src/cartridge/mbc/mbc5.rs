@@ -1,3 +1,4 @@
+use super::ControllerType;
 use crate::cartridge::constants::RAM_SIZE;
 use crate::cartridge::{get_ram_size, MemoryBankController};
 use crate::constants::{EXTERNAL_RAM_SIZE, EXTERNAL_RAM_START, ROM_BANK_SIZE};
@@ -39,6 +40,10 @@ impl Mbc5 {
 }
 
 impl MemoryBankController for Mbc5 {
+    fn get_controller_type(&self) -> ControllerType {
+        ControllerType::Mbc5
+    }
+
     fn rom_read(&self, address: usize) -> u8 {
         *self.rom.get(self.map_rom_address(address)).unwrap_or(&0xFF)
     }

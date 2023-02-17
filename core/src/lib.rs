@@ -31,6 +31,18 @@ impl<T> MathResult<T> {
     }
 }
 
+impl MathResult<u8> {
+    pub fn is_zero(&self) -> bool {
+        self.result == 0
+    }
+}
+
+impl MathResult<u16> {
+    pub fn is_zero(&self) -> bool {
+        self.result == 0
+    }
+}
+
 pub trait Z80Add<Rhs = Self> {
     type Output;
 

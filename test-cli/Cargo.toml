@@ -8,9 +8,10 @@ edition = "2021"
 [dependencies]
 clap = { version = "4.1", features = ["derive"] }
 clap-num = "1.0"
-console = "0.15"
-dialoguer = "0.10"
 gb-rs-cpu = { path = "../cpu" }
 gb-rs-memory = { path = "../memory" }
 gb_rs_asm = { path = "../asm" }
 thiserror = "1.0"
+tui = "0.19"
+crossterm = "0.26"
+unicode-width = "0.1"

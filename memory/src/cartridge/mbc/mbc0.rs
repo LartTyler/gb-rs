@@ -1,3 +1,4 @@
+use super::ControllerType;
 use crate::cartridge::mbc::MemoryBankController;
 
 pub struct Mbc0 {
@@ -22,6 +23,10 @@ impl MemoryBankController for Mbc0 {
     }
 
     fn ram_write(&mut self, _address: usize, _value: u8) {}
+
+    fn get_controller_type(&self) -> ControllerType {
+        ControllerType::Mbc0
+    }
 }
 
 #[cfg(test)]

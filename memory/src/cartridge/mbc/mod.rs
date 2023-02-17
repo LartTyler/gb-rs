@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use crate::cartridge::constants::CONTROLLER_TYPE;
 use crate::constants::{EXTERNAL_RAM_SIZE, EXTERNAL_RAM_START, ROM_BANK_SIZE};
 
@@ -34,8 +36,11 @@ pub trait MemoryBankController {
     /// In (almost?) all cases, RAM must be enabled before it can be written. Writes to disabled
     /// RAM may be ignored, or may be interpreted in MBC-specific ways.
     fn ram_write(&mut self, address: usize, value: u8);
+
+    fn get_controller_type(&self) -> ControllerType;
 }
 
+#[derive(Debug, Clone, Copy)]
 pub enum ControllerType {
     Mbc0,
     Mbc1,
@@ -66,6 +71,17 @@ impl ControllerType {
     }
 }
 
+impl Display for ControllerType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(match self {
+            Self::Mbc0 => "mbc0",
+            Self::Mbc1 => "mbc1",
+            Self::Mbc3 => "mbc3",
+            Self::Mbc5 => "mbc5",
+        })
+    }
+}
+
 pub type CreateResult = Result<Box<dyn MemoryBankController>, CreateError>;
 
 #[derive(Debug, thiserror::Error)]
@@ -83,7 +99,7 @@ pub enum CreateError {
 ///
 /// This function assumes banks are stored in a single `Vec`, _including_ ROM0.
 pub fn map_rom_address(bank: u8, address: usize) -> usize {
-    bank as usize * ROM_BANK_SIZE + address
+    bank as usize * ROM_BANK_SIZE + (address - ROM_BANK_SIZE)
 }
 
 /// Maps a RAM memory address to an absolute banked address.

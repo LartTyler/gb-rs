@@ -1,6 +1,6 @@
 use super::{Effect, Execute};
 use crate::{enum_pass_execute, Cpu};
-use gb_rs_asm::containers::{Cycles, Flag, Pair};
+use gb_rs_asm::containers::{Cycles, Flag};
 use gb_rs_asm::instructions::decrement::{
     Decrement, PairDecrement, PairPointerDecrement, RegisterDecrement,
 };
@@ -20,8 +20,8 @@ impl Execute for RegisterDecrement {
         let output = cpu.registers.get_byte(self.target).sub_with_flags(1);
         cpu.registers.set_byte(self.target, output.result);
 
-        cpu.registers.flags.reset();
         cpu.registers.flags.set(Flag::Subtract);
+        cpu.registers.flags.set_if(Flag::Zero, output.result == 0);
 
         cpu.registers
             .flags
@@ -36,16 +36,6 @@ impl Execute for PairDecrement {
         let output = cpu.registers.get_pair(self.target).sub_with_flags(1);
         cpu.registers.set_pair(self.target, output.result);
 
-        cpu.registers.flags.reset();
-
-        if self.target != Pair::SP {
-            cpu.registers.flags.set(Flag::Subtract);
-
-            cpu.registers
-                .flags
-                .set_if(Flag::HalfCarry, output.half_carry);
-        }
-
         cycles.into()
     }
 }
@@ -54,9 +44,10 @@ impl Execute for PairPointerDecrement {
     fn execute(self, cpu: &mut Cpu, memory: &mut Memory, cycles: Cycles) -> Effect {
         let addr = cpu.registers.get_pair(*self.target);
         let output = memory.read_byte(addr).sub_with_flags(1);
+        memory.write_byte(addr, output.result);
 
-        cpu.registers.flags.reset();
         cpu.registers.flags.set(Flag::Subtract);
+        cpu.registers.flags.set_if(Flag::Zero, output.result == 0);
 
         cpu.registers
             .flags

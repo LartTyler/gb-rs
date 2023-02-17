@@ -24,7 +24,15 @@ impl Execute for Bit {
                 Effect { cycles: 1 }
             }
             Self::Complement(inner) => inner.execute(cpu, memory, cycles),
-            _ => todo!(),
+            Self::Set(inner) => inner.execute(cpu, memory, cycles),
+            Self::Reset(inner) => inner.execute(cpu, memory, cycles),
+            Self::Test(inner) => inner.execute(cpu, memory, cycles),
+            Self::And(inner) => inner.execute(cpu, memory, cycles),
+            Self::Xor(inner) => inner.execute(cpu, memory, cycles),
+            Self::Or(inner) => inner.execute(cpu, memory, cycles),
+            Self::ShiftLeft(inner) => inner.execute(cpu, memory, cycles),
+            Self::ShiftRight(inner) => inner.execute(cpu, memory, cycles),
+            Self::Swap(inner) => inner.execute(cpu, memory, cycles),
         }
     }
 }
