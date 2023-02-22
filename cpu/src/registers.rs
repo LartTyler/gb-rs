@@ -1,5 +1,5 @@
 use gb_rs_asm::containers::{Flag, Pair, Register};
-use gb_rs_core::{
+use gb_rs_common::{
     bytes::{bytes_to_word, word_to_bytes},
     DeviceMode, MathResult,
 };

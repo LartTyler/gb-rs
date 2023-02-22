@@ -1,4 +1,4 @@
-use gb_rs_core::bytes::{bytes_to_word, word_to_bytes};
+use gb_rs_common::bytes::{bytes_to_word, word_to_bytes};
 use std::cell::RefCell;
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
 

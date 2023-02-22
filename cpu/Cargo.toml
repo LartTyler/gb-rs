@@ -1,5 +1,5 @@
 [package]
-name = "gb-rs-cpu"
+name = "gb_rs_cpu"
 version = "0.1.0"
 edition = "2018"
 
@@ -7,5 +7,5 @@ edition = "2018"
 
 [dependencies]
 gb_rs_asm = { path = "../asm" }
-gb-rs-core = { "path" = "../core" }
-gb-rs-memory = { "path" = "../memory" }
+gb_rs_common = { "path" = "../common" }
+gb_rs_memory = { "path" = "../memory" }

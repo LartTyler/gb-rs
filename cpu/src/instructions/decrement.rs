@@ -4,7 +4,7 @@ use gb_rs_asm::containers::{Cycles, Flag};
 use gb_rs_asm::instructions::decrement::{
     Decrement, PairDecrement, PairPointerDecrement, RegisterDecrement,
 };
-use gb_rs_core::Z80Sub;
+use gb_rs_common::Z80Sub;
 use gb_rs_memory::Memory;
 
 impl Execute for Decrement {

@@ -1,11 +1,11 @@
 [package]
-name = "gb-rs-memory"
+name = "gb_rs_memory"
 version = "0.1.0"
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-gb-rs-core = { path = "../core" }
+gb_rs_common = { path = "../common" }
 gb_rs_asm = { path = "../asm" }
 thiserror = "1.0"

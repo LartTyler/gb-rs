@@ -1,5 +1,5 @@
 use gb_rs_asm::{containers::Condition, sets::Instructions};
-use gb_rs_core::DeviceMode;
+use gb_rs_common::DeviceMode;
 use gb_rs_memory::Memory;
 use inspector::{Inspector, Message};
 use instructions::{Effect, Execute};

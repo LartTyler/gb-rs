@@ -1,7 +1,7 @@
 use super::{Effect, Execute};
 use crate::{enum_pass_execute, Cpu};
 use gb_rs_asm::{containers::Cycles, instructions::stack::*};
-use gb_rs_core::bytes::{bytes_to_word, word_to_bytes};
+use gb_rs_common::bytes::{bytes_to_word, word_to_bytes};
 use gb_rs_memory::Memory;
 
 impl Execute for Stack {

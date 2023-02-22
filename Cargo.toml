@@ -1,8 +1,9 @@
 [workspace]
 members = [
 	"asm",
+	"common",
 	"core",
 	"cpu",
 	"memory",
-	"test-cli",
+	"cli",
 ]

@@ -1,8 +1,8 @@
 use crate::cartridge::{Cartridge, CartridgeError};
 use crate::constants::*;
 use gb_rs_asm::read::Read;
-use gb_rs_core::bytes::{bytes_to_word, word_to_bytes};
-use gb_rs_core::DeviceMode;
+use gb_rs_common::bytes::{bytes_to_word, word_to_bytes};
+use gb_rs_common::DeviceMode;
 
 pub mod cartridge;
 pub mod constants;

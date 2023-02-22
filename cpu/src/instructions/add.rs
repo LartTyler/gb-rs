@@ -4,7 +4,7 @@ use gb_rs_asm::{
     containers::{Cycles, Flag, Pair},
     operations::add::*,
 };
-use gb_rs_core::Z80Add;
+use gb_rs_common::Z80Add;
 use gb_rs_memory::Memory;
 
 impl Execute for Add {

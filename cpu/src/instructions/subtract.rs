@@ -4,7 +4,7 @@ use gb_rs_asm::{
     containers::{Cycles, Flag},
     operations::subtract::*,
 };
-use gb_rs_core::Z80Sub;
+use gb_rs_common::Z80Sub;
 use gb_rs_memory::Memory;
 
 impl Execute for Subtract {

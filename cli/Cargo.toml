@@ -1,5 +1,5 @@
 [package]
-name = "gb_rs_core"
+name = "gb_rs_cli"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,5 +7,8 @@ edition = "2021"
 
 [dependencies]
 thiserror = "1.0"
-gb_rs_cpu = { path = "../cpu" }
-gb_rs_memory = { path = "../memory" }
+tui = "0.19"
+crossterm = "0.26"
+clap = { version = "4.1", features = ["derive"] }
+gb_rs_core = { path = "../core" }
+gb_rs_asm = { path = "../asm" }

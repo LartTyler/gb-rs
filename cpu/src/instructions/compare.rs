@@ -2,7 +2,7 @@ use super::{Effect, Execute};
 use crate::Cpu;
 use gb_rs_asm::containers::{Cycles, Flag};
 use gb_rs_asm::operations::compare::*;
-use gb_rs_core::Z80Sub;
+use gb_rs_common::Z80Sub;
 use gb_rs_memory::Memory;
 
 impl Execute for Compare {

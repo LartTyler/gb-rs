@@ -3,7 +3,7 @@ use crate::{enum_pass_execute, Cpu};
 use gb_rs_asm::containers::Cycles;
 use gb_rs_asm::instructions::load::{Action, DataPointerLoadSource, RegisterPointerLoad};
 use gb_rs_asm::operations::load::*;
-use gb_rs_core::Z80Add;
+use gb_rs_common::Z80Add;
 use gb_rs_memory::Memory;
 
 impl Execute for Load {

@@ -1,7 +1,7 @@
 use crate::cartridge::mbc::MemoryBankController;
 use crate::constants::EXTERNAL_RAM_SIZE;
-use gb_rs_core::bytes::bytes_to_word;
-use gb_rs_core::DeviceMode;
+use gb_rs_common::bytes::bytes_to_word;
+use gb_rs_common::DeviceMode;
 
 pub mod constants;
 pub mod mbc;
