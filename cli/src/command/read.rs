@@ -1,6 +1,6 @@
 use super::*;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ReadByteCommand {
     pub address: u16,
 }
@@ -18,7 +18,7 @@ impl Display for ReadByteCommand {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ReadWordCommand {
     pub address: u16,
 }

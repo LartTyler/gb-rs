@@ -6,7 +6,7 @@ use std::{fmt::Display, str::FromStr};
 mod read;
 mod write;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Command {
     Next,
     Reset,

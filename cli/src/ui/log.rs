@@ -1,16 +1,22 @@
+use std::fmt::Display;
 use tui::{buffer::Buffer, layout::Rect, style::Style, widgets::Widget};
 
-pub struct Log<'a> {
-    items: &'a Vec<String>,
+pub struct Log {
+    items: Vec<String>,
 }
 
-impl<'a> Log<'a> {
-    pub fn new(items: &'a Vec<String>) -> Self {
-        Self { items }
+impl Log {
+    pub fn new<T>(items: &[T]) -> Self
+    where
+        T: Display,
+    {
+        Self {
+            items: items.iter().map(|item| format!("{item}")).collect(),
+        }
     }
 }
 
-impl<'a> Widget for Log<'a> {
+impl Widget for Log {
     fn render(self, area: Rect, buf: &mut Buffer) {
         let take = area.height.into();
         let skip = self.items.len().saturating_sub(take).min(1);

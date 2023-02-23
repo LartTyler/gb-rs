@@ -16,15 +16,16 @@ fn main() -> Result<(), Box<dyn Error>> {
     ui::set_up(&mut terminal)?;
 
     loop {
+        terminal.draw(|frame| ui::render(frame, &app))?;
+
         match app.run() {
             Ok(Outcome::Reset) => {
                 app = App::from_file(&cli.cart_file)?;
             }
-            Ok(_) => break,
+            Ok(Outcome::Quit) => break,
             Err(e) => return Err(Box::new(e)),
+            _ => (),
         };
-
-        terminal.draw(|frame| ui::render(frame, &app))?;
     }
 
     ui::tear_down(&mut terminal)?;
