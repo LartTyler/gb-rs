@@ -47,6 +47,7 @@ pub fn render<B: Backend>(f: &mut Frame<B>, app: &App) {
         .split(f.size());
 
     draw_left_column(f, app, chunks[0]);
+    draw_right_column(f, app, chunks[1]);
 }
 
 fn draw_left_column<B: Backend>(f: &mut Frame<B>, app: &App, area: Rect) {
@@ -61,39 +62,24 @@ fn draw_left_column<B: Backend>(f: &mut Frame<B>, app: &App, area: Rect) {
 
     draw_registers(f, app, chunks[0]);
     draw_input(f, app, chunks[1]);
+    draw_command_log(f, app, chunks[2]);
 }
 
 fn draw_registers<B: Backend>(f: &mut Frame<B>, app: &App, area: Rect) {
-    let container = Block::default().title("Registers").borders(Borders::all());
-    let inner_area = container.inner(area);
-    f.render_widget(container, area);
-
-    let chunks = Layout::default()
-        .horizontal_margin(1)
-        .constraints([Constraint::Min(1)])
-        .split(inner_area);
+    let area = draw_container(f, area, "Registers");
 
     let registers = Registers::new(&app.hardware.cpu.registers);
-    f.render_widget(registers, chunks[0]);
+    f.render_widget(registers, area);
 }
 
 fn draw_input<B: Backend>(f: &mut Frame<B>, app: &App, area: Rect) {
-    let container = Block::default().title("Command").borders(Borders::all());
-    let inner_area = container.inner(area);
-    f.render_widget(container, area);
-
-    let inner_area = Rect {
-        x: inner_area.x + 1,
-        y: inner_area.y,
-        width: inner_area.width - 2,
-        height: inner_area.height,
-    };
+    let area = draw_container(f, area, "Command");
 
     let prompt = app.last_command.as_ref().unwrap_or(&Command::Next);
     let input = Input::new(prompt, &app.input);
 
-    input.update_cursor(f, inner_area);
-    f.render_widget(input, inner_area);
+    input.update_cursor(f, area);
+    f.render_widget(input, area);
 }
 
 fn draw_command_log<B: Backend>(f: &mut Frame<B>, app: &App, area: Rect) {
@@ -101,6 +87,13 @@ fn draw_command_log<B: Backend>(f: &mut Frame<B>, app: &App, area: Rect) {
 
     let log = Log::new(app.get_command_log());
     f.render_widget(log, area)
+}
+
+fn draw_right_column<B: Backend>(f: &mut Frame<B>, app: &App, area: Rect) {
+    let area = draw_container(f, area, "Instruction Log");
+
+    let log = Log::new(app.get_operation_log()).spacing(0);
+    f.render_widget(log, area);
 }
 
 fn draw_container<B: Backend>(f: &mut Frame<B>, area: Rect, title: &str) -> Rect {

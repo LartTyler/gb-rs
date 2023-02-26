@@ -1,9 +1,12 @@
+#![feature(associated_type_defaults)]
+
 use app::{App, Outcome};
 use clap::Parser;
 use cli::Cli;
 use std::error::Error;
 
 mod app;
+mod auto;
 mod cli;
 mod command;
 mod ui;

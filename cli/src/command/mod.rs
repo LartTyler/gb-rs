@@ -1,8 +1,10 @@
+pub use auto::*;
 pub use read::*;
 pub use write::*;
 
-use std::{fmt::Display, str::FromStr};
+use std::{fmt::Display, num::ParseIntError, str::FromStr};
 
+mod auto;
 mod read;
 mod write;
 
@@ -12,6 +14,7 @@ pub enum Command {
     Reset,
     CartInfo,
     Quit,
+    Auto(AutoCommand),
     ReadByte(ReadByteCommand),
     ReadWord(ReadWordCommand),
     WriteByte(WriteByteCommand),
@@ -32,6 +35,7 @@ impl FromStr for Command {
             "n" | "next" => Ok(Self::Next),
             "r" | "reset" => Ok(Self::Reset),
             "ci" | "cart-info" => Ok(Self::CartInfo),
+            "a" | "auto" => AutoCommand::from_args(args),
             "rb" | "read-byte" => ReadByteCommand::from_args(args),
             "rw" | "read-word" => ReadWordCommand::from_args(args),
             "wb" | "write-byte" => WriteByteCommand::from_args(args),
@@ -48,6 +52,10 @@ impl Display for Command {
             Self::Next => f.write_str("next"),
             Self::Reset => f.write_str("reset"),
             Self::CartInfo => f.write_str("cart-info"),
+            Self::Auto(inner) => {
+                f.write_str("auto ")?;
+                f.write_fmt(format_args!("{inner}"))
+            }
             Self::ReadByte(inner) => {
                 f.write_str("read-byte ")?;
                 f.write_fmt(format_args!("{inner}"))
@@ -92,9 +100,51 @@ pub trait FromArgs {
 
 /// Utility function for forwarding [`str::parse()`] calls and converting any errors into
 /// appropriate command [`Error`] variants.
-fn parse_arg<T: FromStr>(value: Option<&str>) -> Result<T> {
+fn parse_arg<T: ParseNumber>(value: Option<&str>) -> Result<T> {
     match value {
-        Some(value) => value.parse().map_err(|_| Error::InvalidArgument),
+        Some(value) => T::parse_number(value).map_err(|_| Error::InvalidArgument),
         _ => Err(Error::MissingArgument),
+    }
+}
+
+trait ParseNumber: Sized {
+    type Err = ParseIntError;
+
+    fn parse_number<S: AsRef<str>>(input: S) -> std::result::Result<Self, Self::Err>;
+
+    fn guess_radix(input: &str) -> (&str, u32) {
+        if input.len() >= 3 {
+            let radix = match &input[0..2] {
+                "0x" => 16,
+                "0b" => 2,
+                "0o" => 7,
+                _ => return (input, 10),
+            };
+
+            (&input[2..], radix)
+        } else {
+            (input, 10)
+        }
+    }
+}
+
+impl ParseNumber for u8 {
+    fn parse_number<S: AsRef<str>>(input: S) -> std::result::Result<Self, Self::Err> {
+        let (fragment, radix) = Self::guess_radix(input.as_ref());
+        Self::from_str_radix(fragment, radix)
+    }
+}
+
+impl ParseNumber for u16 {
+    fn parse_number<S: AsRef<str>>(input: S) -> std::result::Result<Self, Self::Err> {
+        let (fragment, radix) = Self::guess_radix(input.as_ref());
+        Self::from_str_radix(fragment, radix)
+    }
+}
+
+impl ParseNumber for u64 {
+    fn parse_number<S: AsRef<str>>(input: S) -> std::result::Result<Self, Self::Err> {
+        let (fragment, radix) = Self::guess_radix(input.as_ref());
+        Self::from_str_radix(fragment, radix)
     }
 }

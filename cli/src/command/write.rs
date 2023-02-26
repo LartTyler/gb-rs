@@ -17,7 +17,7 @@ impl FromArgs for WriteByteCommand {
 
 impl Display for WriteByteCommand {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_fmt(format_args!("{:04X} {}", self.address, self.value))
+        f.write_fmt(format_args!("${:04X} {}", self.address, self.value))
     }
 }
 
@@ -38,6 +38,6 @@ impl FromArgs for WriteWordCommand {
 
 impl Display for WriteWordCommand {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_fmt(format_args!("{:04X} {}", self.address, self.value))
+        f.write_fmt(format_args!("${:04X} {}", self.address, self.value))
     }
 }
