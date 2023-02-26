@@ -1,7 +1,6 @@
-use std::{fs::File, io::Read, path::Path};
-
 use gb_rs_cpu::Cpu;
 use gb_rs_memory::Memory;
+use std::{fs::File, io::Read, path::Path};
 
 pub struct Hardware {
     pub cpu: Cpu,
