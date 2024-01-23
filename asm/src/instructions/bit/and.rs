@@ -14,9 +14,9 @@ pub struct BitwiseAnd {
 }
 
 impl BitwiseAnd {
-    pub const fn new<T>(target: T) -> Self
+    pub fn new<T>(target: T) -> Self
     where
-        T: ~const Into<BitwiseAndTarget>,
+        T: Into<BitwiseAndTarget>,
     {
         Self {
             target: target.into(),
@@ -24,7 +24,7 @@ impl BitwiseAnd {
     }
 }
 
-impl const From<BitwiseAnd> for InstructionKind {
+impl From<BitwiseAnd> for InstructionKind {
     fn from(value: BitwiseAnd) -> Self {
         Self::Bit(super::Bit::And(value))
     }
@@ -44,7 +44,7 @@ impl Parse for BitwiseAnd {
     }
 }
 
-impl const SetRegister for BitwiseAnd {
+impl SetRegister for BitwiseAnd {
     fn register(builder: &mut Builder) {
         use Register::*;
 
@@ -72,7 +72,7 @@ pub enum BitwiseAndTarget {
 }
 
 enum_from_helper!(
-    const Register => BitwiseAndTarget::Register,
-    const Pointer<Pair> => BitwiseAndTarget::PairPointer,
-    const Data<u8> => BitwiseAndTarget::Data,
+    Register => BitwiseAndTarget::Register,
+    Pointer<Pair> => BitwiseAndTarget::PairPointer,
+    Data<u8> => BitwiseAndTarget::Data,
 );

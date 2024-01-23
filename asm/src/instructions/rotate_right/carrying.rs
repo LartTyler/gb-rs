@@ -15,9 +15,9 @@ pub struct CarryingRotateRight {
 }
 
 impl CarryingRotateRight {
-    pub const fn new<T>(target: T, extended: bool) -> Self
+    pub fn new<T>(target: T, extended: bool) -> Self
     where
-        T: ~const Into<CarryingRotateRightTarget>,
+        T: Into<CarryingRotateRightTarget>,
     {
         Self {
             target: target.into(),
@@ -32,7 +32,7 @@ impl Parse for CarryingRotateRight {
     }
 }
 
-impl const SetRegister for CarryingRotateRight {
+impl SetRegister for CarryingRotateRight {
     fn register(builder: &mut Builder) {
         use Register::*;
 
@@ -60,7 +60,7 @@ impl Display for CarryingRotateRight {
     }
 }
 
-impl const From<CarryingRotateRight> for InstructionKind {
+impl From<CarryingRotateRight> for InstructionKind {
     fn from(value: CarryingRotateRight) -> Self {
         Self::RotateRight(RotateRight::Carrying(value))
     }
@@ -79,13 +79,13 @@ pub enum CarryingRotateRightTarget {
     PairPointer(Pointer<Pair>),
 }
 
-impl const From<Register> for CarryingRotateRightTarget {
+impl From<Register> for CarryingRotateRightTarget {
     fn from(value: Register) -> Self {
         Self::Register(value)
     }
 }
 
-impl const From<Pointer<Pair>> for CarryingRotateRightTarget {
+impl From<Pointer<Pair>> for CarryingRotateRightTarget {
     fn from(value: Pointer<Pair>) -> Self {
         Self::PairPointer(value)
     }

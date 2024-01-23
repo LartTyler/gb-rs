@@ -37,6 +37,6 @@ pub enum CallTarget {
 }
 
 enum_from_helper!(
-    const Pointer<Value<u16>> => CallTarget::DataPointer,
-    const Pointer<u16> => CallTarget::Vector,
+    Pointer<Value<u16>> => CallTarget::DataPointer,
+    Pointer<u16> => CallTarget::Vector,
 );

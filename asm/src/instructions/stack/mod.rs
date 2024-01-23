@@ -18,7 +18,7 @@ pub enum Stack {
     Push(PushStack),
 }
 
-impl const SetRegister for Stack {
+impl SetRegister for Stack {
     fn register(builder: &mut Builder) {
         register_helper!(builder, PopStack, PushStack);
     }

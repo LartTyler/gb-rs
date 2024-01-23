@@ -14,7 +14,7 @@ pub struct RelativeJump {
 }
 
 impl RelativeJump {
-    pub const fn new(offset: Signed<Data<u8>>, condition: Condition) -> Self {
+    pub fn new(offset: Signed<Data<u8>>, condition: Condition) -> Self {
         Self { offset, condition }
     }
 }
@@ -26,7 +26,7 @@ impl Parse for RelativeJump {
     }
 }
 
-impl const SetRegister for RelativeJump {
+impl SetRegister for RelativeJump {
     fn register(builder: &mut Builder) {
         use Condition::*;
         use Flag::{Carry, Zero};
@@ -42,7 +42,7 @@ impl const SetRegister for RelativeJump {
     }
 }
 
-impl const From<RelativeJump> for InstructionKind {
+impl From<RelativeJump> for InstructionKind {
     fn from(value: RelativeJump) -> Self {
         Self::Jump(Jump::Relative(value))
     }

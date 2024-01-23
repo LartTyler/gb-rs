@@ -14,9 +14,9 @@ pub struct Swap {
 }
 
 impl Swap {
-    pub const fn new<T>(target: T) -> Self
+    pub fn new<T>(target: T) -> Self
     where
-        T: ~const Into<SwapTarget>,
+        T: Into<SwapTarget>,
     {
         Self {
             target: target.into(),
@@ -24,7 +24,7 @@ impl Swap {
     }
 }
 
-impl const From<Swap> for InstructionKind {
+impl From<Swap> for InstructionKind {
     fn from(value: Swap) -> Self {
         Self::Bit(super::Bit::Swap(value))
     }
@@ -36,7 +36,7 @@ impl From<Swap> for OperationKind {
     }
 }
 
-impl const SetRegister for Swap {
+impl SetRegister for Swap {
     fn register(builder: &mut Builder) {
         use Register::*;
 
@@ -65,6 +65,6 @@ pub enum SwapTarget {
 }
 
 enum_from_helper!(
-    const Register => SwapTarget::Register,
-    const Pointer<Pair> => SwapTarget::PairPointer,
+    Register => SwapTarget::Register,
+    Pointer<Pair> => SwapTarget::PairPointer,
 );

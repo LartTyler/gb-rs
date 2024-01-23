@@ -16,9 +16,9 @@ pub struct RegisterLoad {
 }
 
 impl RegisterLoad {
-    pub const fn new<S>(target: Register, source: S) -> Self
+    pub fn new<S>(target: Register, source: S) -> Self
     where
-        S: ~const Into<RegisterLoadSource>,
+        S: Into<RegisterLoadSource>,
     {
         Self {
             target,
@@ -27,7 +27,7 @@ impl RegisterLoad {
     }
 }
 
-impl const From<RegisterLoad> for InstructionKind {
+impl From<RegisterLoad> for InstructionKind {
     fn from(value: RegisterLoad) -> Self {
         Self::Load(Load::Register(value))
     }
@@ -50,7 +50,7 @@ impl Parse for RegisterLoad {
     }
 }
 
-impl const SetRegister for RegisterLoad {
+impl SetRegister for RegisterLoad {
     fn register(builder: &mut Builder) {
         use Register::*;
 
@@ -169,12 +169,12 @@ pub enum RegisterLoadSource {
 }
 
 enum_from_helper!(
-    const Data<u8> => RegisterLoadSource::Data,
-    const PairPointerRegisterLoadSource => RegisterLoadSource::PairPointer,
-    const Register => RegisterLoadSource::Register,
-    const Pointer<Data<u16>> => RegisterLoadSource::DataPointer,
-    const Pointer<Data<u8>> => RegisterLoadSource::HighDataPointer,
-    const Pointer<Register> => RegisterLoadSource::RegisterPointer,
+    Data<u8> => RegisterLoadSource::Data,
+    PairPointerRegisterLoadSource => RegisterLoadSource::PairPointer,
+    Register => RegisterLoadSource::Register,
+    Pointer<Data<u16>> => RegisterLoadSource::DataPointer,
+    Pointer<Data<u8>> => RegisterLoadSource::HighDataPointer,
+    Pointer<Register> => RegisterLoadSource::RegisterPointer,
 );
 
 #[derive(Debug, Clone, Copy)]
@@ -184,7 +184,7 @@ pub struct PairPointerRegisterLoadSource {
 }
 
 impl PairPointerRegisterLoadSource {
-    pub const fn new(source: Pointer<Pair>, action: Action) -> Self {
+    pub fn new(source: Pointer<Pair>, action: Action) -> Self {
         Self { source, action }
     }
 }

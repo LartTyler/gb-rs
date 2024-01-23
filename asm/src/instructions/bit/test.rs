@@ -14,9 +14,9 @@ pub struct BitwiseTest {
 }
 
 impl BitwiseTest {
-    pub const fn new<T>(target: T, bit: BitPosition) -> Self
+    pub fn new<T>(target: T, bit: BitPosition) -> Self
     where
-        T: ~const Into<BitwiseTestTarget>,
+        T: Into<BitwiseTestTarget>,
     {
         Self {
             target: target.into(),
@@ -25,7 +25,7 @@ impl BitwiseTest {
     }
 }
 
-impl const From<BitwiseTest> for InstructionKind {
+impl From<BitwiseTest> for InstructionKind {
     fn from(value: BitwiseTest) -> Self {
         Self::Bit(super::Bit::Test(value))
     }
@@ -43,7 +43,7 @@ impl Parse for BitwiseTest {
     }
 }
 
-impl const SetRegister for BitwiseTest {
+impl SetRegister for BitwiseTest {
     fn register(builder: &mut Builder) {
         use Register::*;
 
@@ -152,13 +152,13 @@ pub enum BitwiseTestTarget {
     PairPointer(Pointer<Pair>),
 }
 
-impl const From<Register> for BitwiseTestTarget {
+impl From<Register> for BitwiseTestTarget {
     fn from(value: Register) -> Self {
         Self::Register(value)
     }
 }
 
-impl const From<Pointer<Pair>> for BitwiseTestTarget {
+impl From<Pointer<Pair>> for BitwiseTestTarget {
     fn from(value: Pointer<Pair>) -> Self {
         Self::PairPointer(value)
     }

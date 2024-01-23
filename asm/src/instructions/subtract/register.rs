@@ -16,9 +16,9 @@ pub struct RegisterSubtract {
 }
 
 impl RegisterSubtract {
-    pub const fn new<S>(source: S, with_carry: bool) -> Self
+    pub fn new<S>(source: S, with_carry: bool) -> Self
     where
-        S: ~const Into<RegisterSubtractSource>,
+        S: Into<RegisterSubtractSource>,
     {
         Self {
             source: source.into(),
@@ -27,7 +27,7 @@ impl RegisterSubtract {
     }
 }
 
-impl const From<RegisterSubtract> for InstructionKind {
+impl From<RegisterSubtract> for InstructionKind {
     fn from(value: RegisterSubtract) -> Self {
         Self::Subtract(Subtract::Register(value))
     }
@@ -54,7 +54,7 @@ impl Parse for RegisterSubtract {
     }
 }
 
-impl const SetRegister for RegisterSubtract {
+impl SetRegister for RegisterSubtract {
     fn register(builder: &mut Builder) {
         use Register::*;
 
@@ -93,7 +93,7 @@ pub enum RegisterSubtractSource {
 }
 
 enum_from_helper!(
-    const Register => RegisterSubtractSource::Register,
-    const Pointer<Pair> => RegisterSubtractSource::PairPointer,
-    const Data<u8> => RegisterSubtractSource::Data,
+    Register => RegisterSubtractSource::Register,
+    Pointer<Pair> => RegisterSubtractSource::PairPointer,
+    Data<u8> => RegisterSubtractSource::Data,
 );

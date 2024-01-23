@@ -56,8 +56,14 @@ pub enum Condition {
 pub struct Data<T>(PhantomData<T>);
 
 impl<T> Data<T> {
-    pub const fn new() -> Self {
+    pub fn new() -> Self {
         Self(PhantomData)
+    }
+}
+
+impl<T> Default for Data<T> {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
@@ -133,8 +139,14 @@ impl<T: UpperHex> UpperHex for Value<T> {
 pub struct Signed<T>(T);
 
 impl<T> Signed<Data<T>> {
-    pub const fn new() -> Self {
+    pub fn new() -> Self {
         Self(Data::new())
+    }
+}
+
+impl<T> Default for Signed<Data<T>> {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
@@ -300,9 +312,9 @@ impl Deref for BitPosition {
 
 #[macro_export]
 macro_rules! enum_from_helper {
-    ( $( $( $is_const:tt )? $source:ty => $enum:ident :: $variant:ident $(,)? ),* ) => {
+    ( $( $source:ty => $enum:ident :: $variant:ident $(,)? ),* ) => {
         $(
-            impl $( $is_const )? From<$source> for $enum {
+            impl From<$source> for $enum {
                 fn from(value: $source) -> Self {
                     Self::$variant(value)
                 }
@@ -343,13 +355,13 @@ impl Cycles {
     }
 }
 
-impl const From<u8> for Cycles {
+impl From<u8> for Cycles {
     fn from(value: u8) -> Self {
         Self::Fixed(value)
     }
 }
 
-impl const From<(u8, u8)> for Cycles {
+impl From<(u8, u8)> for Cycles {
     fn from(value: (u8, u8)) -> Self {
         Self::Variable {
             min: value.0,
@@ -363,7 +375,7 @@ impl const From<(u8, u8)> for Cycles {
 ///
 /// This is intended as a convenience for operations that never branch, and can reasonably call
 /// [`Result::expect()`] on the returned value.
-impl const TryFrom<Cycles> for u8 {
+impl TryFrom<Cycles> for u8 {
     type Error = ();
 
     fn try_from(value: Cycles) -> Result<Self, Self::Error> {
@@ -381,7 +393,7 @@ impl const TryFrom<Cycles> for u8 {
 ///
 /// This is intended as a convenience for operations that always branch, and can reasonably call
 /// [`Result::expect()`] on the returned value.
-impl const TryFrom<Cycles> for (u8, u8) {
+impl TryFrom<Cycles> for (u8, u8) {
     type Error = ();
 
     fn try_from(value: Cycles) -> Result<Self, Self::Error> {

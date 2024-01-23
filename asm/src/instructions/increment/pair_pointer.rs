@@ -13,7 +13,7 @@ pub struct PairPointerIncrement {
 }
 
 impl PairPointerIncrement {
-    pub const fn new(target: Pointer<Pair>) -> Self {
+    pub fn new(target: Pointer<Pair>) -> Self {
         Self { target }
     }
 }
@@ -24,13 +24,13 @@ impl Parse for PairPointerIncrement {
     }
 }
 
-impl const SetRegister for PairPointerIncrement {
+impl SetRegister for PairPointerIncrement {
     fn register(builder: &mut Builder) {
         builder.base(0x34, Self::new(Pointer(Pair::BC)), 1, 3);
     }
 }
 
-impl const From<PairPointerIncrement> for InstructionKind {
+impl From<PairPointerIncrement> for InstructionKind {
     fn from(value: PairPointerIncrement) -> Self {
         Self::Increment(Increment::PairPointer(value))
     }

@@ -15,9 +15,9 @@ pub struct PushStack {
 }
 
 impl PushStack {
-    pub const fn new<T>(target: T) -> Self
+    pub fn new<T>(target: T) -> Self
     where
-        T: ~const Into<PushStackTarget>,
+        T: Into<PushStackTarget>,
     {
         Self {
             target: target.into(),
@@ -25,7 +25,7 @@ impl PushStack {
     }
 }
 
-impl const From<PushStack> for InstructionKind {
+impl From<PushStack> for InstructionKind {
     fn from(value: PushStack) -> Self {
         Self::Stack(Stack::Push(value))
     }
@@ -37,7 +37,7 @@ impl From<PushStack> for OperationKind {
     }
 }
 
-impl const SetRegister for PushStack {
+impl SetRegister for PushStack {
     fn register(builder: &mut Builder) {
         use Pair::*;
 
@@ -63,4 +63,4 @@ pub enum PushStackTarget {
     AccumulatorAndFlags,
 }
 
-enum_from_helper!(const Pair => PushStackTarget::Pair);
+enum_from_helper!(Pair => PushStackTarget::Pair);

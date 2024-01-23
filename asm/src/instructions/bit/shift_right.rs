@@ -15,9 +15,9 @@ pub struct ShiftRight {
 }
 
 impl ShiftRight {
-    pub const fn new<T>(target: T, kind: ShiftRightKind) -> Self
+    pub fn new<T>(target: T, kind: ShiftRightKind) -> Self
     where
-        T: ~const Into<ShiftRightTarget>,
+        T: Into<ShiftRightTarget>,
     {
         Self {
             target: target.into(),
@@ -32,7 +32,7 @@ impl Display for ShiftRight {
     }
 }
 
-impl const From<ShiftRight> for InstructionKind {
+impl From<ShiftRight> for InstructionKind {
     fn from(value: ShiftRight) -> Self {
         Self::Bit(super::Bit::ShiftRight(value))
     }
@@ -44,7 +44,7 @@ impl From<ShiftRight> for OperationKind {
     }
 }
 
-impl const SetRegister for ShiftRight {
+impl SetRegister for ShiftRight {
     fn register(builder: &mut Builder) {
         use Register::*;
         use ShiftRightKind::*;
@@ -85,8 +85,8 @@ pub enum ShiftRightTarget {
 }
 
 enum_from_helper!(
-    const Register => ShiftRightTarget::Register,
-    const Pointer<Pair> => ShiftRightTarget::PairPointer,
+    Register => ShiftRightTarget::Register,
+    Pointer<Pair> => ShiftRightTarget::PairPointer,
 );
 
 #[derive(Debug, Clone, Copy, Display)]

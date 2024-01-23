@@ -35,6 +35,6 @@ pub enum AbsoluteJumpTarget {
 }
 
 enum_from_helper!(
-    const Pointer<Value<u16>> => AbsoluteJumpTarget::DataPointer,
-    const Pointer<Pair> => AbsoluteJumpTarget::PairPointer,
+    Pointer<Value<u16>> => AbsoluteJumpTarget::DataPointer,
+    Pointer<Pair> => AbsoluteJumpTarget::PairPointer,
 );

@@ -82,7 +82,7 @@ pub enum InstructionKind {
 }
 
 impl InstructionKind {
-    pub const fn set() -> sets::Instructions {
+    pub fn set() -> sets::Instructions {
         let mut builder = sets::Builder::default();
 
         builder.base(0x00, InstructionKind::Nop, 1, 1);
@@ -139,7 +139,6 @@ impl Parse for InstructionKind {
     }
 }
 
-#[const_trait]
 trait SetRegister {
     fn register(builder: &mut sets::Builder);
 }

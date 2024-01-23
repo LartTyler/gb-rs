@@ -15,9 +15,9 @@ pub struct CyclicRotateRight {
 }
 
 impl CyclicRotateRight {
-    pub const fn new<T>(target: T, extended: bool) -> Self
+    pub fn new<T>(target: T, extended: bool) -> Self
     where
-        T: ~const Into<CyclicRotateRightTarget>,
+        T: Into<CyclicRotateRightTarget>,
     {
         Self {
             target: target.into(),
@@ -32,7 +32,7 @@ impl Parse for CyclicRotateRight {
     }
 }
 
-impl const SetRegister for CyclicRotateRight {
+impl SetRegister for CyclicRotateRight {
     fn register(builder: &mut Builder) {
         use Register::*;
 
@@ -60,7 +60,7 @@ impl Display for CyclicRotateRight {
     }
 }
 
-impl const From<CyclicRotateRight> for InstructionKind {
+impl From<CyclicRotateRight> for InstructionKind {
     fn from(value: CyclicRotateRight) -> Self {
         Self::RotateRight(RotateRight::Cyclic(value))
     }
@@ -79,13 +79,13 @@ pub enum CyclicRotateRightTarget {
     PairPointer(Pointer<Pair>),
 }
 
-impl const From<Register> for CyclicRotateRightTarget {
+impl From<Register> for CyclicRotateRightTarget {
     fn from(value: Register) -> Self {
         Self::Register(value)
     }
 }
 
-impl const From<Pointer<Pair>> for CyclicRotateRightTarget {
+impl From<Pointer<Pair>> for CyclicRotateRightTarget {
     fn from(value: Pointer<Pair>) -> Self {
         Self::PairPointer(value)
     }

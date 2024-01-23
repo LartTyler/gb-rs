@@ -14,9 +14,9 @@ pub struct Compare {
 }
 
 impl Compare {
-    pub const fn new<T>(target: T) -> Self
+    pub fn new<T>(target: T) -> Self
     where
-        T: ~const Into<CompareTarget>,
+        T: Into<CompareTarget>,
     {
         Self {
             target: target.into(),
@@ -24,7 +24,7 @@ impl Compare {
     }
 }
 
-impl const SetRegister for Compare {
+impl SetRegister for Compare {
     fn register(builder: &mut Builder) {
         // CP r8
         builder.base(0xB8, Self::new(Register::B), 1, 1);
@@ -58,7 +58,7 @@ impl Parse for Compare {
 }
 
 enum_from_helper!(
-    const Compare => InstructionKind::Compare,
+    Compare => InstructionKind::Compare,
 );
 
 #[derive(Debug, Clone, Copy, Display)]
@@ -70,7 +70,7 @@ pub enum CompareTarget {
 }
 
 enum_from_helper!(
-    const Register => CompareTarget::Register,
-    const Pointer<Pair> => CompareTarget::PairPointer,
-    const Data<u8> => CompareTarget::Data,
+    Register => CompareTarget::Register,
+    Pointer<Pair> => CompareTarget::PairPointer,
+    Data<u8> => CompareTarget::Data,
 );

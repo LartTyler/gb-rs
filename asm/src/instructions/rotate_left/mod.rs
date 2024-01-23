@@ -29,7 +29,7 @@ impl Parse for RotateLeft {
     }
 }
 
-impl const SetRegister for RotateLeft {
+impl SetRegister for RotateLeft {
     fn register(builder: &mut Builder) {
         register_helper!(builder, CyclicRotateLeft, CarryingRotateLeft);
     }

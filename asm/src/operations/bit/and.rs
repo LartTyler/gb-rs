@@ -30,7 +30,7 @@ pub enum BitwiseAndTarget {
 }
 
 enum_from_helper!(
-    const Register => BitwiseAndTarget::Register,
-    const Pointer<Pair> => BitwiseAndTarget::PairPointer,
-    const Value<u8> => BitwiseAndTarget::Data,
+    Register => BitwiseAndTarget::Register,
+    Pointer<Pair> => BitwiseAndTarget::PairPointer,
+    Value<u8> => BitwiseAndTarget::Data,
 );

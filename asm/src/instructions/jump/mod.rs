@@ -29,7 +29,7 @@ impl Parse for Jump {
     }
 }
 
-impl const SetRegister for Jump {
+impl SetRegister for Jump {
     fn register(builder: &mut Builder) {
         register_helper!(builder, RelativeJump, AbsoluteJump);
     }

@@ -15,7 +15,7 @@ pub struct RegisterDecrement {
 }
 
 impl RegisterDecrement {
-    pub const fn new(target: Register) -> Self {
+    pub fn new(target: Register) -> Self {
         Self { target }
     }
 }
@@ -26,7 +26,7 @@ impl Parse for RegisterDecrement {
     }
 }
 
-impl const SetRegister for RegisterDecrement {
+impl SetRegister for RegisterDecrement {
     fn register(builder: &mut Builder) {
         use Register::*;
 
@@ -40,7 +40,7 @@ impl const SetRegister for RegisterDecrement {
     }
 }
 
-impl const From<RegisterDecrement> for InstructionKind {
+impl From<RegisterDecrement> for InstructionKind {
     fn from(value: RegisterDecrement) -> Self {
         Self::Decrement(Decrement::Register(value))
     }

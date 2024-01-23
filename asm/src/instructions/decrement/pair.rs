@@ -13,7 +13,7 @@ pub struct PairDecrement {
 }
 
 impl PairDecrement {
-    pub const fn new(target: Pair) -> Self {
+    pub fn new(target: Pair) -> Self {
         Self { target }
     }
 }
@@ -24,7 +24,7 @@ impl Parse for PairDecrement {
     }
 }
 
-impl const SetRegister for PairDecrement {
+impl SetRegister for PairDecrement {
     fn register(builder: &mut crate::sets::Builder) {
         use Pair::*;
 
@@ -35,7 +35,7 @@ impl const SetRegister for PairDecrement {
     }
 }
 
-impl const From<PairDecrement> for InstructionKind {
+impl From<PairDecrement> for InstructionKind {
     fn from(value: PairDecrement) -> Self {
         Self::Decrement(Decrement::Pair(value))
     }

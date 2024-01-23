@@ -20,7 +20,7 @@ impl Parse for Subtract {
     }
 }
 
-impl const SetRegister for Subtract {
+impl SetRegister for Subtract {
     fn register(builder: &mut crate::sets::Builder) {
         register_helper!(builder, RegisterSubtract);
     }

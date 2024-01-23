@@ -30,7 +30,7 @@ pub enum BitwiseXorTarget {
 }
 
 enum_from_helper!(
-    const Register => BitwiseXorTarget::Register,
-    const Pointer<Pair> => BitwiseXorTarget::PairPointer,
-    const Value<u8> => BitwiseXorTarget::Data,
+    Register => BitwiseXorTarget::Register,
+    Pointer<Pair> => BitwiseXorTarget::PairPointer,
+    Value<u8> => BitwiseXorTarget::Data,
 );

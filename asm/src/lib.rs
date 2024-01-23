@@ -1,7 +1,3 @@
-#![feature(const_convert)]
-#![feature(const_trait_impl)]
-#![feature(const_option)]
-#![feature(const_mut_refs)]
 #![warn(clippy::correctness)]
 #![warn(clippy::suspicious)]
 #![warn(clippy::complexity)]

@@ -24,7 +24,7 @@ impl Parse for Add {
     }
 }
 
-impl const SetRegister for Add {
+impl SetRegister for Add {
     fn register(builder: &mut Builder) {
         register_helper!(builder, PairAdd, RegisterAdd);
     }

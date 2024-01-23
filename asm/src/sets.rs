@@ -68,21 +68,21 @@ pub struct Builder {
     extended: Set,
 }
 
-impl const Default for Builder {
+impl Default for Builder {
     fn default() -> Self {
         Self::new([None; 256], [None; 256])
     }
 }
 
 impl Builder {
-    pub const fn new(base: Set, extended: Set) -> Self {
+    pub fn new(base: Set, extended: Set) -> Self {
         Self { base, extended }
     }
 
-    pub const fn base<I, C>(&mut self, opcode: u8, instruction: I, width: u8, cycles: C)
+    pub fn base<I, C>(&mut self, opcode: u8, instruction: I, width: u8, cycles: C)
     where
-        I: ~const Into<InstructionKind>,
-        C: ~const Into<Cycles>,
+        I: Into<InstructionKind>,
+        C: Into<Cycles>,
     {
         debug_assert!(
             self.base[opcode as usize].is_none(),
@@ -96,10 +96,10 @@ impl Builder {
         });
     }
 
-    pub const fn extended<I, C>(&mut self, opcode: u8, instruction: I, width: u8, cycles: C)
+    pub fn extended<I, C>(&mut self, opcode: u8, instruction: I, width: u8, cycles: C)
     where
-        I: ~const Into<InstructionKind>,
-        C: ~const Into<Cycles>,
+        I: Into<InstructionKind>,
+        C: Into<Cycles>,
     {
         debug_assert!(
             self.extended[opcode as usize].is_none(),
@@ -113,7 +113,7 @@ impl Builder {
         });
     }
 
-    pub const fn build(self) -> Instructions {
+    pub fn build(self) -> Instructions {
         Instructions {
             base: self.base,
             extended: self.extended,

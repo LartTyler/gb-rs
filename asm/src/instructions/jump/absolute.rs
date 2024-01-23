@@ -16,9 +16,9 @@ pub struct AbsoluteJump {
 }
 
 impl AbsoluteJump {
-    pub const fn new<T>(target: T, condition: Condition) -> Self
+    pub fn new<T>(target: T, condition: Condition) -> Self
     where
-        T: ~const Into<AbsoluteJumpTarget>,
+        T: Into<AbsoluteJumpTarget>,
     {
         Self {
             target: target.into(),
@@ -37,13 +37,13 @@ impl Display for AbsoluteJump {
     }
 }
 
-impl const From<AbsoluteJump> for InstructionKind {
+impl From<AbsoluteJump> for InstructionKind {
     fn from(value: AbsoluteJump) -> Self {
         Self::Jump(Jump::Absolute(value))
     }
 }
 
-impl const SetRegister for AbsoluteJump {
+impl SetRegister for AbsoluteJump {
     fn register(builder: &mut Builder) {
         use Condition::*;
         use Flag::*;
@@ -91,6 +91,6 @@ pub enum AbsoluteJumpTarget {
 }
 
 enum_from_helper!(
-    const Pointer<Data<u16>> => AbsoluteJumpTarget::DataPointer,
-    const Pointer<Pair> => AbsoluteJumpTarget::PairPointer
+    Pointer<Data<u16>> => AbsoluteJumpTarget::DataPointer,
+    Pointer<Pair> => AbsoluteJumpTarget::PairPointer
 );

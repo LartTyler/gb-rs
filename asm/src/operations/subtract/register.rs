@@ -39,7 +39,7 @@ pub enum RegisterSubtractSource {
 }
 
 enum_from_helper!(
-    const Register => RegisterSubtractSource::Register,
-    const Pointer<Pair> => RegisterSubtractSource::PairPointer,
-    const Value<u8> => RegisterSubtractSource::Data,
+    Register => RegisterSubtractSource::Register,
+    Pointer<Pair> => RegisterSubtractSource::PairPointer,
+    Value<u8> => RegisterSubtractSource::Data,
 );

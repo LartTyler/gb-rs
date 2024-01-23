@@ -18,7 +18,7 @@ pub enum Subroutine {
     Call(Call),
 }
 
-impl const SetRegister for Subroutine {
+impl SetRegister for Subroutine {
     fn register(builder: &mut Builder) {
         register_helper!(builder, Return, Call);
     }

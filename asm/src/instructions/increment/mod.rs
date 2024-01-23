@@ -33,7 +33,7 @@ impl Parse for Increment {
     }
 }
 
-impl const SetRegister for Increment {
+impl SetRegister for Increment {
     fn register(builder: &mut Builder) {
         register_helper!(
             builder,

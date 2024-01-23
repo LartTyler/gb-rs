@@ -156,7 +156,7 @@ impl App {
                 self.auto_tick = Some(start_auto_tick(inner.tick_rate));
 
                 Some(CommandOutput::Auto {
-                    info: format!("Ticking system at {:#}ns", inner.tick_rate.as_nanos()),
+                    info: format!("Ticking system at {:#}s", inner.tick_rate.as_secs_f64()),
                 })
             }
             Command::ReadByte(ref inner) => {

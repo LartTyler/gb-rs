@@ -39,7 +39,7 @@ impl Parse for Load {
     }
 }
 
-impl const SetRegister for Load {
+impl SetRegister for Load {
     fn register(builder: &mut sets::Builder) {
         register_helper!(
             builder,

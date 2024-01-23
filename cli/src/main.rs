@@ -1,5 +1,3 @@
-#![feature(associated_type_defaults)]
-
 use app::{App, Outcome};
 use clap::Parser;
 use cli::Cli;

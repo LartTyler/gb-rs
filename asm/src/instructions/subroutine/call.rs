@@ -16,9 +16,9 @@ pub struct Call {
 }
 
 impl Call {
-    pub const fn new<T>(target: T, condition: Condition) -> Self
+    pub fn new<T>(target: T, condition: Condition) -> Self
     where
-        T: ~const Into<CallTarget>,
+        T: Into<CallTarget>,
     {
         Self {
             target: target.into(),
@@ -39,13 +39,13 @@ impl Display for Call {
     }
 }
 
-impl const From<Call> for InstructionKind {
+impl From<Call> for InstructionKind {
     fn from(value: Call) -> Self {
         Self::Subroutine(Subroutine::Call(value))
     }
 }
 
-impl const SetRegister for Call {
+impl SetRegister for Call {
     fn register(builder: &mut Builder) {
         use Condition::*;
         use Flag::*;
@@ -103,6 +103,6 @@ pub enum CallTarget {
 }
 
 enum_from_helper!(
-    const Pointer<Data<u16>> => CallTarget::DataPointer,
-    const Pointer<u16> => CallTarget::Vector,
+    Pointer<Data<u16>> => CallTarget::DataPointer,
+    Pointer<u16> => CallTarget::Vector,
 );

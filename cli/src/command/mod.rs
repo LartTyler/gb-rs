@@ -108,9 +108,7 @@ fn parse_arg<T: ParseNumber>(value: Option<&str>) -> Result<T> {
 }
 
 trait ParseNumber: Sized {
-    type Err = ParseIntError;
-
-    fn parse_number<S: AsRef<str>>(input: S) -> std::result::Result<Self, Self::Err>;
+    fn parse_number<S: AsRef<str>>(input: S) -> std::result::Result<Self, ParseIntError>;
 
     fn guess_radix(input: &str) -> (&str, u32) {
         if input.len() >= 3 {
@@ -129,21 +127,21 @@ trait ParseNumber: Sized {
 }
 
 impl ParseNumber for u8 {
-    fn parse_number<S: AsRef<str>>(input: S) -> std::result::Result<Self, Self::Err> {
+    fn parse_number<S: AsRef<str>>(input: S) -> std::result::Result<Self, ParseIntError> {
         let (fragment, radix) = Self::guess_radix(input.as_ref());
         Self::from_str_radix(fragment, radix)
     }
 }
 
 impl ParseNumber for u16 {
-    fn parse_number<S: AsRef<str>>(input: S) -> std::result::Result<Self, Self::Err> {
+    fn parse_number<S: AsRef<str>>(input: S) -> std::result::Result<Self, ParseIntError> {
         let (fragment, radix) = Self::guess_radix(input.as_ref());
         Self::from_str_radix(fragment, radix)
     }
 }
 
 impl ParseNumber for u64 {
-    fn parse_number<S: AsRef<str>>(input: S) -> std::result::Result<Self, Self::Err> {
+    fn parse_number<S: AsRef<str>>(input: S) -> std::result::Result<Self, ParseIntError> {
         let (fragment, radix) = Self::guess_radix(input.as_ref());
         Self::from_str_radix(fragment, radix)
     }

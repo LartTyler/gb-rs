@@ -15,9 +15,9 @@ pub struct PairPointerLoad {
 }
 
 impl PairPointerLoad {
-    pub const fn new<S>(target: Pointer<Pair>, source: S, action: Action) -> Self
+    pub fn new<S>(target: Pointer<Pair>, source: S, action: Action) -> Self
     where
-        S: ~const Into<PairPointerLoadSource>,
+        S: Into<PairPointerLoadSource>,
     {
         Self {
             target,
@@ -27,7 +27,7 @@ impl PairPointerLoad {
     }
 }
 
-impl const From<PairPointerLoad> for InstructionKind {
+impl From<PairPointerLoad> for InstructionKind {
     fn from(value: PairPointerLoad) -> Self {
         Self::Load(Load::PairPointer(value))
     }
@@ -50,7 +50,7 @@ impl Parse for PairPointerLoad {
     }
 }
 
-impl const SetRegister for PairPointerLoad {
+impl SetRegister for PairPointerLoad {
     fn register(builder: &mut crate::sets::Builder) {
         use Action::*;
         use Pair::*;
@@ -89,13 +89,13 @@ pub enum PairPointerLoadSource {
     Data(Data<u8>),
 }
 
-impl const From<Register> for PairPointerLoadSource {
+impl From<Register> for PairPointerLoadSource {
     fn from(value: Register) -> Self {
         Self::Register(value)
     }
 }
 
-impl const From<Data<u8>> for PairPointerLoadSource {
+impl From<Data<u8>> for PairPointerLoadSource {
     fn from(value: Data<u8>) -> Self {
         Self::Data(value)
     }

@@ -9,13 +9,13 @@ use parse_display::Display;
 #[display("LD (C), A")]
 pub struct RegisterPointerLoad;
 
-impl const From<RegisterPointerLoad> for InstructionKind {
+impl From<RegisterPointerLoad> for InstructionKind {
     fn from(value: RegisterPointerLoad) -> Self {
         Self::Load(Load::RegisterPointer(value))
     }
 }
 
-impl const SetRegister for RegisterPointerLoad {
+impl SetRegister for RegisterPointerLoad {
     fn register(builder: &mut Builder) {
         builder.base(0xE2, Self, 2, 2);
     }

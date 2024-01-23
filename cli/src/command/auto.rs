@@ -15,7 +15,7 @@ impl FromArgs for AutoCommand {
 
 impl Display for AutoCommand {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_fmt(format_args!("{:#}ns", self.tick_rate.as_nanos()))
+        f.write_fmt(format_args!("{:#}s", self.tick_rate.as_secs_f64()))
     }
 }
 
@@ -24,7 +24,7 @@ fn parse_time(input: Option<&str>) -> Result<Duration> {
         return Err(Error::MissingArgument);
     };
 
-    let (fragment, ctor): (&str, fn(u64) -> Duration) = if input.len() >= 3 {
+    let (fragment, ctor): (&str, fn(u64) -> Duration) = if input.len() >= 2 {
         if let Some(stripped) = input.strip_suffix("ns") {
             (stripped, Duration::from_nanos)
         } else if let Some(stripped) = input.strip_suffix("us") {

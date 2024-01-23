@@ -13,7 +13,7 @@ pub struct PairIncrement {
 }
 
 impl PairIncrement {
-    pub const fn new(target: Pair) -> Self {
+    pub fn new(target: Pair) -> Self {
         Self { target }
     }
 }
@@ -24,7 +24,7 @@ impl Parse for PairIncrement {
     }
 }
 
-impl const SetRegister for PairIncrement {
+impl SetRegister for PairIncrement {
     fn register(builder: &mut crate::sets::Builder) {
         use Pair::*;
 
@@ -35,7 +35,7 @@ impl const SetRegister for PairIncrement {
     }
 }
 
-impl const From<PairIncrement> for InstructionKind {
+impl From<PairIncrement> for InstructionKind {
     fn from(value: PairIncrement) -> Self {
         Self::Increment(Increment::Pair(value))
     }

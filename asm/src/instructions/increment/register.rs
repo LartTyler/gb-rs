@@ -14,7 +14,7 @@ pub struct RegisterIncrement {
 }
 
 impl RegisterIncrement {
-    pub const fn new(target: Register) -> Self {
+    pub fn new(target: Register) -> Self {
         Self { target }
     }
 }
@@ -25,7 +25,7 @@ impl Parse for RegisterIncrement {
     }
 }
 
-impl const SetRegister for RegisterIncrement {
+impl SetRegister for RegisterIncrement {
     fn register(builder: &mut Builder) {
         use Register::*;
 
@@ -39,7 +39,7 @@ impl const SetRegister for RegisterIncrement {
     }
 }
 
-impl const From<RegisterIncrement> for InstructionKind {
+impl From<RegisterIncrement> for InstructionKind {
     fn from(value: RegisterIncrement) -> Self {
         Self::Increment(Increment::Register(value))
     }

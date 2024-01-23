@@ -14,9 +14,9 @@ pub struct BitwiseXor {
 }
 
 impl BitwiseXor {
-    pub const fn new<T>(target: T) -> Self
+    pub fn new<T>(target: T) -> Self
     where
-        T: ~const Into<BitwiseXorTarget>,
+        T: Into<BitwiseXorTarget>,
     {
         Self {
             target: target.into(),
@@ -24,7 +24,7 @@ impl BitwiseXor {
     }
 }
 
-impl const From<BitwiseXor> for InstructionKind {
+impl From<BitwiseXor> for InstructionKind {
     fn from(value: BitwiseXor) -> Self {
         Self::Bit(super::Bit::Xor(value))
     }
@@ -44,7 +44,7 @@ impl Parse for BitwiseXor {
     }
 }
 
-impl const SetRegister for BitwiseXor {
+impl SetRegister for BitwiseXor {
     fn register(builder: &mut Builder) {
         use Register::*;
 
@@ -72,7 +72,7 @@ pub enum BitwiseXorTarget {
 }
 
 enum_from_helper!(
-    const Register => BitwiseXorTarget::Register,
-    const Pointer<Pair> => BitwiseXorTarget::PairPointer,
-    const Data<u8> => BitwiseXorTarget::Data,
+    Register => BitwiseXorTarget::Register,
+    Pointer<Pair> => BitwiseXorTarget::PairPointer,
+    Data<u8> => BitwiseXorTarget::Data,
 );

@@ -66,7 +66,7 @@ impl Parse for Bit {
     }
 }
 
-impl const SetRegister for Bit {
+impl SetRegister for Bit {
     fn register(builder: &mut Builder) {
         builder.base(0x37, Self::SetCarryFlag, 1, 1);
 
@@ -86,7 +86,7 @@ impl const SetRegister for Bit {
     }
 }
 
-impl const From<Bit> for InstructionKind {
+impl From<Bit> for InstructionKind {
     fn from(value: Bit) -> Self {
         InstructionKind::Bit(value)
     }

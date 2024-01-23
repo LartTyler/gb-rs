@@ -15,9 +15,9 @@ pub struct PopStack {
 }
 
 impl PopStack {
-    pub const fn new<T>(target: T) -> Self
+    pub fn new<T>(target: T) -> Self
     where
-        T: ~const Into<PopStackTarget>,
+        T: Into<PopStackTarget>,
     {
         Self {
             target: target.into(),
@@ -25,7 +25,7 @@ impl PopStack {
     }
 }
 
-impl const From<PopStack> for InstructionKind {
+impl From<PopStack> for InstructionKind {
     fn from(value: PopStack) -> Self {
         Self::Stack(Stack::Pop(value))
     }
@@ -37,7 +37,7 @@ impl From<PopStack> for OperationKind {
     }
 }
 
-impl const SetRegister for PopStack {
+impl SetRegister for PopStack {
     fn register(builder: &mut Builder) {
         use Pair::*;
 
@@ -63,4 +63,4 @@ pub enum PopStackTarget {
     AccumulatorAndFlags,
 }
 
-enum_from_helper!(const Pair => PopStackTarget::Pair);
+enum_from_helper!(Pair => PopStackTarget::Pair);

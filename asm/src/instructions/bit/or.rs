@@ -14,9 +14,9 @@ pub struct BitwiseOr {
 }
 
 impl BitwiseOr {
-    pub const fn new<T>(target: T) -> Self
+    pub fn new<T>(target: T) -> Self
     where
-        T: ~const Into<BitwiseOrTarget>,
+        T: Into<BitwiseOrTarget>,
     {
         Self {
             target: target.into(),
@@ -24,7 +24,7 @@ impl BitwiseOr {
     }
 }
 
-impl const From<BitwiseOr> for InstructionKind {
+impl From<BitwiseOr> for InstructionKind {
     fn from(value: BitwiseOr) -> Self {
         Self::Bit(super::Bit::Or(value))
     }
@@ -44,7 +44,7 @@ impl Parse for BitwiseOr {
     }
 }
 
-impl const SetRegister for BitwiseOr {
+impl SetRegister for BitwiseOr {
     fn register(builder: &mut Builder) {
         use Register::*;
 
@@ -72,7 +72,7 @@ pub enum BitwiseOrTarget {
 }
 
 enum_from_helper!(
-    const Register => BitwiseOrTarget::Register,
-    const Pointer<Pair> => BitwiseOrTarget::PairPointer,
-    const Data<u8> => BitwiseOrTarget::Data,
+    Register => BitwiseOrTarget::Register,
+    Pointer<Pair> => BitwiseOrTarget::PairPointer,
+    Data<u8> => BitwiseOrTarget::Data,
 );

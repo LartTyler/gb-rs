@@ -32,7 +32,7 @@ impl Parse for Decrement {
     }
 }
 
-impl const SetRegister for Decrement {
+impl SetRegister for Decrement {
     fn register(builder: &mut crate::sets::Builder) {
         register_helper!(
             builder,

@@ -14,9 +14,9 @@ pub struct RegisterAdd {
 }
 
 impl RegisterAdd {
-    pub const fn new<S>(source: S, with_carry: bool) -> Self
+    pub fn new<S>(source: S, with_carry: bool) -> Self
     where
-        S: ~const Into<RegisterAddSource>,
+        S: Into<RegisterAddSource>,
     {
         Self {
             source: source.into(),
@@ -39,7 +39,7 @@ impl Parse for RegisterAdd {
     }
 }
 
-impl const SetRegister for RegisterAdd {
+impl SetRegister for RegisterAdd {
     fn register(builder: &mut Builder) {
         use Register::*;
 
@@ -69,7 +69,7 @@ impl const SetRegister for RegisterAdd {
     }
 }
 
-impl const From<RegisterAdd> for InstructionKind {
+impl From<RegisterAdd> for InstructionKind {
     fn from(value: RegisterAdd) -> Self {
         Self::Add(Add::Register(value))
     }
@@ -90,19 +90,19 @@ pub enum RegisterAddSource {
     Data(Data<u8>),
 }
 
-impl const From<Register> for RegisterAddSource {
+impl From<Register> for RegisterAddSource {
     fn from(value: Register) -> Self {
         Self::Register(value)
     }
 }
 
-impl const From<Pointer<Pair>> for RegisterAddSource {
+impl From<Pointer<Pair>> for RegisterAddSource {
     fn from(value: Pointer<Pair>) -> Self {
         Self::PairPointer(value)
     }
 }
 
-impl const From<Data<u8>> for RegisterAddSource {
+impl From<Data<u8>> for RegisterAddSource {
     fn from(value: Data<u8>) -> Self {
         Self::Data(value)
     }

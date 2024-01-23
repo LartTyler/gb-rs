@@ -31,7 +31,7 @@ pub enum CompareTarget {
 }
 
 enum_from_helper!(
-    const Register => CompareTarget::Register,
-    const Pointer<Pair> => CompareTarget::PairPointer,
-    const Value<u8> => CompareTarget::Data,
+    Register => CompareTarget::Register,
+    Pointer<Pair> => CompareTarget::PairPointer,
+    Value<u8> => CompareTarget::Data,
 );

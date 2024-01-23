@@ -11,18 +11,18 @@ pub struct Complement {
 }
 
 impl Complement {
-    pub const fn new(target: ComplementTarget) -> Self {
+    pub fn new(target: ComplementTarget) -> Self {
         Self { target }
     }
 }
 
-impl const From<Complement> for InstructionKind {
+impl From<Complement> for InstructionKind {
     fn from(value: Complement) -> Self {
         Self::Bit(super::Bit::Complement(value))
     }
 }
 
-impl const SetRegister for Complement {
+impl SetRegister for Complement {
     fn register(builder: &mut Builder) {
         use ComplementTarget::*;
 

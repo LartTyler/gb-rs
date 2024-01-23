@@ -14,9 +14,9 @@ pub struct PairLoad {
 }
 
 impl PairLoad {
-    pub const fn new<S>(target: Pair, source: S) -> Self
+    pub fn new<S>(target: Pair, source: S) -> Self
     where
-        S: ~const Into<PairLoadSource>,
+        S: Into<PairLoadSource>,
     {
         Self {
             target,
@@ -39,7 +39,7 @@ impl Parse for PairLoad {
     }
 }
 
-impl const SetRegister for PairLoad {
+impl SetRegister for PairLoad {
     fn register(builder: &mut crate::sets::Builder) {
         use Pair::*;
 
@@ -57,7 +57,7 @@ impl const SetRegister for PairLoad {
     }
 }
 
-impl const From<PairLoad> for InstructionKind {
+impl From<PairLoad> for InstructionKind {
     fn from(value: PairLoad) -> Self {
         InstructionKind::Load(Load::Pair(value))
     }
@@ -73,19 +73,19 @@ pub enum PairLoadSource {
     SignedData(Signed<Data<u8>>),
 }
 
-impl const From<Data<u16>> for PairLoadSource {
+impl From<Data<u16>> for PairLoadSource {
     fn from(value: Data<u16>) -> Self {
         Self::Data(value)
     }
 }
 
-impl const From<Pair> for PairLoadSource {
+impl From<Pair> for PairLoadSource {
     fn from(value: Pair) -> Self {
         Self::Pair(value)
     }
 }
 
-impl const From<Signed<Data<u8>>> for PairLoadSource {
+impl From<Signed<Data<u8>>> for PairLoadSource {
     fn from(value: Signed<Data<u8>>) -> Self {
         Self::SignedData(value)
     }

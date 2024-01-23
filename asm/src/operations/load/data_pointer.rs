@@ -13,7 +13,7 @@ pub struct DataPointerLoad {
 }
 
 impl DataPointerLoad {
-    pub const fn create(
+    pub fn create(
         target: DataPointerLoadTarget,
         source: instr::DataPointerLoadSource,
     ) -> OperationKind {
@@ -39,6 +39,6 @@ pub enum DataPointerLoadTarget {
 }
 
 enum_from_helper!(
-    const Pointer<Value<u16>> => DataPointerLoadTarget::Absolute,
-    const Pointer<Value<u8>> => DataPointerLoadTarget::High,
+    Pointer<Value<u16>> => DataPointerLoadTarget::Absolute,
+    Pointer<Value<u8>> => DataPointerLoadTarget::High,
 );

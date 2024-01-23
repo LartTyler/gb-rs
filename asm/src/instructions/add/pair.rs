@@ -15,9 +15,9 @@ pub struct PairAdd {
 }
 
 impl PairAdd {
-    pub const fn new<S>(target: Pair, source: S) -> Self
+    pub fn new<S>(target: Pair, source: S) -> Self
     where
-        S: ~const Into<PairAddSource>,
+        S: Into<PairAddSource>,
     {
         Self {
             target,
@@ -39,7 +39,7 @@ impl Parse for PairAdd {
     }
 }
 
-impl const SetRegister for PairAdd {
+impl SetRegister for PairAdd {
     fn register(builder: &mut Builder) {
         use Pair::*;
 
@@ -54,7 +54,7 @@ impl const SetRegister for PairAdd {
     }
 }
 
-impl const From<PairAdd> for InstructionKind {
+impl From<PairAdd> for InstructionKind {
     fn from(value: PairAdd) -> Self {
         Self::Add(Add::Pair(value))
     }
@@ -67,13 +67,13 @@ pub enum PairAddSource {
     SignedData(Signed<Data<u8>>),
 }
 
-impl const From<Pair> for PairAddSource {
+impl From<Pair> for PairAddSource {
     fn from(value: Pair) -> Self {
         Self::Pair(value)
     }
 }
 
-impl const From<Signed<Data<u8>>> for PairAddSource {
+impl From<Signed<Data<u8>>> for PairAddSource {
     fn from(value: Signed<Data<u8>>) -> Self {
         Self::SignedData(value)
     }

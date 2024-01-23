@@ -15,10 +15,10 @@ pub struct DataPointerLoad {
 }
 
 impl DataPointerLoad {
-    pub const fn new<T, S>(target: T, source: S) -> Self
+    pub fn new<T, S>(target: T, source: S) -> Self
     where
-        T: ~const Into<DataPointerLoadTarget>,
-        S: ~const Into<DataPointerLoadSource>,
+        T: Into<DataPointerLoadTarget>,
+        S: Into<DataPointerLoadSource>,
     {
         Self {
             target: target.into(),
@@ -50,7 +50,7 @@ impl Parse for DataPointerLoad {
     }
 }
 
-impl const SetRegister for DataPointerLoad {
+impl SetRegister for DataPointerLoad {
     fn register(builder: &mut crate::sets::Builder) {
         builder.base(0x08, Self::new(Pointer(WordData::new()), Pair::SP), 3, 5);
         builder.base(0xEA, Self::new(Pointer(WordData::new()), Register::A), 3, 4);
@@ -59,7 +59,7 @@ impl const SetRegister for DataPointerLoad {
     }
 }
 
-impl const From<DataPointerLoad> for InstructionKind {
+impl From<DataPointerLoad> for InstructionKind {
     fn from(value: DataPointerLoad) -> Self {
         Self::Load(Load::DataPointer(value))
     }
@@ -73,8 +73,8 @@ pub enum DataPointerLoadSource {
 }
 
 enum_from_helper!(
-    const Register => DataPointerLoadSource::Register,
-    const Pair => DataPointerLoadSource::Pair,
+    Register => DataPointerLoadSource::Register,
+    Pair => DataPointerLoadSource::Pair,
 );
 
 #[derive(Debug, Clone, Copy, Display)]
@@ -85,6 +85,6 @@ pub enum DataPointerLoadTarget {
 }
 
 enum_from_helper!(
-    const Pointer<Data<u16>> => DataPointerLoadTarget::Absolute,
-    const Pointer<Data<u8>> => DataPointerLoadTarget::High,
+    Pointer<Data<u16>> => DataPointerLoadTarget::Absolute,
+    Pointer<Data<u8>> => DataPointerLoadTarget::High,
 );

@@ -14,9 +14,9 @@ pub struct BitwiseSet {
 }
 
 impl BitwiseSet {
-    pub const fn new<T>(target: T, bit: BitPosition) -> Self
+    pub fn new<T>(target: T, bit: BitPosition) -> Self
     where
-        T: ~const Into<BitwiseSetTarget>,
+        T: Into<BitwiseSetTarget>,
     {
         Self {
             target: target.into(),
@@ -31,7 +31,7 @@ impl Parse for BitwiseSet {
     }
 }
 
-impl const SetRegister for BitwiseSet {
+impl SetRegister for BitwiseSet {
     fn register(builder: &mut Builder) {
         use Register::*;
 
@@ -133,7 +133,7 @@ impl const SetRegister for BitwiseSet {
     }
 }
 
-impl const From<BitwiseSet> for InstructionKind {
+impl From<BitwiseSet> for InstructionKind {
     fn from(value: BitwiseSet) -> Self {
         Self::Bit(super::Bit::Set(value))
     }
@@ -152,13 +152,13 @@ pub enum BitwiseSetTarget {
     PairPointer(Pointer<Pair>),
 }
 
-impl const From<Register> for BitwiseSetTarget {
+impl From<Register> for BitwiseSetTarget {
     fn from(value: Register) -> Self {
         Self::Register(value)
     }
 }
 
-impl const From<Pointer<Pair>> for BitwiseSetTarget {
+impl From<Pointer<Pair>> for BitwiseSetTarget {
     fn from(value: Pointer<Pair>) -> Self {
         Self::PairPointer(value)
     }

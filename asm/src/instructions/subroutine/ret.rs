@@ -13,7 +13,7 @@ pub struct Return {
 }
 
 impl Return {
-    pub const fn new(condition: Condition, enable_interrupt: bool) -> Self {
+    pub fn new(condition: Condition, enable_interrupt: bool) -> Self {
         Self {
             condition,
             enable_interrupt,
@@ -21,13 +21,13 @@ impl Return {
     }
 }
 
-impl const From<Return> for InstructionKind {
+impl From<Return> for InstructionKind {
     fn from(value: Return) -> Self {
         Self::Subroutine(Subroutine::Return(value))
     }
 }
 
-impl const SetRegister for Return {
+impl SetRegister for Return {
     fn register(builder: &mut Builder) {
         use Condition::*;
         use Flag::*;

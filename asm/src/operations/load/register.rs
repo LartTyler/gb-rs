@@ -36,10 +36,10 @@ pub enum RegisterLoadSource {
 }
 
 enum_from_helper!(
-    const Value<u8> => RegisterLoadSource::Data,
-    const instr::PairPointerRegisterLoadSource => RegisterLoadSource::PairPointer,
-    const Register => RegisterLoadSource::Register,
-    const Pointer<Value<u16>> => RegisterLoadSource::DataPointer,
-    const Pointer<Value<u8>> => RegisterLoadSource::HighDataPointer,
-    const Pointer<Register> => RegisterLoadSource::RegisterPointer,
+    Value<u8> => RegisterLoadSource::Data,
+    instr::PairPointerRegisterLoadSource => RegisterLoadSource::PairPointer,
+    Register => RegisterLoadSource::Register,
+    Pointer<Value<u16>> => RegisterLoadSource::DataPointer,
+    Pointer<Value<u8>> => RegisterLoadSource::HighDataPointer,
+    Pointer<Register> => RegisterLoadSource::RegisterPointer,
 );
